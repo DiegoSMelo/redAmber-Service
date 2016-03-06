@@ -18,6 +18,7 @@ import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNAluno;
+import br.com.sistema.redAmber.util.Datas;
 
 @Path("/redamberws")
 public class RedAmberWS {
@@ -28,6 +29,26 @@ public class RedAmberWS {
 	public RedAmberWS() {
 		this.gson = new Gson();
 		this.rnAluno = new RNAluno();
+		
+		try {
+			
+			if (this.rnAluno.buscarAlunoPorLoginSenha("admin", "admin") == null) {
+				Aluno a = new Aluno();
+				a.setDataNascimento(Datas.converterDateToCalendar(Datas.criarData(06, 3, 2016)));
+				a.setEmail("admin@redamber.com.br");
+				a.setLogin("admin");
+				a.setSenha("admin");
+				a.setNome("Administrador");
+				a.setRg("9999999");
+				a.setTelefone("08199999999");
+				
+				RNAluno rna = new RNAluno();
+				rna.salvar(a);
+			}
+			
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@POST
