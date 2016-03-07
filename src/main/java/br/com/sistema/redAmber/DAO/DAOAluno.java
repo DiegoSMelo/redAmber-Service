@@ -7,7 +7,6 @@ import javax.persistence.TypedQuery;
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.exceptions.DAOException;
-import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Mensagens;
 
 public class DAOAluno extends DAOGeneric<Aluno> implements IDAOAluno{

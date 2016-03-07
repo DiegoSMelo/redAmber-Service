@@ -16,12 +16,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.Funcionario;
 import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
+import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNAluno;
+import br.com.sistema.redAmber.rn.RNFuncionario;
 import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
 
@@ -29,41 +32,99 @@ import br.com.sistema.redAmber.util.Datas;
 public class RedAmberWS {
 	
 	private RNAluno rnAluno;
+	private RNFuncionario rnFuncionario;
 	private Gson gson;
 	
 	public RedAmberWS() {
 		this.gson = new Gson();
 		this.rnAluno = new RNAluno();
+		this.rnFuncionario = new RNFuncionario();
 		
 		try {
+			if (this.rnFuncionario.buscarFuncionarioPorLoginSenha("funcionario-admin", "funcionario-admin") == null) {
+				Funcionario f = new Funcionario();
+				f.setDataNascimento(Datas.converterDateToCalendar(Datas.criarData(06, 3, 2016)));
+				f.setEmail("funcionario-admin@redamber.com.br");
+				
+				f.setNome("Funcionário Administrador");
+				f.setRg("8888888");
+				f.setTelefone("081888888888");
+				f.setTipoFuncionario(TipoFuncionario.C);
+				f.setStatus(StatusUsuario.ATIVO);
+				
+				rnFuncionario.salvar(f);
+				
+				
+				Funcionario funcr = rnFuncionario.buscarFuncionarioPorRG("8888888");
+				Usuario usuario = new Usuario();
+				usuario.setLogin("funcionario-admin");
+				usuario.setSenha(Criptografia.criptografarSenhas("funcionario-admin"));
+				usuario.setId(funcr.getId());
+				funcr.setUsuario(usuario);
+				
+				rnFuncionario.salvar(funcr);
+			}
 			
-			if (this.rnAluno.buscarAlunoPorLoginSenha("admin", "admin") == null) {
+			if (this.rnAluno.buscarAlunoPorLoginSenha("aluno-admin", "aluno-admin") == null) {
 				Aluno a = new Aluno();
 				a.setDataNascimento(Datas.converterDateToCalendar(Datas.criarData(06, 3, 2016)));
-				a.setEmail("admin@redamber.com.br");
+				a.setEmail("aluno-admin@redamber.com.br");
 				
-				Usuario usuario = new Usuario();
-				usuario.setLogin("admin");
-				usuario.setSenha(Criptografia.criptografarSenhas("admin"));
-				a.setUsuario(usuario);
 				
-				a.setNome("Administrador");
+				
+				a.setNome("Aluno Administrador");
 				a.setRg("9999999");
 				a.setTelefone("08199999999");
 				a.setStatus(StatusUsuario.ATIVO);
-				RNAluno rna = new RNAluno();
-				rna.salvar(a);
+				rnAluno.salvar(a);
+				
+				Aluno alunor = rnAluno.buscarAlunoPorRG("9999999");
+				Usuario usuario = new Usuario();
+				usuario.setLogin("aluno-admin");
+				usuario.setSenha(Criptografia.criptografarSenhas("aluno-admin"));
+				usuario.setId(alunor.getId());
+				alunor.setUsuario(usuario);
+				
+				rnAluno.salvar(alunor);
 			}
 			
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
+	
 	@GET
-	@Path("login/{login}/{senha}")
+	@Path("funcionario-login/{login}/{senha}")
 	@Produces("application/json")
-	public String buscarPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha){
+	public String buscarFuncionarioPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha){
+		
+		try {
+			
+			LoginHTTP loginHTTP = new LoginHTTP(login, senha);
+			Funcionario funcionario = this.rnFuncionario.buscarFuncionarioPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			
+			return this.gson.toJson(funcionario);
+			
+		} catch (JsonSyntaxException e) {
+			
+			return "Error";
+			
+		} catch (DAOException e) {
+			
+			return "Error";
+			
+		}
+		
+	}
+	
+	//----------------------------------------------aluno-----------------------------------------------------
+	
+	@GET
+	@Path("aluno-login/{login}/{senha}")
+	@Produces("application/json")
+	public String buscarAlunoPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha){
 		
 		try {
 			

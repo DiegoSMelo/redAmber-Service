@@ -48,5 +48,9 @@ public class RNAluno {
 		return this.daoAluno.consultarTodos();
 	}
 	
+	public Aluno buscarAlunoPorRG(String rg) throws DAOException{
+		return this.daoAluno.buscarAlunoPorRG(rg);
+	}
+	
 	
 }
