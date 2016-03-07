@@ -7,7 +7,7 @@ import javax.persistence.Enumerated;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
 
 @Entity
-public class Funcionario extends Usuario{
+public class Funcionario extends GeralUsuario{
 	
 	/**
 	 * 

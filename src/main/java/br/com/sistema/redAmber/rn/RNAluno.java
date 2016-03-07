@@ -7,7 +7,6 @@ import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
-import br.com.sistema.redAmber.util.Criptografia;
 
 public class RNAluno {
 	
@@ -18,7 +17,6 @@ public class RNAluno {
 	}
 	
 	public void salvar(Aluno aluno) throws DAOException {
-		aluno.setSenha(Criptografia.criptografarSenhas(aluno.getSenha()));
 		Aluno alunoExistente = this.daoAluno.buscarAlunoPorRG(aluno.getRg());
 		
 		if (alunoExistente == null) {
@@ -36,7 +34,10 @@ public class RNAluno {
 	}
 	
 	public Aluno buscarAlunoPorLoginSenha(String login, String senha) throws DAOException {
-		return this.daoAluno.buscarAlunoPorLoginSenha(login, Criptografia.criptografarSenhas(senha));
+		/*
+		 * Senha já vem criptografada
+		 */
+		return this.daoAluno.buscarAlunoPorLoginSenha(login, senha);
 	}
 	
 	public Aluno buscarPorId(Long id){

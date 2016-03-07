@@ -11,6 +11,12 @@ public class LoginHTTP {
 	private String login;
 	private String senha;
 	
+	public LoginHTTP(){}
+	
+	public LoginHTTP(String login, String senha){
+		setLogin(login);
+		setSenha(senha);
+	}
 	
 	public String getLogin() {
 		return login;

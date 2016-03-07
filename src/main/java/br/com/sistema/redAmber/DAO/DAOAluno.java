@@ -6,8 +6,8 @@ import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
 import br.com.sistema.redAmber.basicas.Aluno;
-import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Mensagens;
 
 public class DAOAluno extends DAOGeneric<Aluno> implements IDAOAluno{
@@ -38,8 +38,7 @@ public class DAOAluno extends DAOGeneric<Aluno> implements IDAOAluno{
 	@Override
 	public Aluno buscarAlunoPorLoginSenha(String login, String senha) throws DAOException {
 		try {
-
-			TypedQuery<Aluno> result = entityManager.createQuery("SELECT a FROM Aluno a WHERE a.login = :login AND a.senha = :senha", Aluno.class);
+			TypedQuery<Aluno> result = entityManager.createQuery("SELECT a FROM Aluno a WHERE a.usuario.login = :login AND a.usuario.senha = :senha", Aluno.class);
 			result.setParameter("login", login);
 			result.setParameter("senha", senha);
 

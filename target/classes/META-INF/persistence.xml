@@ -10,6 +10,7 @@
         <class>br.com.sistema.redAmber.basicas.Aluno</class>
         <class>br.com.sistema.redAmber.basicas.Funcionario</class>
         <class>br.com.sistema.redAmber.basicas.Professor</class>
+        <class>br.com.sistema.redAmber.basicas.GeralUsuario</class>
         <class>br.com.sistema.redAmber.basicas.Usuario</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

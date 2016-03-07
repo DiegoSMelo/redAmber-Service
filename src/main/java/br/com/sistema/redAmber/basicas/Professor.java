@@ -3,7 +3,7 @@ package br.com.sistema.redAmber.basicas;
 import javax.persistence.Entity;
 
 @Entity
-public class Professor extends Usuario{
+public class Professor extends GeralUsuario{
 
 	/**
 	 * 

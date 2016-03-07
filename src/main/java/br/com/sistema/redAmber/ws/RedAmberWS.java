@@ -1,5 +1,7 @@
 package br.com.sistema.redAmber.ws;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,10 +16,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.Usuario;
+import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNAluno;
+import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
 
 @Path("/redamberws")
@@ -36,12 +41,16 @@ public class RedAmberWS {
 				Aluno a = new Aluno();
 				a.setDataNascimento(Datas.converterDateToCalendar(Datas.criarData(06, 3, 2016)));
 				a.setEmail("admin@redamber.com.br");
-				a.setLogin("admin");
-				a.setSenha("admin");
+				
+				Usuario usuario = new Usuario();
+				usuario.setLogin("admin");
+				usuario.setSenha(Criptografia.criptografarSenhas("admin"));
+				a.setUsuario(usuario);
+				
 				a.setNome("Administrador");
 				a.setRg("9999999");
 				a.setTelefone("08199999999");
-				
+				a.setStatus(StatusUsuario.ATIVO);
 				RNAluno rna = new RNAluno();
 				rna.salvar(a);
 			}
@@ -49,6 +58,30 @@ public class RedAmberWS {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@GET
+	@Path("login/{login}/{senha}")
+	@Produces("application/json")
+	public String buscarPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha){
+		
+		try {
+			
+			LoginHTTP loginHTTP = new LoginHTTP(login, senha);
+			Aluno aluno = this.rnAluno.buscarAlunoPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			
+			return this.gson.toJson(aluno);
+			
+		} catch (JsonSyntaxException e) {
+			
+			return "Error";
+			
+		} catch (DAOException e) {
+			
+			return "Error";
+			
+		}
+		
 	}
 	
 	@POST
@@ -86,12 +119,13 @@ public class RedAmberWS {
 			
 			AlunoHTTP alunoHTTP = this.gson.fromJson(jsonAluno, AlunoHTTP.class);
 			
-			aluno.setDataNascimento(alunoHTTP.getDataNascimento());
+			
+			Calendar dataNascimento = Datas.converterDateToCalendar(new Date(Long.parseLong(alunoHTTP.getDataNascimento())));
+			
+			aluno.setDataNascimento(dataNascimento);
 			aluno.setEmail(alunoHTTP.getEmail());
-			aluno.setLogin(alunoHTTP.getLogin());
 			aluno.setNome(alunoHTTP.getNome());
 			aluno.setRg(alunoHTTP.getRg());
-			aluno.setSenha(alunoHTTP.getSenha());
 			aluno.setStatus(alunoHTTP.getStatus());
 			aluno.setTelefone(alunoHTTP.getTelefone());
 			
