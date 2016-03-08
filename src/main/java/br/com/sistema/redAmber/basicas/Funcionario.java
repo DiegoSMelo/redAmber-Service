@@ -1,5 +1,5 @@
 package br.com.sistema.redAmber.basicas;
-
+ 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
