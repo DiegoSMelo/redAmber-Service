@@ -1,2 +1,2 @@
 # redAmber-ws
-REST Red Amber Project
+REST Red Amber Project.
