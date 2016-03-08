@@ -8,4 +8,5 @@ public interface IDAOFuncionario extends IDAOGeneric<Funcionario>{
 	
 	public Funcionario buscarFuncionarioPorRG(String rg) throws DAOException;
 	public Funcionario buscarFuncionarioPorLoginSenha(String login, String senha) throws DAOException;
+	public Funcionario buscarFuncionarioPorLogin(String login) throws DAOException;
 }

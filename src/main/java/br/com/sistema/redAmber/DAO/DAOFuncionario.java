@@ -52,4 +52,20 @@ public class DAOFuncionario extends DAOGeneric<Funcionario> implements IDAOFunci
 		}
 	}
 
+	@Override
+	public Funcionario buscarFuncionarioPorLogin(String login) throws DAOException {
+		try {
+			TypedQuery<Funcionario> result = entityManager.createQuery("SELECT f FROM Funcionario f WHERE f.usuario.login = :login", Funcionario.class);
+			result.setParameter("login", login);
+			Funcionario funcionario = result.getSingleResult();
+
+			return funcionario;
+		}catch (NoResultException e2) {
+			return null;
+		} 
+		catch (Exception e) {
+			throw new DAOException(Mensagens.m1);
+		}
+	}
+
 }

@@ -119,7 +119,6 @@ public class RedAmberWS {
 		
 	}
 	
-	//----------------------------------------------aluno-----------------------------------------------------
 	
 	@GET
 	@Path("aluno-login/{login}/{senha}")
@@ -146,10 +145,35 @@ public class RedAmberWS {
 	}
 	
 	@POST
-	@Path("login")
+	@Path("login/funcionario")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public String buscarPorLoginSenha(String jsonLogin){
+	public String buscarFuncionarioPorLoginSenha(String jsonLogin){
+		
+		try {
+			
+			LoginHTTP loginHTTP = this.gson.fromJson(jsonLogin, LoginHTTP.class);
+			Funcionario funcionario = this.rnFuncionario.buscarFuncionarioPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			
+			return this.gson.toJson(funcionario);
+						
+		} catch (JsonSyntaxException e) {
+			
+			return "Error";
+			
+		} catch (DAOException e) {
+			
+			return "Error";
+			
+		}
+		
+	}
+	
+	@POST
+	@Path("login/aluno")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public String buscarAlunoPorLoginSenha(String jsonLogin){
 		
 		try {
 			
@@ -168,6 +192,30 @@ public class RedAmberWS {
 			
 		}
 		
+	}
+	
+	@GET
+	@Path("funcionario/por-login/{login}")
+	@Produces("application/json")
+	public String buscarFuncionarioPorLogin(@PathParam("login") String login) {
+		try {
+
+			LoginHTTP loginHTTP = new LoginHTTP();
+			loginHTTP.setLogin(login);
+			
+			Funcionario funcionario = this.rnFuncionario.buscarFuncionarioPorLogin(loginHTTP.getLogin());
+
+			return this.gson.toJson(funcionario);
+
+		} catch (JsonSyntaxException e) {
+
+			return "Error";
+
+		} catch (DAOException e) {
+
+			return "Error";
+
+		}
 	}
 	
 	@POST

@@ -43,6 +43,10 @@ public class RNFuncionario {
 		return this.daoFunc.buscarFuncionarioPorLoginSenha(login, senha);
 	}
 	
+	public Funcionario buscarFuncionarioPorLogin(String login) throws DAOException {
+		return this.daoFunc.buscarFuncionarioPorLogin(login);
+	}
+	
 	public Funcionario buscarPorId(Long id){
 		return this.daoFunc.consultarPorId(id);
 	}
