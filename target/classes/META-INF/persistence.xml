@@ -12,6 +12,9 @@
         <class>br.com.sistema.redAmber.basicas.Professor</class>
         <class>br.com.sistema.redAmber.basicas.GeralUsuario</class>
         <class>br.com.sistema.redAmber.basicas.Usuario</class>
+        <class>br.com.sistema.redAmber.basicas.Curso</class>
+        <class>br.com.sistema.redAmber.basicas.Disciplina</class>
+        <class>br.com.sistema.redAmber.basicas.Periodo</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db" />

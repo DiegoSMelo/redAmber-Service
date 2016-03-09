@@ -4,9 +4,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import br.com.sistema.redAmber.DAO.DAOAluno;
+import br.com.sistema.redAmber.DAO.DAOCurso;
 import br.com.sistema.redAmber.DAO.DAOFuncionario;
+import br.com.sistema.redAmber.DAO.DAOPeriodo;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
+import br.com.sistema.redAmber.DAO.IDAOCurso;
 import br.com.sistema.redAmber.DAO.IDAOFuncionario;
+import br.com.sistema.redAmber.DAO.IDAOPeriodo;
 
 public abstract class DAOFactory {
 /////////////////////////ATRIBUTOS/////////////////////////////
@@ -14,6 +18,8 @@ public abstract class DAOFactory {
 
 private static IDAOAluno daoAluno;
 private static IDAOFuncionario daoFuncionario;
+private static IDAOCurso daoCurso;
+private static IDAOPeriodo daoPeriodo;
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
 
@@ -41,7 +47,16 @@ public static IDAOFuncionario getDaoFuncionario(){
 	return daoFuncionario;
 }
 
-
+public static IDAOCurso getDaoCurso(){
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoCurso = new DAOCurso(factory.createEntityManager());
+	return daoCurso;
+}
+public static IDAOPeriodo getDaoPeriodo(){
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoPeriodo = new DAOPeriodo(factory.createEntityManager());
+	return daoPeriodo;
+}
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////			
 
 
