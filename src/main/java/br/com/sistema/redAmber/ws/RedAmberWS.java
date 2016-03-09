@@ -247,6 +247,19 @@ public class RedAmberWS {
 	}
 	
 	@GET
+	@Path("aluno/rg/{rg}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscaAlunoPorRG(@PathParam("rg") String rg){
+		
+		try {
+			return this.gson.toJson(this.rnAluno.buscarAlunoPorRG(rg));
+		} catch (DAOException e) {
+			return null;
+		}
+		
+	}
+	
+	@GET
 	@Path("aluno/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscaAlunoPorId(@PathParam("id") String id){
