@@ -5,14 +5,17 @@ import javax.persistence.Persistence;
 
 import br.com.sistema.redAmber.DAO.DAOAluno;
 import br.com.sistema.redAmber.DAO.DAOFuncionario;
+import br.com.sistema.redAmber.DAO.DAOMatricula;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.IDAOFuncionario;
+import br.com.sistema.redAmber.DAO.IDAOMatricula;
 
 public abstract class DAOFactory {
 /////////////////////////ATRIBUTOS/////////////////////////////
 //private static final EntityManagerFactory factory;
 
 private static IDAOAluno daoAluno;
+private static IDAOMatricula daoMatricula;
 private static IDAOFuncionario daoFuncionario;
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
@@ -33,6 +36,12 @@ public static IDAOAluno getDaoAluno(){
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoAluno = new DAOAluno(factory.createEntityManager());
 	return daoAluno;
+}
+
+public static IDAOMatricula getDaoMatricula(){
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoMatricula = new DAOMatricula(factory.createEntityManager());
+	return daoMatricula;
 }
 
 public static IDAOFuncionario getDaoFuncionario(){

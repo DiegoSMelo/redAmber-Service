@@ -17,6 +17,7 @@ import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.Funcionario;
+import br.com.sistema.redAmber.basicas.Matricula;
 import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
@@ -25,6 +26,7 @@ import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNAluno;
 import br.com.sistema.redAmber.rn.RNFuncionario;
+import br.com.sistema.redAmber.rn.RNMatricula;
 import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
 
@@ -33,11 +35,14 @@ public class RedAmberWS {
 	
 	private RNAluno rnAluno;
 	private RNFuncionario rnFuncionario;
+	private RNMatricula rnMatricula;
+	
 	private Gson gson;
 	
 	public RedAmberWS() {
 		this.gson = new Gson();
 		this.rnAluno = new RNAluno();
+		this.rnMatricula = new RNMatricula();
 		this.rnFuncionario = new RNFuncionario();
 		
 		try {
@@ -92,6 +97,15 @@ public class RedAmberWS {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@GET
+	@Path("matricula/aluno/{id}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarMatriculasPorIdAluno(@PathParam("id") String id){
+		
+		List<Matricula> lista =  this.rnMatricula.listarMatriculasPorIdAluno(Long.parseLong(id));
+		return this.gson.toJson(lista);
 	}
 	
 	
