@@ -23,4 +23,15 @@ public class DAOMatricula extends DAOGeneric<Matricula> implements IDAOMatricula
 		
 		return result.getResultList();
 	}
+
+
+	@Override
+	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula) {
+		String jpql = "SELECT m FROM Matricula m WHERE m.codigoMatricula = :codigoMatricula";
+		
+		TypedQuery<Matricula> result = this.entityManager.createQuery(jpql, Matricula.class);
+		result.setParameter("codigoMatricula", codigoMatricula);
+		
+		return result.getSingleResult();
+	}
 }

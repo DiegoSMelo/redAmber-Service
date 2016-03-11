@@ -8,4 +8,5 @@ import br.com.sistema.redAmber.basicas.Matricula;
 public interface IDAOMatricula extends IDAOGeneric<Matricula>{
 
 	public List<Matricula> listarMatriculasPorIdAluno(Long idAluno);
+	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula);
 }

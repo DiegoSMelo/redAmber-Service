@@ -20,6 +20,9 @@ public class AlunoHTTP {
 	
 	private String telefone;
 	
+	/*
+	 * TIMESTAMP
+	 */
 	private String dataNascimento;
 	
 	private StatusUsuario status;

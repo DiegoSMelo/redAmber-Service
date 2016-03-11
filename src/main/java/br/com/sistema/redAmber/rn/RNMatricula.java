@@ -11,10 +11,39 @@ public class RNMatricula {
 	private IDAOMatricula daoMatricula;
 	
 	public RNMatricula(){
+		
 		this.daoMatricula = DAOFactory.getDaoMatricula();
+		
+	}
+	
+	
+	public void salvar(Matricula matricula){
+		
+		Matricula matriculaRetorno = this.buscarMatriculaPorCodigoMatricula(matricula.getCodigoMatricula());
+		
+		if (matriculaRetorno == null) {
+			
+			this.daoMatricula.inserir(matricula);
+			
+		}else{
+			
+			matricula.setId(matriculaRetorno.getId());
+			
+			this.daoMatricula.alterar(matricula);
+			
+		}
+		
+	}
+	
+	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula){
+		
+		return this.daoMatricula.buscarMatriculaPorCodigoMatricula(codigoMatricula);
+		
 	}
 	
 	public List<Matricula> listarMatriculasPorIdAluno(Long idAluno){
+		
 		return this.daoMatricula.listarMatriculasPorIdAluno(idAluno);
+		
 	}
 }
