@@ -6,9 +6,11 @@ import javax.persistence.Persistence;
 import br.com.sistema.redAmber.DAO.DAOAluno;
 import br.com.sistema.redAmber.DAO.DAOFuncionario;
 import br.com.sistema.redAmber.DAO.DAOMatricula;
+import br.com.sistema.redAmber.DAO.DAOProfessor;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.IDAOFuncionario;
 import br.com.sistema.redAmber.DAO.IDAOMatricula;
+import br.com.sistema.redAmber.DAO.IDAOProfessor;
 
 public abstract class DAOFactory {
 /////////////////////////ATRIBUTOS/////////////////////////////
@@ -17,6 +19,7 @@ public abstract class DAOFactory {
 private static IDAOAluno daoAluno;
 private static IDAOMatricula daoMatricula;
 private static IDAOFuncionario daoFuncionario;
+private static IDAOProfessor daoProfessor; 
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
 
@@ -49,6 +52,13 @@ public static IDAOFuncionario getDaoFuncionario(){
 	daoFuncionario = new DAOFuncionario(factory.createEntityManager());
 	return daoFuncionario;
 }
+
+public static IDAOProfessor getDaoProfessor(){
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoProfessor = new DAOProfessor(factory.createEntityManager());
+	return daoProfessor;
+}
+
 
 
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////			
