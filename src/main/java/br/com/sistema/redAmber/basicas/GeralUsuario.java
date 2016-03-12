@@ -40,7 +40,7 @@ public abstract class GeralUsuario implements Serializable{
 	@Column(unique=true, nullable=false)
 	private String rg;
 	
-	@Column(unique=true, nullable=false)
+	@Column(nullable=false)
 	private String email;
 	
 	@Column(nullable=false)

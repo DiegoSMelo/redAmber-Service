@@ -51,7 +51,11 @@ public class RNFuncionario {
 		return this.daoFunc.consultarPorId(id);
 	}
 
-	public List<Funcionario> listarTodosAlunos(){
+	public List<Funcionario> listarTodosFuncionarios(){
 		return this.daoFunc.consultarTodos();
+	}
+	
+	public List<Funcionario> buscarFuncionariosPorParametros(Funcionario funcionario) throws DAOException {
+		return this.daoFunc.buscarFuncionariosPorParametros(funcionario);
 	}
 }
