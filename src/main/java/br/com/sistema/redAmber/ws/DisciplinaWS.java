@@ -80,7 +80,6 @@ public class DisciplinaWS {
 			
 			disciplina.setTitulo(disciplinaHTTP.getTitulo());
 			disciplina.setDescricao(disciplinaHTTP.getDescricao());
-			disciplina.setListaProfessores(disciplinaHTTP.getListaProfessores());
 			disciplina.setStatus(disciplinaHTTP.getStatus());
 
 			this.rnDisciplina.salvar(disciplina);

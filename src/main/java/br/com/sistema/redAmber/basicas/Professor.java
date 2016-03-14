@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -17,7 +18,8 @@ public class Professor extends GeralUsuario{
 	
 	
 	@Column(nullable=true)
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany
+	@JoinTable(name="professor_disciplina", joinColumns={@JoinColumn(name="professor_id")}, inverseJoinColumns={@JoinColumn(name="disciplina_id")})
 	private List<Disciplina> listaDisciplinas;
 
 

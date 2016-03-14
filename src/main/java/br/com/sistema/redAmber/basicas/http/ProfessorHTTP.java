@@ -1,5 +1,8 @@
 package br.com.sistema.redAmber.basicas.http;
 
+import java.util.List;
+
+import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 
@@ -15,6 +18,7 @@ public class ProfessorHTTP {
 	
 	private String telefone;
 	
+	
 	/*
 	 * TIMESTAMP
 	 */
@@ -23,6 +27,18 @@ public class ProfessorHTTP {
 	private StatusUsuario status;
 	
 	private Usuario usuario;
+	
+	private List<Disciplina> listaDisciplinas;
+
+
+	public List<Disciplina> getListDisciplinas() {
+		return listaDisciplinas;
+	}
+
+
+	public void setListDisciplinas(List<Disciplina> listaDisciplinas) {
+		this.listaDisciplinas = listaDisciplinas;
+	}
 
 	public Long getId() {
 		return id;
