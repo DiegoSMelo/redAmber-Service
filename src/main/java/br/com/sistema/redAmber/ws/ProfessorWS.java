@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.ws;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +12,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
@@ -39,6 +48,20 @@ public class ProfessorWS {
 	public String salvar(String jsonProfessor){
 		try {
 			
+			JsonFactory factory = new JsonFactory();
+			JsonParser parser = factory.createJsonParser(jsonProfessor);
+
+			// avança o stream até chegar no array
+			while (parser.nextToken() != JsonToken.START_ARRAY) {
+			    parser.nextToken();
+			}
+
+			 ObjectMapper objectMapper = new ObjectMapper();
+
+			 List<Disciplina> listaDisciplinas = objectMapper.readValue(parser, new TypeReference<List<Disciplina>>() {});
+			
+			 
+			
 			/*
 			 * Esse será salvo
 			 */
@@ -58,6 +81,7 @@ public class ProfessorWS {
 			professor.setStatus(professorHTTP.getStatus());
 			professor.setTelefone(professorHTTP.getTelefone());
 			professor.setUsuario(professorHTTP.getUsuario());
+			professor.setListDisciplinas(listaDisciplinas);
 			
 			this.rnProfessor.salvar(professor);
 			
@@ -68,6 +92,10 @@ public class ProfessorWS {
 		} catch (NumberFormatException e) {
 			return "Error";
 		} catch (DAOException e) {
+			return "Error";
+		} catch (JsonParseException e) {
+			return "Error";
+		} catch (IOException e) {
 			return "Error";
 		}
 	}

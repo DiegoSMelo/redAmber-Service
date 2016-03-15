@@ -33,6 +33,25 @@ public class DisciplinaWS {
 	}
 	
 	@GET
+	@Path("id/{id}")
+	@Produces("application/json")
+	public String buscarDisciplinaPorId(@PathParam("id") String id){
+		
+		try {
+			
+			Disciplina disciplina = this.rnDisciplina.buscarPorId(Long.parseLong(id));
+			
+			return this.gson.toJson(disciplina);
+			
+		} catch (JsonSyntaxException e) {
+			
+			return "Error";
+			
+		}
+		
+	}
+	
+	@GET
 	@Path("titulo/{titulo}")
 	@Produces("application/json")
 	public String buscarDisciplinaPorTitulo(@PathParam("titulo") String titulo){
