@@ -50,6 +50,7 @@ public class CursoWS {
 			Calendar dataInicioCurso = Datas.converterDateToCalendar(new Date(Long.parseLong(cursoHTTP.getDataInicio())));
 			Calendar dataFimCurso = Datas.converterDateToCalendar(new Date(Long.parseLong(cursoHTTP.getDataFim())));
 			
+			curso.setId(cursoHTTP.getId());
 			curso.setNome(cursoHTTP.getNome());
 			curso.setDataInicio(dataInicioCurso);
 			curso.setDataFim(dataFimCurso);

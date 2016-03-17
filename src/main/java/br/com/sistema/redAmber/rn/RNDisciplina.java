@@ -17,7 +17,12 @@ public class RNDisciplina {
 	}
 	
 	public void salvar(Disciplina disciplina) throws DAOException {
-		Disciplina disciplinaExistente = this.daoDisciplina.buscarDisciplinaPorTitulo(disciplina.getTitulo());
+		//Disciplina disciplinaExistente = this.daoDisciplina.buscarDisciplinaPorTitulo(disciplina.getTitulo());
+		Disciplina disciplinaExistente = null;
+		if (disciplina.getId() != null) {
+			disciplinaExistente = this.daoDisciplina.consultarPorId(disciplina.getId());
+		}
+		
 		
 		if (disciplinaExistente == null) {	
 			disciplina.setStatus(StatusDisciplina.ATIVO);

@@ -74,6 +74,7 @@ public class ProfessorWS {
 			
 			Calendar dataNascimento = Datas.converterDateToCalendar(new Date(Long.parseLong(professorHTTP.getDataNascimento())));
 			
+			professor.setId(professorHTTP.getId());
 			professor.setDataNascimento(dataNascimento);
 			professor.setEmail(professorHTTP.getEmail());
 			professor.setNome(professorHTTP.getNome());

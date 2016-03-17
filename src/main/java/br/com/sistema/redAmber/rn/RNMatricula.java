@@ -19,7 +19,12 @@ public class RNMatricula {
 	
 	public void salvar(Matricula matricula){
 		
-		Matricula matriculaRetorno = this.buscarMatriculaPorCodigoMatricula(matricula.getCodigoMatricula());
+		//Matricula matriculaRetorno = this.buscarMatriculaPorCodigoMatricula(matricula.getCodigoMatricula());
+		Matricula matriculaRetorno = null;
+		if (matricula.getId() != null) {
+			matriculaRetorno = this.daoMatricula.consultarPorId(matricula.getId());
+		}
+		
 		
 		if (matriculaRetorno == null) {
 			

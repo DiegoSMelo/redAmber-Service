@@ -62,6 +62,7 @@ public class AlunoWs {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
@@ -127,6 +128,7 @@ public class AlunoWs {
 			
 			Calendar dataNascimento = Datas.converterDateToCalendar(new Date(Long.parseLong(alunoHTTP.getDataNascimento())));
 			
+			aluno.setId(alunoHTTP.getId());
 			aluno.setDataNascimento(dataNascimento);
 			aluno.setEmail(alunoHTTP.getEmail());
 			aluno.setNome(alunoHTTP.getNome());

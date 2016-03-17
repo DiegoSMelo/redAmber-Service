@@ -17,7 +17,13 @@ public class RNCurso {
 	
 	public void salvar(Curso curso) throws DAOException {
 		
-		Curso cursoExistente = this.daoCurso.buscarCursoPorNomeESigla(curso.getNome(), curso.getSigla());
+		//Curso cursoExistente = this.daoCurso.buscarCursoPorNomeESigla(curso.getNome(), curso.getSigla());
+		Curso cursoExistente = null;
+		if (curso.getId() != null) {
+			cursoExistente = this.daoCurso.consultarPorId(curso.getId());
+		}
+		
+		
 		
 		if (cursoExistente == null) {
 			

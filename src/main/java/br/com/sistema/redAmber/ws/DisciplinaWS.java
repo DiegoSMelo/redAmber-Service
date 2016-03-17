@@ -97,6 +97,7 @@ public class DisciplinaWS {
 			
 			DisciplinaHTTP disciplinaHTTP = this.gson.fromJson(jsonDisciplina, DisciplinaHTTP.class);
 			
+			disciplina.setId(disciplinaHTTP.getId());
 			disciplina.setTitulo(disciplinaHTTP.getTitulo());
 			disciplina.setDescricao(disciplinaHTTP.getDescricao());
 			disciplina.setStatus(disciplinaHTTP.getStatus());

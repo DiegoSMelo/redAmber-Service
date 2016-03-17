@@ -44,6 +44,7 @@ public class FuncionarioWS {
 			
 			Calendar dataNascimento = Datas.converterDateToCalendar(new Date(Long.parseLong(funcionarioHTTP.getDataNascimento())));
 			
+			funcionario.setId(funcionarioHTTP.getId());
 			funcionario.setDataNascimento(dataNascimento);
 			funcionario.setEmail(funcionarioHTTP.getEmail());
 			funcionario.setNome(funcionarioHTTP.getNome());

@@ -17,7 +17,11 @@ public class RNAluno {
 	}
 	
 	public void salvar(Aluno aluno) throws DAOException {
-		Aluno alunoExistente = this.daoAluno.buscarAlunoPorRG(aluno.getRg());
+		//Aluno alunoExistente = this.daoAluno.buscarAlunoPorRG(aluno.getRg());
+		Aluno alunoExistente = null;
+		if (aluno.getId() != null) {
+			alunoExistente = this.daoAluno.consultarPorId(aluno.getId());
+		}
 		
 		if (alunoExistente == null) {
 			

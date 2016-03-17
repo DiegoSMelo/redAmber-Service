@@ -44,6 +44,7 @@ public class MatriculaWS {
 		
 		Calendar dataMatricula = Datas.converterDateToCalendar(new Date(Long.parseLong(matriculaHTTP.getDataMatricula())));
 		
+		matricula.setId(matriculaHTTP.getId());
 		matricula.setCodigoMatricula(matriculaHTTP.getCodigoMatricula());
 		matricula.setDataMatricula(dataMatricula);
 		matricula.setAluno(matriculaHTTP.getAluno());

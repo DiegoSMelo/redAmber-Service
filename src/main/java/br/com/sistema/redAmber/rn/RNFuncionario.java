@@ -16,7 +16,12 @@ public class RNFuncionario {
 	}
 	
 	public void salvar(Funcionario funcionario) throws DAOException {
-		Funcionario funcionarioExistente = this.daoFunc.buscarFuncionarioPorRG(funcionario.getRg());
+		//Funcionario funcionarioExistente = this.daoFunc.buscarFuncionarioPorRG(funcionario.getRg());
+		Funcionario funcionarioExistente = null;
+		if (funcionario.getId() != null) {
+			funcionarioExistente = this.daoFunc.consultarPorId(funcionario.getId());
+		}
+		
 		
 		if (funcionarioExistente == null) {
 			
