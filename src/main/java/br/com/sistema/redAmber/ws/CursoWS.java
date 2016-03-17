@@ -80,7 +80,7 @@ public class CursoWS {
 	
 	@GET
 	@Path("buscarPorNomeSigla/{nomeCurso}/{siglaCurso}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	@Produces("application/json")
 	public String buscarCursoPorNomeESigla(@PathParam("nomeCurso")String nomeCurso,@PathParam("siglaCurso") String siglaCurso) {
 		
 		try {
@@ -89,7 +89,7 @@ public class CursoWS {
 			return this.gson.toJson(curso);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
-			return "Error";
+			return null;
 		}
 
 	}

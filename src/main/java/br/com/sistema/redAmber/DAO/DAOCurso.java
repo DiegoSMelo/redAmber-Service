@@ -22,7 +22,7 @@ public class DAOCurso extends DAOGeneric<Curso> implements IDAOCurso {
 	
 	public Curso buscarCursoPorNomeESigla(String nomeCurso, String sigla) throws DAOException {
 		try {
-			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.nomeCurso = :nomeCurso AND c.siglaCurso = :sigla", Curso.class);
+			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.nome = :nomeCurso AND c.sigla = :sigla", Curso.class);
 			result.setParameter("nomeCurso", nomeCurso);
 			result.setParameter("sigla", sigla);
 
@@ -39,7 +39,7 @@ public class DAOCurso extends DAOGeneric<Curso> implements IDAOCurso {
 	@Override
 	public Curso buscarCursoPorNomeCurso(String nomeCurso) throws DAOException {
 		try {
-			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.nomeCurso = :nomeCurso", Curso.class);
+			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.nome = :nomeCurso", Curso.class);
 			result.setParameter("nomeCurso", nomeCurso);
 			
 
@@ -56,7 +56,7 @@ public class DAOCurso extends DAOGeneric<Curso> implements IDAOCurso {
 	
 	public List<Curso> buscarCursosPorDatas(Calendar dataInicial, Calendar dataFinal) throws DAOException{
 		try {
-			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.dataInicioCurso between :dataInicial and :dataFinal", Curso.class);
+			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.dataInicio between :dataInicial and :dataFinal", Curso.class);
 			result.setParameter("dataInicial", dataInicial);
 			result.setParameter("dataFinal", dataFinal);
 
