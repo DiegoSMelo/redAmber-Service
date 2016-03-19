@@ -5,14 +5,14 @@ public enum StatusMatricula {
 		@Override
 		public String toString() {
 
-			return "ATIVO";
+			return "Ativo";
 		}
 	},
 	INATIVO {
 		@Override
 		public String toString() {
 
-			return "INATIVO";
+			return "Inativo";
 		}
 	}
 }

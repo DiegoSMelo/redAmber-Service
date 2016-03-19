@@ -1,18 +1,20 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum StatusUsuario {
-	ATIVO {
+public enum TipoTurno {
+
+	MANHA {
 		@Override
 		public String toString() {
-
-			return "Ativo";
+			return "Manhã";
 		}
-	},
-	INATIVO {
+	}
+
+	,
+
+	NOITE {
 		@Override
 		public String toString() {
-
-			return "Inativo";
+			return "Noite";
 		}
 	}
 }

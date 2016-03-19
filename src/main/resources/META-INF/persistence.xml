@@ -15,6 +15,7 @@
          <class>br.com.sistema.redAmber.basicas.Matricula</class>
          <class>br.com.sistema.redAmber.basicas.Disciplina</class>
          <class>br.com.sistema.redAmber.basicas.Curso</class>
+         <class>br.com.sistema.redAmber.basicas.Turma</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db" />

@@ -9,12 +9,14 @@ import br.com.sistema.redAmber.DAO.DAODisciplina;
 import br.com.sistema.redAmber.DAO.DAOFuncionario;
 import br.com.sistema.redAmber.DAO.DAOMatricula;
 import br.com.sistema.redAmber.DAO.DAOProfessor;
+import br.com.sistema.redAmber.DAO.DAOTurma;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.IDAOCurso;
 import br.com.sistema.redAmber.DAO.IDAODisciplina;
 import br.com.sistema.redAmber.DAO.IDAOFuncionario;
 import br.com.sistema.redAmber.DAO.IDAOMatricula;
 import br.com.sistema.redAmber.DAO.IDAOProfessor;
+import br.com.sistema.redAmber.DAO.IDAOTurma;
 
 public abstract class DAOFactory {
 /////////////////////////ATRIBUTOS/////////////////////////////
@@ -26,6 +28,7 @@ private static IDAOFuncionario daoFuncionario;
 private static IDAOProfessor daoProfessor; 
 private static IDAODisciplina daoDisciplina;
 private static IDAOCurso daoCurso;
+private static IDAOTurma daoTurma;
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
 
@@ -75,6 +78,12 @@ public static IDAOCurso getDaoCurso(){
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoCurso = new DAOCurso(factory.createEntityManager());
 	return daoCurso;
+}
+
+public static IDAOTurma getDaoTurma(){
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoTurma = new DAOTurma(factory.createEntityManager());
+	return daoTurma;
 }
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////			
 

@@ -19,11 +19,12 @@ public class RNProfessor {
 	
 	public void salvar(Professor professor) throws DAOException {
 		
-		//Professor professorExistente = this.daoProfessor.buscarProfessorPorRg(professor.getRg());
 		Professor professorExistente = null;
+		
 		if (professor.getId() != null) {
 			professorExistente = this.daoProfessor.consultarPorId(professor.getId());
 		}
+		
 		
 		if (professorExistente == null) {
 			

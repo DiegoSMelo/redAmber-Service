@@ -95,4 +95,14 @@ public class CursoWS {
 
 	}
 	
+	@GET
+	@Path("buscar-por-id/{id}")
+	@Produces("application/json")
+	public String buscarCursoPorId(@PathParam("id") String id) {
+
+		Curso curso = this.rnCurso.buscarCursoPorID(Long.parseLong(id));
+
+		return this.gson.toJson(curso);
+
+	}
 }
