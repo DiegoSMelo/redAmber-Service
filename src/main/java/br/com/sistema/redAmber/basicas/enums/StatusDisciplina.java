@@ -1,6 +1,6 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum StatusUsuario {
+public enum StatusDisciplina {
 	ATIVO {
 		@Override
 		public String toString() {
@@ -15,4 +15,5 @@ public enum StatusUsuario {
 			return "Inativo";
 		}
 	}
+
 }
