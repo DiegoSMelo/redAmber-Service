@@ -5,8 +5,11 @@ import java.util.List;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.util.Criptografia;
+import br.com.sistema.redAmber.util.Datas;
 
 public class RNAluno {
 	
@@ -56,5 +59,32 @@ public class RNAluno {
 		return this.daoAluno.buscarAlunoPorRG(rg);
 	}
 	
+	
+	public void inserirAlunoAdmin() throws DAOException{
+	
+			if (this.buscarAlunoPorLoginSenha("aluno-admin", "aluno-admin") == null) {
+				Aluno a = new Aluno();
+				a.setDataNascimento(Datas.converterDateToCalendar(Datas.criarData(06, 3, 2016)));
+				a.setEmail("aluno-admin@redamber.com.br");
+				
+				
+				
+				a.setNome("Aluno Administrador");
+				a.setRg("9999999");
+				a.setTelefone("08199999999");
+				a.setStatus(StatusUsuario.ATIVO);
+				this.salvar(a);
+				
+				Aluno alunor = this.buscarAlunoPorRG("9999999");
+				Usuario usuario = new Usuario();
+				usuario.setLogin("aluno-admin");
+				usuario.setSenha(Criptografia.criptografarSenhas("aluno-admin"));
+				usuario.setId(alunor.getId());
+				alunor.setUsuario(usuario);
+				
+				this.salvar(alunor);
+			}
+		
+	}
 	
 }

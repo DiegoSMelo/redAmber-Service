@@ -13,10 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Funcionario;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
 import br.com.sistema.redAmber.basicas.http.FuncionarioHTTP;
+import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNFuncionario;
 import br.com.sistema.redAmber.util.Datas;
@@ -30,6 +32,14 @@ public class FuncionarioWS {
 	public FuncionarioWS() {
 		this.gson = new Gson();
 		this.rnFuncionario = new RNFuncionario();
+		
+		try {
+			this.rnFuncionario.inserirAdmin();
+		} catch (DAOException e) {
+			
+			e.printStackTrace();
+			
+		}
 	}
 	
 	@POST
@@ -97,4 +107,88 @@ public class FuncionarioWS {
 
 		return this.gson.toJson(listaFuncionarios);
 	}
+	
+	
+	//-----------------------------------------------------------------------------------------
+	
+	
+	@GET
+	@Path("funcionario/por-login-senha/{login}/{senha}")
+	@Produces("application/json")
+	public String buscarFuncionarioPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha){
+		
+		try {
+			
+			LoginHTTP loginHTTP = new LoginHTTP(login, senha);
+			Funcionario funcionario = this.rnFuncionario.buscarFuncionarioPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			
+			return this.gson.toJson(funcionario);
+			
+		} catch (JsonSyntaxException e) {
+			
+			return "Error";
+			
+		} catch (DAOException e) {
+			
+			return "Error";
+			
+		}
+		
+	}
+	
+	
+	
+	
+	@POST
+	@Path("login/funcionario")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public String buscarFuncionarioPorLoginSenha(String jsonLogin){
+		
+		try {
+			
+			LoginHTTP loginHTTP = this.gson.fromJson(jsonLogin, LoginHTTP.class);
+			Funcionario funcionario = this.rnFuncionario.buscarFuncionarioPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			
+			return this.gson.toJson(funcionario);
+						
+		} catch (JsonSyntaxException e) {
+			
+			return "Error";
+			
+		} catch (DAOException e) {
+			
+			return "Error";
+			
+		}
+		
+	}
+	
+	
+	@GET
+	@Path("funcionario/por-login/{login}")
+	@Produces("application/json")
+	public String buscarFuncionarioPorLogin(@PathParam("login") String login) {
+		try {
+
+			LoginHTTP loginHTTP = new LoginHTTP();
+			loginHTTP.setLogin(login);
+			
+			Funcionario funcionario = this.rnFuncionario.buscarFuncionarioPorLogin(loginHTTP.getLogin());
+
+			return this.gson.toJson(funcionario);
+
+		} catch (JsonSyntaxException e) {
+
+			return "Error";
+
+		} catch (DAOException e) {
+
+			return "Error";
+
+		}
+	}
+	
+	
+	
 }

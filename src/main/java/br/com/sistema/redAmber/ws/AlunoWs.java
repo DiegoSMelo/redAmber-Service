@@ -16,13 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
-import br.com.sistema.redAmber.basicas.Usuario;
-import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNAluno;
-import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
 
 @Path("/alunows")
@@ -36,31 +33,11 @@ public class AlunoWs {
 		this.rnAluno = new RNAluno();
 		
 		try {
-			if (this.rnAluno.buscarAlunoPorLoginSenha("aluno-admin", "aluno-admin") == null) {
-				Aluno a = new Aluno();
-				a.setDataNascimento(Datas.converterDateToCalendar(Datas.criarData(06, 3, 2016)));
-				a.setEmail("aluno-admin@redamber.com.br");
-				
-				
-				
-				a.setNome("Aluno Administrador");
-				a.setRg("9999999");
-				a.setTelefone("08199999999");
-				a.setStatus(StatusUsuario.ATIVO);
-				rnAluno.salvar(a);
-				
-				Aluno alunor = rnAluno.buscarAlunoPorRG("9999999");
-				Usuario usuario = new Usuario();
-				usuario.setLogin("aluno-admin");
-				usuario.setSenha(Criptografia.criptografarSenhas("aluno-admin"));
-				usuario.setId(alunor.getId());
-				alunor.setUsuario(usuario);
-				
-				rnAluno.salvar(alunor);
-			}
+			this.rnAluno.inserirAlunoAdmin();
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
+			
 		}
 		
 	}
