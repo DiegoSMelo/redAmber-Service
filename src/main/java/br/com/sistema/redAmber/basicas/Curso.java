@@ -1,16 +1,13 @@
 package br.com.sistema.redAmber.basicas;
 
-import java.util.Calendar;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
+import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 
 
 
@@ -24,14 +21,6 @@ public class Curso {
 	@Column(nullable=false,unique=true)
 	private String  nome;
 	
-	@Column(nullable=false)
-	@Temporal(TemporalType.DATE)
-	private Calendar dataInicio;
-	
-	@Column(nullable=false)
-	@Temporal(TemporalType.DATE)
-	private Calendar dataFim;
-	
 	@Column(nullable=false, unique = true)
 	private String sigla;
 	
@@ -39,10 +28,21 @@ public class Curso {
 	private Integer cargaHorariaTotal;
 	
 	@Enumerated
+	private TipoCurso tipoCurso;
+	
+	@Enumerated
 	private StatusCurso status;
 
 	
 	
+	public TipoCurso getTipoCurso() {
+		return tipoCurso;
+	}
+
+	public void setTipoCurso(TipoCurso tipoCurso) {
+		this.tipoCurso = tipoCurso;
+	}
+
 	public StatusCurso getStatus() {
 		return status;
 	}
@@ -65,22 +65,6 @@ public class Curso {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Calendar getDataInicio() {
-		return dataInicio;
-	}
-
-	public void setDataInicio(Calendar dataInicio) {
-		this.dataInicio = dataInicio;
-	}
-
-	public Calendar getDataFim() {
-		return dataFim;
-	}
-
-	public void setDataFim(Calendar dataFim) {
-		this.dataFim = dataFim;
 	}
 
 	public String getSigla() {

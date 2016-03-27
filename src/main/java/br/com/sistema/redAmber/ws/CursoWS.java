@@ -1,7 +1,5 @@
 package br.com.sistema.redAmber.ws;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -18,7 +16,6 @@ import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.http.CursoHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNCurso;
-import br.com.sistema.redAmber.util.Datas;
 
 @Path("/cursows")
 public class CursoWS {
@@ -47,13 +44,10 @@ public class CursoWS {
 			
 			Curso curso = new Curso();
 			
-			Calendar dataInicioCurso = Datas.converterDateToCalendar(new Date(Long.parseLong(cursoHTTP.getDataInicio())));
-			Calendar dataFimCurso = Datas.converterDateToCalendar(new Date(Long.parseLong(cursoHTTP.getDataFim())));
 			
 			curso.setId(cursoHTTP.getId());
 			curso.setNome(cursoHTTP.getNome());
-			curso.setDataInicio(dataInicioCurso);
-			curso.setDataFim(dataFimCurso);
+			curso.setTipoCurso(cursoHTTP.getTipoCurso());
 			curso.setSigla(cursoHTTP.getSigla());
 			curso.setCargaHorariaTotal(cursoHTTP.getCargaHorariaTotal());
 			curso.setStatus(cursoHTTP.getStatus());
