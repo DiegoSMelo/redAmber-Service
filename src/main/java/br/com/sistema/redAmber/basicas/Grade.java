@@ -17,6 +17,8 @@ public class Grade {
 	@ManyToOne
 	private Curso curso;
 	
+	private String titulo;
+	
 	@Enumerated
 	private StatusGrade status;
 	
@@ -44,6 +46,14 @@ public class Grade {
 
 	public void setStatus(StatusGrade status) {
 		this.status = status;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 	
 	
