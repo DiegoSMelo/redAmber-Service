@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.sistema.redAmber.basicas.enums.StatusCurso;
+import br.com.sistema.redAmber.basicas.enums.TipoCurso;
 
 
 
@@ -40,9 +41,21 @@ public class Curso {
 	
 	@Enumerated
 	private StatusCurso status;
+	
+	@Enumerated
+	private TipoCurso tipoCurso;
+		
 
 	
 	
+	public TipoCurso getTipoCurso() {
+		return tipoCurso;
+	}
+
+	public void setTipoCurso(TipoCurso tipoCurso) {
+		this.tipoCurso = tipoCurso;
+	}
+
 	public StatusCurso getStatus() {
 		return status;
 	}

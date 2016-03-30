@@ -57,6 +57,7 @@ public class CursoWS {
 			curso.setSigla(cursoHTTP.getSigla());
 			curso.setCargaHorariaTotal(cursoHTTP.getCargaHorariaTotal());
 			curso.setStatus(cursoHTTP.getStatus());
+			curso.setTipoCurso(cursoHTTP.getTipoCurso());
 			
 			
 			this.rnCurso.salvar(curso);
