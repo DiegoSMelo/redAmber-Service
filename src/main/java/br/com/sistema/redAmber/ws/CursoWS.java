@@ -13,19 +13,24 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import br.com.sistema.redAmber.basicas.Curso;
+import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.http.CursoHTTP;
+import br.com.sistema.redAmber.basicas.http.GradeHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNCurso;
+import br.com.sistema.redAmber.rn.RNGrade;
 
 @Path("/cursows")
 public class CursoWS {
 	
 	private RNCurso rnCurso;
+	private RNGrade rnGrade;
 	private Gson gson;
 	
 	public CursoWS() {
 		this.gson = new Gson();
 		this.rnCurso = new RNCurso();
+		this.rnGrade = new RNGrade();
 		
 	}
 	
@@ -83,7 +88,6 @@ public class CursoWS {
 
 			return this.gson.toJson(curso);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 
@@ -99,4 +103,38 @@ public class CursoWS {
 		return this.gson.toJson(curso);
 
 	}
+	
+//----------------------------------------------GRADE-------------------------------------------------------------
+	
+	@POST
+	@Path("salvarGrade")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String salvarGrade(String jsonGrade) {
+
+		GradeHTTP gradeHTTP = new GradeHTTP();
+
+		gradeHTTP = this.gson.fromJson(jsonGrade, GradeHTTP.class);
+
+		Grade grade = new Grade();
+
+		grade.setId(gradeHTTP.getId());
+		grade.setCurso(gradeHTTP.getCurso());
+		grade.setTitulo(gradeHTTP.getTitulo());
+		grade.setStatus(gradeHTTP.getStatus());
+
+		this.rnGrade.salvar(grade);
+		return "Grade salva com sucesso!";
+
+	}
+	
+	@GET
+	@Path("listar/grades/por-curso/{id_curso}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarGradesPorCurso(@PathParam("id_curso") String id_curso){
+		
+		return this.gson.toJson(this.rnGrade.listarGradesPorCurso(Long.parseLong(id_curso)));
+		
+	}
+	
 }
