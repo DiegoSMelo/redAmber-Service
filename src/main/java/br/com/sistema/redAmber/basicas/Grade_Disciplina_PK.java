@@ -19,7 +19,7 @@ public class Grade_Disciplina_PK implements Serializable{
 	@ManyToOne
 	private Disciplina disciplina;
 	
-	
+	private Integer nPeriodo;
 
 	public Grade getGrade() {
 		return grade;
@@ -35,6 +35,14 @@ public class Grade_Disciplina_PK implements Serializable{
 
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
+	}
+
+	public Integer getnPeriodo() {
+		return nPeriodo;
+	}
+
+	public void setnPeriodo(Integer nPeriodo) {
+		this.nPeriodo = nPeriodo;
 	}
 	
 	
