@@ -1,25 +1,29 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum TipoTurno {
+public enum StatusReservaSala {
 
-	MANHA {
+	P {
 		@Override
 		public String toString() {
-			return "Manhã";
+			return "Pendente";
 		}
 	},
-
-	TARDE {
+	A {
 		@Override
 		public String toString() {
-			return "Tarde";
+			return "Aprovada";
 		}
 	},
-	
-	NOITE {
+	N {
 		@Override
 		public String toString() {
-			return "Noite";
+			return "Negada";
+		}
+	},
+	C {
+		@Override
+		public String toString() {
+			return "Cancelada";
 		}
 	}
 }

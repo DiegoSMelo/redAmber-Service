@@ -1,17 +1,17 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum TipoFuncionario {
-	C {
+public enum TipoSala {
+	LAB {
 		@Override
 		public String toString() {
-			return "Coordenador";
+			return "Laboratório";
 		}
 	},
 
-	S {
+	AULA {
 		@Override
 		public String toString() {
-			return "Secretário";
+			return "Sala de aula";
 		}
 	}
 }

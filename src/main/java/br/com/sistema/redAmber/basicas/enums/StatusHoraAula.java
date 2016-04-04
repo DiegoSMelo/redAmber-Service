@@ -1,17 +1,16 @@
 package br.com.sistema.redAmber.basicas.enums;
 
-public enum TipoFuncionario {
-	C {
+public enum StatusHoraAula {
+	ATIVA {
 		@Override
 		public String toString() {
-			return "Coordenador";
+			return "Ativa";
 		}
 	},
-
-	S {
+	INATIVA {
 		@Override
 		public String toString() {
-			return "Secretário";
+			return "Inativa";
 		}
 	}
 }

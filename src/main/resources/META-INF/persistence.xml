@@ -16,6 +16,10 @@
          <class>br.com.sistema.redAmber.basicas.Disciplina</class>
          <class>br.com.sistema.redAmber.basicas.Curso</class>
          <class>br.com.sistema.redAmber.basicas.Turma</class>
+         <class>br.com.sistema.redAmber.basicas.Equipamento</class>
+         <class>br.com.sistema.redAmber.basicas.Sala</class>
+         <class>br.com.sistema.redAmber.basicas.ReservaSala</class>
+         <class>br.com.sistema.redAmber.basicas.HoraAula</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db" />
