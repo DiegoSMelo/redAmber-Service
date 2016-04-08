@@ -24,7 +24,7 @@ public class DAOAluno extends DAOGeneric<Aluno> implements IDAOAluno{
 
 
 			Aluno aluno = result.getSingleResult();
-
+			
 			return aluno;
 		}catch (NoResultException e2) {
 			return null;

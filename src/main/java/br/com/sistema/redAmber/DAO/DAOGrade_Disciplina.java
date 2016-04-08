@@ -3,7 +3,6 @@ package br.com.sistema.redAmber.DAO;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;

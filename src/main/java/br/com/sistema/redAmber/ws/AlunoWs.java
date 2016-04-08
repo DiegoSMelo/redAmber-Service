@@ -32,6 +32,7 @@ public class AlunoWs {
 		this.gson = new Gson();
 		this.rnAluno = new RNAluno();
 		
+		/*
 		try {
 			this.rnAluno.inserirAlunoAdmin();
 		} catch (DAOException e) {
@@ -39,7 +40,7 @@ public class AlunoWs {
 			e.printStackTrace();
 			
 		}
-		
+		*/
 	}
 	
 	

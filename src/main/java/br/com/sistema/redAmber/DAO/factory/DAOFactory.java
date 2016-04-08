@@ -22,9 +22,9 @@ import br.com.sistema.redAmber.DAO.IDAOMatricula;
 import br.com.sistema.redAmber.DAO.IDAOProfessor;
 import br.com.sistema.redAmber.DAO.IDAOTurma;
 
-public abstract class DAOFactory {
+public class DAOFactory {
 /////////////////////////ATRIBUTOS/////////////////////////////
-//private static final EntityManagerFactory factory;
+private static final EntityManagerFactory factory;
 
 private static IDAOAluno daoAluno;
 private static IDAOMatricula daoMatricula;
@@ -41,9 +41,11 @@ private static IDAOGrade_Disciplina daoGrade_Disciplina;
 
 
 /////////////////////////INICIALIZACOES/////////////////////////////	
-/*static{
+
+static{
 	factory = Persistence.createEntityManagerFactory("DB_mysql");
-}*/
+}
+
 /////////////////////////INICIALIZACOES/////////////////////////////	
 
 
@@ -51,55 +53,46 @@ private static IDAOGrade_Disciplina daoGrade_Disciplina;
 
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////		
 public static IDAOAluno getDaoAluno(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoAluno = new DAOAluno(factory.createEntityManager());
 	return daoAluno;
 }
 
 public static IDAOMatricula getDaoMatricula(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoMatricula = new DAOMatricula(factory.createEntityManager());
 	return daoMatricula;
 }
 
 public static IDAOFuncionario getDaoFuncionario(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoFuncionario = new DAOFuncionario(factory.createEntityManager());
 	return daoFuncionario;
 }
 
 public static IDAOProfessor getDaoProfessor(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoProfessor = new DAOProfessor(factory.createEntityManager());
 	return daoProfessor;
 }
 
 public static IDAODisciplina getDaoDisciplina(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoDisciplina = new DAODisciplina(factory.createEntityManager());
 	return daoDisciplina;
 }
 
 public static IDAOCurso getDaoCurso(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoCurso = new DAOCurso(factory.createEntityManager());
 	return daoCurso;
 }
 
 public static IDAOTurma getDaoTurma(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoTurma = new DAOTurma(factory.createEntityManager());
 	return daoTurma;
 }
 
 public static IDAOGrade getDaoGrade(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoGrade = new DAOGrade(factory.createEntityManager());
 	return daoGrade;
 }
 
 public static IDAOGrade_Disciplina getDaoGrade_Disciplina(){
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoGrade_Disciplina = new DAOGrade_Disciplina(factory.createEntityManager());
 	return daoGrade_Disciplina;
 }
@@ -108,7 +101,7 @@ public static IDAOGrade_Disciplina getDaoGrade_Disciplina(){
 
 
 /////////////////////////MÉTODOS/////////////////////////////			
-public static void close(EntityManagerFactory factory){
+public static void close(){
 	if (factory != null && factory.isOpen()) {
 		factory.close();
 	}
