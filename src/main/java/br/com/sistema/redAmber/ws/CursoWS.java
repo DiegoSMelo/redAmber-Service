@@ -1,7 +1,5 @@
 package br.com.sistema.redAmber.ws;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -15,20 +13,29 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import br.com.sistema.redAmber.basicas.Curso;
+import br.com.sistema.redAmber.basicas.Grade;
+import br.com.sistema.redAmber.basicas.Grade_Disciplina;
 import br.com.sistema.redAmber.basicas.http.CursoHTTP;
+import br.com.sistema.redAmber.basicas.http.GradeHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNCurso;
-import br.com.sistema.redAmber.util.Datas;
+import br.com.sistema.redAmber.rn.RNGrade;
+import br.com.sistema.redAmber.rn.RNGrade_Disciplina;
 
 @Path("/cursows")
 public class CursoWS {
 	
 	private RNCurso rnCurso;
+	private RNGrade rnGrade;
+	private RNGrade_Disciplina rnGrade_Disciplina;
 	private Gson gson;
 	
 	public CursoWS() {
+		
 		this.gson = new Gson();
 		this.rnCurso = new RNCurso();
+		this.rnGrade = new RNGrade();
+		this.rnGrade_Disciplina = new RNGrade_Disciplina();
 		
 	}
 	
@@ -47,13 +54,10 @@ public class CursoWS {
 			
 			Curso curso = new Curso();
 			
-			Calendar dataInicioCurso = Datas.converterDateToCalendar(new Date(Long.parseLong(cursoHTTP.getDataInicio())));
-			Calendar dataFimCurso = Datas.converterDateToCalendar(new Date(Long.parseLong(cursoHTTP.getDataFim())));
 			
 			curso.setId(cursoHTTP.getId());
 			curso.setNome(cursoHTTP.getNome());
-			curso.setDataInicio(dataInicioCurso);
-			curso.setDataFim(dataFimCurso);
+			curso.setTipoCurso(cursoHTTP.getTipoCurso());
 			curso.setSigla(cursoHTTP.getSigla());
 			curso.setCargaHorariaTotal(cursoHTTP.getCargaHorariaTotal());
 			curso.setStatus(cursoHTTP.getStatus());
@@ -89,7 +93,6 @@ public class CursoWS {
 
 			return this.gson.toJson(curso);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 
@@ -104,5 +107,86 @@ public class CursoWS {
 
 		return this.gson.toJson(curso);
 
+	}
+	
+//----------------------------------------------GRADE-------------------------------------------------------------
+	
+	@POST
+	@Path("salvarGrade")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String salvarGrade(String jsonGrade) {
+
+		GradeHTTP gradeHTTP = new GradeHTTP();
+
+		gradeHTTP = this.gson.fromJson(jsonGrade, GradeHTTP.class);
+
+		Grade grade = new Grade();
+
+		grade.setId(gradeHTTP.getId());
+		grade.setCurso(gradeHTTP.getCurso());
+		grade.setTitulo(gradeHTTP.getTitulo());
+		grade.setStatus(gradeHTTP.getStatus());
+
+		this.rnGrade.salvar(grade);
+		return "Grade salva com sucesso!";
+
+	}
+	
+	@GET
+	@Path("listar/grades/por-curso/{id_curso}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarGradesPorCurso(@PathParam("id_curso") String id_curso){
+		
+		return this.gson.toJson(this.rnGrade.listarGradesPorCurso(Long.parseLong(id_curso)));
+		
+	}
+	
+	
+	
+	@POST
+	@Path("addGrade-disciplina")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String salvarGrade_Disciplina(String jsonGrade_Disciplina) {
+
+		Grade_Disciplina gd = this.gson.fromJson(jsonGrade_Disciplina, Grade_Disciplina.class);
+		
+		this.rnGrade_Disciplina.adicionar(gd);
+		
+		return "A disciplina foi adicionada a sua grade!";
+
+	}
+	
+	@POST
+	@Path("removeGrade-disciplina")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String removerGrade_DisciplinaPorGrade(String json_grade) {
+		
+		GradeHTTP grade = this.gson.fromJson(json_grade, GradeHTTP.class);
+		
+		this.rnGrade_Disciplina.removerPorGrade(grade.getId());
+		
+		return "A disciplina foi removida da sua grade!";
+
+	}
+	
+	@GET
+	@Path("listar/grade-disciplina/por-grade/{id_grade}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarGrade_DisciplinaPorGrade(@PathParam("id_grade") String id_grade){
+		
+		return this.gson.toJson(this.rnGrade_Disciplina.buscarPorIdGrade(Long.parseLong(id_grade)));
+		
+	}
+	
+	@GET
+	@Path("listar/grade-disciplina/por-id/{id}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarGrade_DisciplinaPorId(@PathParam("id") String id){
+		
+		return this.gson.toJson(this.rnGrade_Disciplina.buscarPorId(Long.parseLong(id)));
+		
 	}
 }

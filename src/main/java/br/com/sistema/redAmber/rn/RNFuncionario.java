@@ -13,6 +13,7 @@ import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
 
 public class RNFuncionario {
+	
 	private IDAOFuncionario daoFunc;
 
 	public RNFuncionario(){

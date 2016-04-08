@@ -25,6 +25,9 @@ public class Matricula {
 	@ManyToOne
 	private Aluno aluno;
 	
+	@ManyToOne
+	private Grade grade;
+	
 	@Temporal(TemporalType.DATE)
 	private Calendar dataMatricula;
 	

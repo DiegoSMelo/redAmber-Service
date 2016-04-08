@@ -33,6 +33,7 @@ public class FuncionarioWS {
 		this.gson = new Gson();
 		this.rnFuncionario = new RNFuncionario();
 		
+		/*
 		try {
 			this.rnFuncionario.inserirAdmin();
 		} catch (DAOException e) {
@@ -40,6 +41,7 @@ public class FuncionarioWS {
 			e.printStackTrace();
 			
 		}
+		*/
 	}
 	
 	@POST
