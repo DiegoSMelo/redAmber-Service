@@ -6,20 +6,26 @@ import javax.persistence.Persistence;
 import br.com.sistema.redAmber.DAO.DAOAluno;
 import br.com.sistema.redAmber.DAO.DAOCurso;
 import br.com.sistema.redAmber.DAO.DAODisciplina;
+import br.com.sistema.redAmber.DAO.DAOEquipamento;
 import br.com.sistema.redAmber.DAO.DAOFuncionario;
 import br.com.sistema.redAmber.DAO.DAOGrade;
 import br.com.sistema.redAmber.DAO.DAOGrade_Disciplina;
+import br.com.sistema.redAmber.DAO.DAOHoraAula;
 import br.com.sistema.redAmber.DAO.DAOMatricula;
 import br.com.sistema.redAmber.DAO.DAOProfessor;
+import br.com.sistema.redAmber.DAO.DAOSala;
 import br.com.sistema.redAmber.DAO.DAOTurma;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.IDAOCurso;
 import br.com.sistema.redAmber.DAO.IDAODisciplina;
+import br.com.sistema.redAmber.DAO.IDAOEquipamento;
 import br.com.sistema.redAmber.DAO.IDAOFuncionario;
 import br.com.sistema.redAmber.DAO.IDAOGrade;
 import br.com.sistema.redAmber.DAO.IDAOGrade_Disciplina;
+import br.com.sistema.redAmber.DAO.IDAOHoraAula;
 import br.com.sistema.redAmber.DAO.IDAOMatricula;
 import br.com.sistema.redAmber.DAO.IDAOProfessor;
+import br.com.sistema.redAmber.DAO.IDAOSala;
 import br.com.sistema.redAmber.DAO.IDAOTurma;
 
 public class DAOFactory {
@@ -35,6 +41,9 @@ private static IDAOCurso daoCurso;
 private static IDAOTurma daoTurma;
 private static IDAOGrade daoGrade;
 private static IDAOGrade_Disciplina daoGrade_Disciplina;
+private static IDAOEquipamento daoEquipamento;
+private static IDAOSala daoSala;
+private static IDAOHoraAula daoHoraAula;
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
 
@@ -95,6 +104,24 @@ public static IDAOGrade getDaoGrade(){
 public static IDAOGrade_Disciplina getDaoGrade_Disciplina(){
 	daoGrade_Disciplina = new DAOGrade_Disciplina(factory.createEntityManager());
 	return daoGrade_Disciplina;
+}
+
+public static IDAOEquipamento getDaoEquipamento() {
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoEquipamento = new DAOEquipamento(factory.createEntityManager());
+	return daoEquipamento;
+}
+
+public static IDAOSala getDaoSala() {
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoSala = new DAOSala(factory.createEntityManager());
+	return daoSala;
+}
+
+public static IDAOHoraAula getDaoHoraAula() {
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoHoraAula = new DAOHoraAula(factory.createEntityManager());
+	return daoHoraAula;
 }
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////			
 
