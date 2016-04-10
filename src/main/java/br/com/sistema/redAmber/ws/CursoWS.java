@@ -142,7 +142,19 @@ public class CursoWS {
 		
 	}
 	
+	@GET
+	@Path("buscar/grade/por-id/{id}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarGradePorId(@PathParam("id") String id) {
+		return this.gson.toJson(this.rnGrade.buscarGradePorId(Long.parseLong(id)));
+	}
 	
+	@GET
+	@Path("listar/grades")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarGrades() {
+		return this.gson.toJson(this.rnGrade.listarGrades());
+	}
 	
 	@POST
 	@Path("addGrade-disciplina")

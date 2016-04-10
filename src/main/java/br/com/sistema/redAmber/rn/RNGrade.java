@@ -41,4 +41,12 @@ public class RNGrade {
 	public List<Grade> listarGradesPorCurso(Long idCurso){
 		return this.daoGrade.listarGradesPorCurso(idCurso);
 	}
+	
+	public Grade buscarGradePorId(Long id) {
+		return this.daoGrade.consultarPorId(id);
+	}
+	
+	public List<Grade> listarGrades() {
+		return this.daoGrade.consultarTodos();
+	}
 }

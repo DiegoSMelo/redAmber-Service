@@ -34,8 +34,9 @@ public class Matricula {
 	@Enumerated
 	private StatusMatricula status;
 	
-	
-
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -67,8 +68,20 @@ public class Matricula {
 	public void setDataMatricula(Calendar dataMatricula) {
 		this.dataMatricula = dataMatricula;
 	}
-	
-	
-	
-	
+
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+
+	public StatusMatricula getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusMatricula status) {
+		this.status = status;
+	}
 }

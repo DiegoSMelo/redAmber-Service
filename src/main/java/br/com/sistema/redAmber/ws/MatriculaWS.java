@@ -14,8 +14,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.Matricula;
 import br.com.sistema.redAmber.basicas.http.MatriculaHTTP;
+import br.com.sistema.redAmber.rn.RNGrade;
 import br.com.sistema.redAmber.rn.RNMatricula;
 import br.com.sistema.redAmber.util.Datas;
 
@@ -23,13 +25,14 @@ import br.com.sistema.redAmber.util.Datas;
 public class MatriculaWS {
 	
 	private RNMatricula rnMatricula;
+	private RNGrade rnGrade;
 	private Gson gson;
 	
 	public MatriculaWS() {
 		
-		this.gson = new Gson();
 		this.rnMatricula = new RNMatricula();
-		
+		this.rnGrade = new RNGrade();
+		this.gson = new Gson();
 	}
 
 	@POST
@@ -48,6 +51,18 @@ public class MatriculaWS {
 		matricula.setCodigoMatricula(matriculaHTTP.getCodigoMatricula());
 		matricula.setDataMatricula(dataMatricula);
 		matricula.setAluno(matriculaHTTP.getAluno());
+		matricula.setStatus(matriculaHTTP.getStatus());
+		
+		Long id = null;
+		try {
+			id = matriculaHTTP.getGrade().getId();
+		} catch (Exception e) {
+			id = null;
+		}
+		if (id != null) {
+			Grade grade = rnGrade.buscarGradePorId(id);
+			matricula.setGrade(grade);
+		}
 		
 		this.rnMatricula.salvar(matricula);
 		
