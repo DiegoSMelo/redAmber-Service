@@ -51,4 +51,10 @@ public class RNMatricula {
 		return this.daoMatricula.listarMatriculasPorIdAluno(idAluno);
 		
 	}
+	
+	public Matricula buscarMatriculaPorId(Long id) {
+		
+		return this.daoMatricula.consultarPorId(id);
+		
+	}
 }

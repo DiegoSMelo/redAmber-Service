@@ -1,6 +1,5 @@
 package br.com.sistema.redAmber.basicas.http;
 
-import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.enums.StatusMatricula;
 
@@ -10,7 +9,7 @@ public class MatriculaHTTP {
 	
 	private String codigoMatricula;
 	
-	private Aluno aluno;
+	private AlunoHTTP aluno;
 	
 	/*
 	 * TIMESTAMP
@@ -38,11 +37,11 @@ public class MatriculaHTTP {
 		this.codigoMatricula = codigoMatricula;
 	}
 
-	public Aluno getAluno() {
+	public AlunoHTTP getAluno() {
 		return aluno;
 	}
 
-	public void setAluno(Aluno aluno) {
+	public void setAluno(AlunoHTTP aluno) {
 		this.aluno = aluno;
 	}
 
