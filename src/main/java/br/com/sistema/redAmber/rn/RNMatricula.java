@@ -19,7 +19,6 @@ public class RNMatricula {
 	
 	public void salvar(Matricula matricula){
 		
-		//Matricula matriculaRetorno = this.buscarMatriculaPorCodigoMatricula(matricula.getCodigoMatricula());
 		Matricula matriculaRetorno = null;
 		if (matricula.getId() != null) {
 			matriculaRetorno = this.daoMatricula.consultarPorId(matricula.getId());
@@ -49,6 +48,12 @@ public class RNMatricula {
 	public List<Matricula> listarMatriculasPorIdAluno(Long idAluno){
 		
 		return this.daoMatricula.listarMatriculasPorIdAluno(idAluno);
+		
+	}
+	
+	public Matricula buscarMatriculaPorId(Long id) {
+		
+		return this.daoMatricula.consultarPorId(id);
 		
 	}
 }
