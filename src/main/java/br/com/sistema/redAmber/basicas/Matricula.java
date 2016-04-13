@@ -31,6 +31,8 @@ public class Matricula {
 	@Temporal(TemporalType.DATE)
 	private Calendar dataMatricula;
 	
+	private Integer entrada;
+	
 	@Enumerated
 	private StatusMatricula status;
 	
@@ -75,6 +77,14 @@ public class Matricula {
 
 	public void setGrade(Grade grade) {
 		this.grade = grade;
+	}
+	
+	public Integer getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Integer entrada) {
+		this.entrada = entrada;
 	}
 
 	public StatusMatricula getStatus() {

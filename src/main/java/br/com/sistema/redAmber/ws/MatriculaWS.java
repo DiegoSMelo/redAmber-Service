@@ -65,6 +65,7 @@ public class MatriculaWS {
 		matricula.setCodigoMatricula(matriculaHTTP.getCodigoMatricula());
 		matricula.setDataMatricula(dataMatricula);
 		matricula.setAluno(aluno);
+		matricula.setEntrada(matriculaHTTP.getEntrada());
 		matricula.setStatus(matriculaHTTP.getStatus());
 		
 		Long id = null;

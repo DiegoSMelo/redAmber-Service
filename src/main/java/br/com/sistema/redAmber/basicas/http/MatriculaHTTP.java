@@ -18,9 +18,13 @@ public class MatriculaHTTP {
 	
 	private Grade grade;
 	
-	private StatusMatricula status;
+	private Integer entrada;
 	
+	private StatusMatricula status;
 
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +65,14 @@ public class MatriculaHTTP {
 		this.grade = grade;
 	}
 
+	public Integer getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Integer entrada) {
+		this.entrada = entrada;
+	}
+	
 	public StatusMatricula getStatus() {
 		return status;
 	}
