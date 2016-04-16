@@ -20,6 +20,8 @@ public class MatriculaHTTP {
 	
 	private StatusMatricula status;
 	
+	private Integer entrada;
+	
 
 	public Long getId() {
 		return id;
@@ -67,5 +69,13 @@ public class MatriculaHTTP {
 
 	public void setStatus(StatusMatricula status) {
 		this.status = status;
+	}
+
+	public Integer getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Integer entrada) {
+		this.entrada = entrada;
 	}
 }

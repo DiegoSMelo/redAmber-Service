@@ -65,6 +65,7 @@ public class MatriculaWS {
 		matricula.setCodigoMatricula(matriculaHTTP.getCodigoMatricula());
 		matricula.setDataMatricula(dataMatricula);
 		matricula.setAluno(aluno);
+		matricula.setEntrada(matriculaHTTP.getEntrada());
 		matricula.setStatus(matriculaHTTP.getStatus());
 		
 		Long id = null;
@@ -97,8 +98,14 @@ public class MatriculaWS {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarMatriculaPorCodigoMatricula(@PathParam("codigo") String codigo) {
 		
-		Matricula matricula = this.rnMatricula.buscarMatriculaPorCodigoMatricula(codigo);
-		return this.gson.toJson(matricula);
+		String retorno = null;
+		try {
+			Matricula matricula = this.rnMatricula.buscarMatriculaPorCodigoMatricula(codigo);
+			retorno = this.gson.toJson(matricula);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 	
 	@GET
@@ -108,5 +115,22 @@ public class MatriculaWS {
 		
 		Matricula matricula = this.rnMatricula.buscarMatriculaPorId(Long.parseLong(id));
 		return this.gson.toJson(matricula);
+	}
+	
+	@GET
+	@Path("buscar-por-aluno-curso/{idAluno}/{idCurso}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarMatriculaAtivaPorCurso(@PathParam("idAluno") String idAluno, 
+			@PathParam("idCurso") String idCurso) {
+		
+		String retorno = null;
+		try {
+			Matricula matricula = this.rnMatricula.buscarMatriculaAtivaPorCurso(Long.parseLong(idAluno), 
+					Long.parseLong(idCurso));
+			retorno = this.gson.toJson(matricula);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 }

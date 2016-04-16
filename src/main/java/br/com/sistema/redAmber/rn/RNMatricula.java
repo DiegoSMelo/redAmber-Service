@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.sistema.redAmber.DAO.IDAOMatricula;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.Matricula;
+import br.com.sistema.redAmber.exceptions.DAOException;
 
 public class RNMatricula {
 	
@@ -39,7 +40,7 @@ public class RNMatricula {
 		
 	}
 	
-	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula){
+	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula) throws DAOException{
 		
 		return this.daoMatricula.buscarMatriculaPorCodigoMatricula(codigoMatricula);
 		
@@ -54,6 +55,12 @@ public class RNMatricula {
 	public Matricula buscarMatriculaPorId(Long id) {
 		
 		return this.daoMatricula.consultarPorId(id);
+		
+	}
+	
+	public Matricula buscarMatriculaAtivaPorCurso(Long idAluno, Long idCurso) throws DAOException {
+		
+		return this.daoMatricula.buscarMatriculaAtivaPorCurso(idAluno, idCurso);
 		
 	}
 }

@@ -6,6 +6,6 @@ public class Mensagens {
 	public static String m1 = "Aluno não encontrado.";
 	public static String m2 = "A consulta não retornou resultados";
 	public static String m3 = "Nenhum Curso encontrado.";
-
+	public static String m4 = "Matrícula não encontrada";
 
 }
