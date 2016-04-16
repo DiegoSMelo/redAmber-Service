@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 
 @XmlRootElement
@@ -24,6 +25,8 @@ public class AlunoHTTP {
 	 * TIMESTAMP
 	 */
 	private String dataNascimento;
+	
+	private Usuario usuario;
 	
 	private StatusUsuario status;
 	
@@ -88,11 +91,16 @@ public class AlunoHTTP {
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 	public StatusUsuario getStatus() {
 		return status;
 	}
 	public void setStatus(StatusUsuario status) {
 		this.status = status;
 	}
-	
 }
