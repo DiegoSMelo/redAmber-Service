@@ -4,8 +4,10 @@ import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOTurma;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
+import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.StatusTurma;
+import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 import br.com.sistema.redAmber.exceptions.DAOException;
 
 public class RNTurma {
@@ -46,5 +48,8 @@ public class RNTurma {
 	public Turma buscarPorId(Long id){
 		return this.daoTurma.consultarPorId(id);
 	}
-	
+
+	public List<Turma> buscarTurmasPorCursoTurno(Curso curso, TipoTurno turno) {
+		return this.daoTurma.consultarTurmasPorCursoTurno(curso, turno);
+	}
 }

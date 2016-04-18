@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -32,7 +33,6 @@ public class TurmaWS {
 		this.rnTurma = new RNTurma();
 		this.rnCurso = new RNCurso();
 		this.gson = new Gson();
-		
 	}
 	
 	@POST
@@ -90,5 +90,32 @@ public class TurmaWS {
 		
 		return this.gson.toJson(this.rnTurma.buscarPorId(Long.parseLong(id)));
 				
-	}	
+	}
+	
+	@GET
+	@Path("buscar-por-curso-turno/{curso}/{turno}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String buscarTurmasPorCurso(@PathParam("curso") String jsonCurso, 
+			@PathParam("turno") String jsonTurno) {
+		System.out.println("JSON TURNO: " + jsonTurno);
+		Curso curso = new Curso();
+		
+		Long idCurso = gson.fromJson(jsonCurso, Long.class);
+		curso = rnCurso.buscarCursoPorID(idCurso);
+		
+		TipoTurno turno = null;
+		
+		if (jsonTurno.equalsIgnoreCase("MANHA") || jsonTurno.equalsIgnoreCase("Manhã")) {
+			turno = TipoTurno.MANHA;
+		}
+		if (jsonTurno.equalsIgnoreCase("TARDE") || jsonTurno.equalsIgnoreCase("Tarde")) {
+			turno = TipoTurno.TARDE;
+		}
+		if (jsonTurno.equalsIgnoreCase("NOITE") || jsonTurno.equalsIgnoreCase("Noite")) {
+			turno = TipoTurno.NOITE;
+		}
+		
+		List<Turma> lista = rnTurma.buscarTurmasPorCursoTurno(curso, turno);
+		return gson.toJson(lista);
+	}
 }

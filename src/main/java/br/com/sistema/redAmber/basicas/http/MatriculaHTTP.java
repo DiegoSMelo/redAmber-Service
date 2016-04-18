@@ -20,6 +20,8 @@ public class MatriculaHTTP {
 	
 	private Integer entrada;
 	
+	private TurmaHTTP turma;
+	
 	private StatusMatricula status;
 
 	/*
@@ -71,6 +73,14 @@ public class MatriculaHTTP {
 
 	public void setEntrada(Integer entrada) {
 		this.entrada = entrada;
+	}
+
+	public TurmaHTTP getTurma() {
+		return turma;
+	}
+	
+	public void setTurma(TurmaHTTP turma) {
+		this.turma = turma;
 	}
 	
 	public StatusMatricula getStatus() {
