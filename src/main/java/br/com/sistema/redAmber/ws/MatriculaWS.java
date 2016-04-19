@@ -15,10 +15,14 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.Matricula;
+import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.MatriculaHTTP;
+import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
+import br.com.sistema.redAmber.rn.RNCurso;
 import br.com.sistema.redAmber.rn.RNGrade;
 import br.com.sistema.redAmber.rn.RNMatricula;
 import br.com.sistema.redAmber.util.Datas;
@@ -28,12 +32,14 @@ public class MatriculaWS {
 	
 	private RNMatricula rnMatricula;
 	private RNGrade rnGrade;
+	private RNCurso rnCurso;
 	private Gson gson;
 	
 	public MatriculaWS() {
 		
 		this.rnMatricula = new RNMatricula();
 		this.rnGrade = new RNGrade();
+		this.rnCurso = new RNCurso();
 		this.gson = new Gson();
 	}
 
@@ -45,8 +51,11 @@ public class MatriculaWS {
 	
 		Matricula matricula = new Matricula();
 		Aluno aluno = new Aluno();
+		Turma turma = new Turma();
+		
 		MatriculaHTTP matriculaHTTP = this.gson.fromJson(jsonMatricula, MatriculaHTTP.class);
 		AlunoHTTP alunoHTTP = matriculaHTTP.getAluno();
+		TurmaHTTP turmaHTTP = matriculaHTTP.getTurma();
 		
 		Calendar dataNascimento = Datas.converterDateToCalendar(new Date(Long.parseLong(alunoHTTP.getDataNascimento())));
 		
@@ -59,6 +68,15 @@ public class MatriculaWS {
 		aluno.setUsuario(alunoHTTP.getUsuario());
 		aluno.setStatus(alunoHTTP.getStatus());
 		
+		turma.setId(turmaHTTP.getId());
+		turma.setNome(turmaHTTP.getNome());
+		turma.setTurno(turmaHTTP.getTurno());
+		turma.setStatus(turmaHTTP.getStatus());
+		
+		Curso curso = rnCurso.buscarCursoPorID(turmaHTTP.getIdCurso());
+		
+		turma.setCurso(curso);
+		
 		Calendar dataMatricula = Datas.converterDateToCalendar(new Date(Long.parseLong(matriculaHTTP.getDataMatricula())));
 		
 		matricula.setId(matriculaHTTP.getId());
@@ -66,6 +84,7 @@ public class MatriculaWS {
 		matricula.setDataMatricula(dataMatricula);
 		matricula.setAluno(aluno);
 		matricula.setEntrada(matriculaHTTP.getEntrada());
+		matricula.setTurma(turma);
 		matricula.setStatus(matriculaHTTP.getStatus());
 		
 		Long id = null;

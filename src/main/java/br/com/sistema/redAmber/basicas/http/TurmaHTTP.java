@@ -15,6 +15,8 @@ public class TurmaHTTP {
 	
 	private StatusTurma status;
 
+
+
 	
 	public Long getId() {
 		return id;
