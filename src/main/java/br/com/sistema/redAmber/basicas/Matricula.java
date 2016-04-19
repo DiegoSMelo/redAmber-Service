@@ -33,6 +33,9 @@ public class Matricula {
 	
 	private Integer entrada;
 	
+	@ManyToOne
+	private Turma turma;
+	
 	@Enumerated
 	private StatusMatricula status;
 	
@@ -94,4 +97,14 @@ public class Matricula {
 	public void setEntrada(Integer entrada) {
 		 this.entrada = entrada;
 	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+	
+	
 }
