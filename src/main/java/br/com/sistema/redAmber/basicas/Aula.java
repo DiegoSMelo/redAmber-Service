@@ -8,4 +8,14 @@ public class Aula {
 
 	@EmbeddedId
 	private AulaPK id;
+
+	public AulaPK getId() {
+		return id;
+	}
+
+	public void setId(AulaPK id) {
+		this.id = id;
+	}
+	
+	
 }
