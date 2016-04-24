@@ -111,6 +111,12 @@ public class ProfessorWS {
 		return this.gson.toJson(lista);
 	}
 	
+	@GET
+	@Path("buscar-por-id/{id}")
+	@Produces("application/json")
+	public String buscarProfessorPorId(@PathParam("id") String id) {
+		return this.gson.toJson(this.rnProfessor.buscarPorId(Long.parseLong(id)));
+	}
 	
 	@GET
 	@Path("buscar-por-rg/{rg}")
@@ -123,5 +129,5 @@ public class ProfessorWS {
 			return null;
 		}
 		
-	}	
+	}
 }

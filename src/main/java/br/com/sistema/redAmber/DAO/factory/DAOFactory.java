@@ -13,6 +13,7 @@ import br.com.sistema.redAmber.DAO.DAOGrade_Disciplina;
 import br.com.sistema.redAmber.DAO.DAOHoraAula;
 import br.com.sistema.redAmber.DAO.DAOMatricula;
 import br.com.sistema.redAmber.DAO.DAOProfessor;
+import br.com.sistema.redAmber.DAO.DAOReservaEquipamento;
 import br.com.sistema.redAmber.DAO.DAOSala;
 import br.com.sistema.redAmber.DAO.DAOTurma;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
@@ -25,6 +26,7 @@ import br.com.sistema.redAmber.DAO.IDAOGrade_Disciplina;
 import br.com.sistema.redAmber.DAO.IDAOHoraAula;
 import br.com.sistema.redAmber.DAO.IDAOMatricula;
 import br.com.sistema.redAmber.DAO.IDAOProfessor;
+import br.com.sistema.redAmber.DAO.IDAOReservaEquipamento;
 import br.com.sistema.redAmber.DAO.IDAOSala;
 import br.com.sistema.redAmber.DAO.IDAOTurma;
 
@@ -44,6 +46,7 @@ private static IDAOGrade_Disciplina daoGrade_Disciplina;
 private static IDAOEquipamento daoEquipamento;
 private static IDAOSala daoSala;
 private static IDAOHoraAula daoHoraAula;
+private static IDAOReservaEquipamento daoReservaEquipamento;
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
 
@@ -122,6 +125,12 @@ public static IDAOHoraAula getDaoHoraAula() {
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
 	daoHoraAula = new DAOHoraAula(factory.createEntityManager());
 	return daoHoraAula;
+}
+
+public static IDAOReservaEquipamento getDaoReservaEquipamento() {
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("DB_mysql");
+	daoReservaEquipamento = new DAOReservaEquipamento(factory.createEntityManager());
+	return daoReservaEquipamento;
 }
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////			
 
