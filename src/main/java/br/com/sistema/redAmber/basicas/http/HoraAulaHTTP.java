@@ -1,7 +1,5 @@
 package br.com.sistema.redAmber.basicas.http;
 
-import java.util.Calendar;
-
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;

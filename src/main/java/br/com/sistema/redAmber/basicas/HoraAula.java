@@ -1,6 +1,7 @@
 package br.com.sistema.redAmber.basicas;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -21,10 +22,10 @@ public class HoraAula {
 	private DiasSemana dia;
 	
 	@Temporal(TemporalType.TIME)
-	private Calendar horaInicio;
+	private Date horaInicio;
 	
 	@Temporal(TemporalType.TIME)
-	private Calendar horaFim;
+	private Date horaFim;
 	
 	@Enumerated
 	private StatusHoraAula status;
