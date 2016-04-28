@@ -20,7 +20,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.turma.id = :idTurma";
 		
 		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
-		result.setParameter(":idTurma", idTurma);
+		result.setParameter("idTurma", idTurma);
 		
 		return result.getResultList();
 		
@@ -32,10 +32,10 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma AND ha.id.aula.id.sala.id = :idSala AND ha.id.aula.id.disciplina.id = :idDisciplina AND ha.id.aula.id.professor.id = :idProfessor";
 		
 		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
-		result.setParameter(":idTurma", pk.getTurma().getId());
-		result.setParameter(":idAula", pk.getAula().getId().getSala().getId());
-		result.setParameter(":idDisciplina", pk.getAula().getId().getDisciplina().getId());
-		result.setParameter(":idProfessor", pk.getAula().getId().getProfessor().getId());
+		result.setParameter("idTurma", pk.getTurma().getId());
+		result.setParameter("idAula", pk.getAula().getId().getSala().getId());
+		result.setParameter("idDisciplina", pk.getAula().getId().getDisciplina().getId());
+		result.setParameter("idProfessor", pk.getAula().getId().getProfessor().getId());
 		
 		return result.getSingleResult();
 	}

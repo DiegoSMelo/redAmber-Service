@@ -2,6 +2,7 @@ package br.com.sistema.redAmber.ws;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,6 +14,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import br.com.sistema.redAmber.basicas.Aula;
+import br.com.sistema.redAmber.basicas.AulaPK;
 import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
 import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
@@ -34,6 +37,59 @@ public class AulaWS {
 		this.gson = new Gson();
 		
 	}
+	
+	@GET
+	@Path("listar")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listaAulas() {
+		
+		List<Aula> listaAulas = this.rnAula.listarAulas();
+
+		return this.gson.toJson(listaAulas);
+
+	}
+	
+	@GET
+	@Path("por-pk/{jsonAulaPK}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarAulaPorPK(@PathParam("jsonAulaPK") String jsonAulaPK){
+		
+		AulaPK aPK = this.gson.fromJson(jsonAulaPK, AulaPK.class);
+		
+		return this.gson.toJson(this.rnAula.buscarAulaPorPK(aPK));
+		
+	}
+	
+	@POST
+	@Path("add")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String addAula(String jsonAula) {
+		
+		Aula aula = this.gson.fromJson(jsonAula, Aula.class);
+		
+		this.rnAula.addAula(aula);
+		
+		return "Aula adicionada com sucesso!";
+
+	}
+	
+	@POST
+	@Path("remover")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String removerAulaPorId(String jsonAula) {
+		
+		Aula aula = this.gson.fromJson(jsonAula, Aula.class);
+
+		this.rnAula.removerAula(aula);
+		
+		return "Aula removida com sucesso!";
+
+	}
+	
+	
+	//-------------------------------Hora aula--------------------------------------------------
 	
 	@GET
 	@Path("hora-aula/por-turma/{idTurma}")
@@ -64,7 +120,7 @@ public class AulaWS {
 	public String addHoraAula(String jsonHoraAula) {
 
 		HoraAula horaAula = new HoraAula();
-		HoraAulaHTTP horaAulaHTTP = new HoraAulaHTTP();
+		HoraAulaHTTP horaAulaHTTP = this.gson.fromJson(jsonHoraAula, HoraAulaHTTP.class);
 		
 		/*
 		 * TIMESTAMP DAS HORAS
@@ -80,7 +136,7 @@ public class AulaWS {
 		
 		this.rnHoraAula.adicionarHoraAula(horaAula);
 		
-		return "Horário de aula salvo com sucesso";
+		return "Horário de aula adicionado com sucesso";
 
 	}
 	
