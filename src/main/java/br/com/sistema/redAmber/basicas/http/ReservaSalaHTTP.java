@@ -8,11 +8,11 @@ import br.com.sistema.redAmber.basicas.enums.StatusReserva;
 
 @XmlRootElement
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class ReservaEquipamentoHTTP {
-	
+public class ReservaSalaHTTP {
+
 	private Long id;
 	private ProfessorHTTP professor;
-	private EquipamentoHTTP equip;
+	private SalaHTTP sala;
 	private String dataRequisicao;
 	private String dataReserva;
 	private DuracaoAulaHTTP horarioReserva;
@@ -35,11 +35,11 @@ public class ReservaEquipamentoHTTP {
 	public void setProfessor(ProfessorHTTP professor) {
 		this.professor = professor;
 	}
-	public EquipamentoHTTP getEquip() {
-		return equip;
+	public SalaHTTP getSala() {
+		return sala;
 	}
-	public void setEquip(EquipamentoHTTP equip) {
-		this.equip = equip;
+	public void setSala(SalaHTTP sala) {
+		this.sala = sala;
 	}
 	public String getDataRequisicao() {
 		return dataRequisicao;

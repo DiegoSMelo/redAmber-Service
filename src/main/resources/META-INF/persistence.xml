@@ -21,8 +21,17 @@
 	<class>br.com.sistema.redAmber.basicas.Grade_Disciplina_PK</class>
 	<class>br.com.sistema.redAmber.basicas.Equipamento</class>
 	<class>br.com.sistema.redAmber.basicas.Sala</class>
+	<class>br.com.sistema.redAmber.basicas.Aula</class>
+	<class>br.com.sistema.redAmber.basicas.AulaPK</class>
 	<class>br.com.sistema.redAmber.basicas.HoraAula</class>
+	<class>br.com.sistema.redAmber.basicas.HoraAulaPK</class>
+	<class>br.com.sistema.redAmber.basicas.DuracaoAula</class>
 	<class>br.com.sistema.redAmber.basicas.ReservaEquipamento</class>
+	<class>br.com.sistema.redAmber.basicas.ReservaSala</class>
+	<class>br.com.sistema.redAmber.basicas.AvisoProfessor</class>
+	<class>br.com.sistema.redAmber.basicas.AvisoProfessor_Turma</class>
+	<class>br.com.sistema.redAmber.basicas.AvisoProfessor_TurmaPK</class>
+
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db" />

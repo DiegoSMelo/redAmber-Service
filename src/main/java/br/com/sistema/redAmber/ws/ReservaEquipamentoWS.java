@@ -14,18 +14,18 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import br.com.sistema.redAmber.basicas.DuracaoAula;
 import br.com.sistema.redAmber.basicas.Equipamento;
-import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.ReservaEquipamento;
 import br.com.sistema.redAmber.basicas.enums.StatusReserva;
+import br.com.sistema.redAmber.basicas.http.DuracaoAulaHTTP;
 import br.com.sistema.redAmber.basicas.http.EquipamentoHTTP;
-import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.basicas.http.ReservaEquipamentoHTTP;
 import br.com.sistema.redAmber.exceptions.RNException;
+import br.com.sistema.redAmber.rn.RNDuracaoAula;
 import br.com.sistema.redAmber.rn.RNEquipamento;
-import br.com.sistema.redAmber.rn.RNHoraAula;
 import br.com.sistema.redAmber.rn.RNProfessor;
 import br.com.sistema.redAmber.rn.RNReservaEquipamento;
 import br.com.sistema.redAmber.util.Datas;
@@ -36,14 +36,14 @@ public class ReservaEquipamentoWS {
 	private RNReservaEquipamento rnReservaEquipamento;
 	private RNProfessor rnProfessor;
 	private RNEquipamento rnEquipamento;
-	private RNHoraAula rnHoraAula;
+	private RNDuracaoAula rnDuracaoAula;
 	private Gson gson;
 	
 	public ReservaEquipamentoWS() {
 		this.rnReservaEquipamento = new RNReservaEquipamento();
 		this.rnProfessor = new RNProfessor();
 		this.rnEquipamento = new RNEquipamento();
-		this.rnHoraAula = new RNHoraAula();
+		this.rnDuracaoAula = new RNDuracaoAula();
 		this.gson = new Gson();
 	}
 	
@@ -56,17 +56,17 @@ public class ReservaEquipamentoWS {
 		ReservaEquipamento reservaEquipamento = new ReservaEquipamento();
 		Professor professor = new Professor();
 		Equipamento equipamento = new Equipamento();
-		HoraAula horarioReserva = new HoraAula();
+		DuracaoAula horarioReserva = new DuracaoAula();
 		
 		ReservaEquipamentoHTTP reservaEquipamentoHTTP = this.gson.
 				fromJson(jsonReservaEquipamento, ReservaEquipamentoHTTP.class);
 		ProfessorHTTP professorHTTP = reservaEquipamentoHTTP.getProfessor();
 		EquipamentoHTTP equipamentoHTTP = reservaEquipamentoHTTP.getEquip();
-		HoraAulaHTTP horaAulaHTTP = reservaEquipamentoHTTP.getHorarioReserva();
+		DuracaoAulaHTTP duracaoAulaHTTP = reservaEquipamentoHTTP.getHorarioReserva();
 		
 		professor = rnProfessor.buscarPorId(professorHTTP.getId());
 		equipamento = rnEquipamento.buscarPorId(equipamentoHTTP.getId());
-		horarioReserva = rnHoraAula.buscarPorId(horaAulaHTTP.getId());
+		horarioReserva = rnDuracaoAula.buscarPorId(duracaoAulaHTTP.getId());
 		
 		Calendar dataRequisicao = Calendar.getInstance();
 		Date hoje = new Date();

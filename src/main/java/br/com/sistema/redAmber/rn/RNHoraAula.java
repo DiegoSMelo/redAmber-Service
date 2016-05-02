@@ -1,45 +1,37 @@
 package br.com.sistema.redAmber.rn;
 
-import java.util.Date;
 import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOHoraAula;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.HoraAula;
-import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
-import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.basicas.HoraAulaPK;
 
 public class RNHoraAula {
-
+	
 	private IDAOHoraAula daoHoraAula;
 	
 	public RNHoraAula() {
 		this.daoHoraAula = DAOFactory.getDaoHoraAula();
 	}
 	
-	public void salvar(HoraAula horaAula) {
-		HoraAula horaAulaExistente = null;
-		if (horaAula.getId() != null) {
-			horaAulaExistente = this.daoHoraAula.consultarPorId(horaAula.getId());
-		}
-		if (horaAulaExistente == null) {
-			horaAula.setStatus(StatusHoraAula.ATIVA);
-			this.daoHoraAula.inserir(horaAula);
-		} else {
-			horaAula.setId(horaAulaExistente.getId());
-			this.daoHoraAula.alterar(horaAula);
-		}
+	public List<HoraAula> listaHoraAulaPorIdTurma(Long idTurma){
+		return this.daoHoraAula.listaHoraAulaPorIdTurma(idTurma);
 	}
 	
-	public HoraAula buscarPorId(Long id) {
-		return this.daoHoraAula.consultarPorId(id);
+	public HoraAula buscarHoraAulaPorId(HoraAulaPK id){
+		return this.daoHoraAula.consultarPorPK(id);
 	}
 	
-	public HoraAula buscarPorHoraInicioHoraFim(Date horaInicio, Date horaFim) throws DAOException {
-		return this.daoHoraAula.consultarPorHoraInicioHoraFim(horaInicio, horaFim);
+	public void adicionarHoraAula(HoraAula horaAula){
+		this.daoHoraAula.inserir(horaAula);
 	}
 	
-	public List<HoraAula> buscarTodos() {
-		return this.daoHoraAula.consultarTodos();
+	public void alterarHoraAula(HoraAula horaAula){
+		this.daoHoraAula.alterar(horaAula);
+	}
+	
+	public void removerHoraAula(HoraAula horaAula){
+		this.daoHoraAula.remover(horaAula);
 	}
 }

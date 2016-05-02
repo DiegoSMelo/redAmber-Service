@@ -14,14 +14,14 @@ import javax.persistence.TemporalType;
 import br.com.sistema.redAmber.basicas.enums.StatusReserva;
 
 @Entity
-public class ReservaEquipamento {
+public class ReservaSala {
 
 	@Id @GeneratedValue
 	private Long id;
 	@ManyToOne
 	private Professor professor;
 	@ManyToOne
-	private Equipamento equip;
+	private Sala sala;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataRequisicao;
 	@Temporal(TemporalType.DATE)
@@ -50,11 +50,11 @@ public class ReservaEquipamento {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
-	public Equipamento getEquip() {
-		return equip;
+	public Sala getSala() {
+		return sala;
 	}
-	public void setEquip(Equipamento equip) {
-		this.equip = equip;
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
 	public Calendar getDataRequisicao() {
 		return dataRequisicao;

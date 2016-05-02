@@ -1,60 +1,46 @@
 package br.com.sistema.redAmber.basicas.http;
 
+import br.com.sistema.redAmber.basicas.HoraAulaPK;
+import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
-import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 
 public class HoraAulaHTTP {
 
-	private Long id;
-	private TipoTurno turno;
+	private HoraAulaPK id;
+	
+	private DiasSemana dia;
+	
+	/*
+	 * TIMESTAMP
+	 */
 	private String horaInicio;
+	
+	/*
+	 * TIMESTAMP
+	 */
 	private String horaFim;
+	
 	private StatusHoraAula status;
-	
-	/*
-	 * Construtor padrão
-	 */
-	public HoraAulaHTTP(){}
-	
-	/*
-	 * Construtor com parâmetros
-	 */
-	public HoraAulaHTTP(TipoTurno turno, String horaInicio, String horaFim) {
-		this.turno = turno;
-		this.horaInicio = horaInicio;
-		this.horaFim = horaFim;
-	}
-	
-	/*
-	 * Construtor com parâmetros (completo)
-	 */
-	public HoraAulaHTTP(Long id, TipoTurno turno, String horaInicio, String horaFim,
-			StatusHoraAula status) {
-		this.id = id;
-		this.turno = turno;
-		this.horaInicio = horaInicio;
-		this.horaFim = horaFim;
-		this.status = status;
-	}
 
-	/*
-	 * Getters and setters
-	 */
-	public Long getId() {
+	
+	
+	public HoraAulaPK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(HoraAulaPK id) {
 		this.id = id;
 	}
 
-	public TipoTurno getTurno() {
-		return turno;
+	public DiasSemana getDia() {
+		return dia;
 	}
 
-	public void setTurno(TipoTurno turno) {
-		this.turno = turno;
+	public void setDia(DiasSemana dia) {
+		this.dia = dia;
 	}
+
+	
 
 	public String getHoraInicio() {
 		return horaInicio;
@@ -79,4 +65,6 @@ public class HoraAulaHTTP {
 	public void setStatus(StatusHoraAula status) {
 		this.status = status;
 	}
+	
+	
 }

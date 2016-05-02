@@ -130,4 +130,15 @@ public class ProfessorWS {
 		}
 		
 	}
+	
+	@GET
+	@Path("listar-por-disciplina/{idDisciplina}")
+	@Produces("application/json")
+	public String listarProfessoresPorDisciplina(@PathParam("idDisciplina") Long idDisciplina){
+		
+		List<Professor> lista = this.rnProfessor.listarProfessoresPorDisciplina(idDisciplina);
+		
+		return this.gson.toJson(lista);
+		
+	}
 }

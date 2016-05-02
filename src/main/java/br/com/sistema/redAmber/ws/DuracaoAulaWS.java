@@ -13,19 +13,19 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
-import br.com.sistema.redAmber.basicas.HoraAula;
-import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
+import br.com.sistema.redAmber.basicas.DuracaoAula;
+import br.com.sistema.redAmber.basicas.http.DuracaoAulaHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
-import br.com.sistema.redAmber.rn.RNHoraAula;
+import br.com.sistema.redAmber.rn.RNDuracaoAula;
 
-@Path("/horaaulaws")
-public class HoraAulaWS {
+@Path("/duracaoaulaws")
+public class DuracaoAulaWS {
 
-	private RNHoraAula rnHoraAula;
+	private RNDuracaoAula rnDuracaoAula;
 	private Gson gson;
 	
-	public HoraAulaWS() {
-		this.rnHoraAula = new RNHoraAula();
+	public DuracaoAulaWS() {
+		this.rnDuracaoAula = new RNDuracaoAula();
 		this.gson = new Gson();
 	}
 	
@@ -33,50 +33,50 @@ public class HoraAulaWS {
 	@Path("salvar")
 	@Consumes("application/json")
 	@Produces("text/plain")
-	public String salvarHoraAula(String jsonHoraAula) {
-		HoraAula horaAula = new HoraAula();
-		HoraAulaHTTP horaAulaHTTP = gson.fromJson(jsonHoraAula, HoraAulaHTTP.class);
+	public String salvarDuracaoAula(String jsonDuracaoAula) {
+		DuracaoAula duracaoAula = new DuracaoAula();
+		DuracaoAulaHTTP duracaoAulaHTTP = gson.fromJson(jsonDuracaoAula, DuracaoAulaHTTP.class);
 		
-		System.out.println(horaAulaHTTP.getHoraInicio());
-		System.out.println(horaAulaHTTP.getHoraFim());
+		System.out.println(duracaoAulaHTTP.getHoraInicio());
+		System.out.println(duracaoAulaHTTP.getHoraFim());
 		
-		horaAula.setId(horaAulaHTTP.getId());
-		horaAula.setTurno(horaAulaHTTP.getTurno());
-		horaAula.setStatus(horaAulaHTTP.getStatus());
+		duracaoAula.setId(duracaoAulaHTTP.getId());
+		duracaoAula.setTurno(duracaoAulaHTTP.getTurno());
+		duracaoAula.setStatus(duracaoAulaHTTP.getStatus());
 		
 		try {
-			long ini = Long.parseLong(horaAulaHTTP.getHoraInicio());
-			long end = Long.parseLong(horaAulaHTTP.getHoraFim());
+			long ini = Long.parseLong(duracaoAulaHTTP.getHoraInicio());
+			long end = Long.parseLong(duracaoAulaHTTP.getHoraFim());
 			
 			Date horaInicioDate = new Date();
 			Date horaFimDate = new Date();
 			horaInicioDate.setTime(ini);
 			horaFimDate.setTime(end);
-			horaAula.setHoraInicio(horaInicioDate);
-			horaAula.setHoraFim(horaFimDate);
+			duracaoAula.setHoraInicio(horaInicioDate);
+			duracaoAula.setHoraFim(horaFimDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Error";
 		}
-		this.rnHoraAula.salvar(horaAula);
-		return "Horário de aula salvo com sucesso.";
+		this.rnDuracaoAula.salvar(duracaoAula);
+		return "Duração de aula salva com sucesso.";
 	}
 	
 	@GET
 	@Path("buscar-por-id/{id}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
-	public String buscarHoraAulaPorId(@PathParam("id") String id) {
+	public String buscarDuracaoAulaPorId(@PathParam("id") String id) {
 		System.out.println("!!! ID: " + id);
 		if (id == null || id == "null") {
 			return "null";
 		}
-		return this.gson.toJson(this.rnHoraAula.buscarPorId(Long.parseLong(id)));
+		return this.gson.toJson(this.rnDuracaoAula.buscarPorId(Long.parseLong(id)));
 	}
 	
 	@GET
 	@Path("buscar-por-hora/{inicio}/{fim}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
-	public String buscarHoraAulaPorHoraInicioHoraFim(@PathParam("inicio") String inicio, @PathParam("fim") String fim) {
+	public String buscarDuracaoAulaPorHoraInicioHoraFim(@PathParam("inicio") String inicio, @PathParam("fim") String fim) {
 		System.out.println("INICIO: " + inicio);
 		System.out.println("FIM: " + fim);
 		
@@ -88,7 +88,7 @@ public class HoraAulaWS {
 			Date horaFim = new Date();
 			horaInicio.setTime(ini);
 			horaFim.setTime(end);
-			return this.gson.toJson(this.rnHoraAula.buscarPorHoraInicioHoraFim(horaInicio, horaFim));
+			return this.gson.toJson(this.rnDuracaoAula.buscarPorHoraInicioHoraFim(horaInicio, horaFim));
 		} catch (DAOException e) {
 			e.printStackTrace();
 			return null;
@@ -101,9 +101,9 @@ public class HoraAulaWS {
 	@GET
 	@Path("listar")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
-	public String listarHoraAula() {
-		List<HoraAula> horasAula;
-		horasAula = rnHoraAula.buscarTodos();
+	public String listarDuracaoAula() {
+		List<DuracaoAula> horasAula;
+		horasAula = rnDuracaoAula.buscarTodos();
 		return this.gson.toJson(horasAula);
 	}
 }
