@@ -5,19 +5,24 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
 import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
 
 public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
-
+	
+	private IDAOAula daoAula;
+	
 	public DAOHoraAula(EntityManager em) {
 		super(em);
+		
+		daoAula = DAOFactory.getDaoAula();
 	}
 	
 	public List<HoraAula> listaHoraAulaPorIdTurma(Long idTurma){
 		
-		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.turma.id = :idTurma";
+		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma";
 		
 		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 		result.setParameter("idTurma", idTurma);
@@ -38,5 +43,19 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		result.setParameter("idProfessor", pk.getAula().getId().getProfessor().getId());
 		
 		return result.getSingleResult();
+	}
+
+	@Override
+	public void removerPorIdTurma(Long idTurma) {
+		
+		List<HoraAula> lista = this.listaHoraAulaPorIdTurma(idTurma);
+		
+		for (HoraAula horaAula : lista) {
+			
+			this.daoAula.remover(horaAula.getId().getAula());
+			this.remover(horaAula);
+			
+		}		
+		
 	}
 }

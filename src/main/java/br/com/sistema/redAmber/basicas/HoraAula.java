@@ -42,19 +42,19 @@ public class HoraAula {
 		this.id = id;
 	}
 
-	public Calendar getHoraInicio() {
+	public Date getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Calendar horaInicio) {
+	public void setHoraInicio(Date horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Calendar getHoraFim() {
+	public Date getHoraFim() {
 		return horaFim;
 	}
 
-	public void setHoraFim(Calendar horaFim) {
+	public void setHoraFim(Date horaFim) {
 		this.horaFim = horaFim;
 	}
 

@@ -34,4 +34,8 @@ public class RNHoraAula {
 	public void removerHoraAula(HoraAula horaAula){
 		this.daoHoraAula.remover(horaAula);
 	}
+	
+    public void removerPorIdTurma(Long idTurma){
+    	this.daoHoraAula.removerPorIdTurma(idTurma);
+    }
 }

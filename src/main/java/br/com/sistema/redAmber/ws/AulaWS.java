@@ -1,6 +1,5 @@
 package br.com.sistema.redAmber.ws;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,10 @@ import br.com.sistema.redAmber.basicas.Aula;
 import br.com.sistema.redAmber.basicas.AulaPK;
 import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
+import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.http.AulaHTTP;
 import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
+import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.rn.RNAula;
 import br.com.sistema.redAmber.rn.RNHoraAula;
 import br.com.sistema.redAmber.util.Datas;
@@ -95,11 +97,12 @@ public class AulaWS {
 	@Path("hora-aula/por-turma/{idTurma}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String listaHoraAulaPorIdTurma(@PathParam("idTurma") String idTurma){
-		
+		 
 		Long id_turma = Long.parseLong(idTurma);
 		
-		return this.gson.toJson(this.rnHoraAula.listaHoraAulaPorIdTurma(id_turma));
 		
+		return this.gson.toJson(this.rnHoraAula.listaHoraAulaPorIdTurma(id_turma));
+		//return this.rnHoraAula.listaHoraAulaPorIdTurma(id_turma);
 	}
 	
 	@GET
@@ -120,20 +123,63 @@ public class AulaWS {
 	public String addHoraAula(String jsonHoraAula) {
 
 		HoraAula horaAula = new HoraAula();
-		HoraAulaHTTP horaAulaHTTP = this.gson.fromJson(jsonHoraAula, HoraAulaHTTP.class);
+		HoraAulaHTTP horaAulaHTTP = this.gson.fromJson(jsonHoraAula, HoraAulaHTTP.class); 
+		
+		/*
+		 * Add aula
+		 */
+		AulaHTTP aulaHTTP = horaAulaHTTP.getId().getAula();
+		
+		Professor professor = new Professor();
+		professor.setEmail(aulaHTTP.getId().getProfessor().getEmail());
+		professor.setId(aulaHTTP.getId().getProfessor().getId());
+		professor.setListDisciplinas(aulaHTTP.getId().getProfessor().getListDisciplinas());
+		professor.setNome(aulaHTTP.getId().getProfessor().getNome());
+		professor.setRg(aulaHTTP.getId().getProfessor().getRg());
+		professor.setStatus(aulaHTTP.getId().getProfessor().getStatus());
+		professor.setTelefone(aulaHTTP.getId().getProfessor().getTelefone());
+		professor.setUsuario(aulaHTTP.getId().getProfessor().getUsuario());
 		
 		/*
 		 * TIMESTAMP DAS HORAS
 		 */
-		Calendar horaInicio = Datas.converterDateToCalendar(new Date(Long.parseLong(horaAulaHTTP.getHoraInicio())));
-		Calendar horaFim = Datas.converterDateToCalendar(new Date(Long.parseLong(horaAulaHTTP.getHoraFim())));
+		professor.setDataNascimento(Datas.converterDateToCalendar(new Date(Long.parseLong(aulaHTTP.getId().getProfessor().getDataNascimento()))));
+		
+		Aula aula = new Aula();
+		AulaPK aulaPK = new AulaPK();
+		
+		aulaPK.setProfessor(professor);
+		aulaPK.setDisciplina(aulaHTTP.getId().getDisciplina());
+		aulaPK.setSala(aulaHTTP.getId().getSala());
+		
+		aula.setId(aulaPK);
+		
+		
+		//add Aula
+		this.rnAula.addAula(aula);
+		
+		
+		/*
+		 * TIMESTAMP DAS HORAS
+		 */
+		Date horaInicio = new Date(Long.parseLong(horaAulaHTTP.getHoraInicio()));
+		Date horaFim = new Date(Long.parseLong(horaAulaHTTP.getHoraFim()));
 		
 		horaAula.setDia(horaAulaHTTP.getDia());
 		horaAula.setHoraFim(horaFim);
 		horaAula.setHoraInicio(horaInicio);
-		horaAula.setId(horaAulaHTTP.getId());
+		
+		HoraAulaPK haPK = new HoraAulaPK();
+		haPK.setTurma(horaAulaHTTP.getId().getTurma());
+		haPK.setAula(aula);
+		
+		
+		
+		horaAula.setId(haPK);
 		horaAula.setStatus(horaAulaHTTP.getStatus());
 		
+		
+		//add HoraAula
 		this.rnHoraAula.adicionarHoraAula(horaAula);
 		
 		return "Horário de aula adicionado com sucesso";
@@ -148,10 +194,49 @@ public class AulaWS {
 	public String removerHoraAulaPorId(String jsonHoraAula) {
 		
 		HoraAulaHTTP haHTTP = this.gson.fromJson(jsonHoraAula, HoraAulaHTTP.class);
-		HoraAula ha = this.rnHoraAula.buscarHoraAulaPorId(haHTTP.getId());
+		
+		HoraAulaPK haPK = new HoraAulaPK();
+		haPK.setTurma(haHTTP.getId().getTurma());
+		
+		AulaHTTP aulaHTTP = haHTTP.getId().getAula();
+		
+		Professor professor = new Professor();
+		professor.setEmail(aulaHTTP.getId().getProfessor().getEmail());
+		professor.setId(aulaHTTP.getId().getProfessor().getId());
+		professor.setListDisciplinas(aulaHTTP.getId().getProfessor().getListDisciplinas());
+		professor.setNome(aulaHTTP.getId().getProfessor().getNome());
+		professor.setRg(aulaHTTP.getId().getProfessor().getRg());
+		professor.setStatus(aulaHTTP.getId().getProfessor().getStatus());
+		professor.setTelefone(aulaHTTP.getId().getProfessor().getTelefone());
+		professor.setUsuario(aulaHTTP.getId().getProfessor().getUsuario());
+		professor.setDataNascimento(Datas.converterDateToCalendar(new Date(Long.parseLong(aulaHTTP.getId().getProfessor().getDataNascimento()))));
+		
+		Aula aula = new Aula();
+		aula.getId().setProfessor(professor);
+		aula.getId().setDisciplina(aulaHTTP.getId().getDisciplina());
+		aula.getId().setSala(aulaHTTP.getId().getSala());
+		
+		haPK.setAula(aula);
+		
+		
+		HoraAula ha = this.rnHoraAula.buscarHoraAulaPorId(haPK);
 		this.rnHoraAula.removerHoraAula(ha);
 		
 		return "O horário de aula foi removida da sua grade!";
+
+	}
+	
+	@POST
+	@Path("removeGradeAula/por-turma")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String removerGradeAula_PorTurma(String jsonTurmaHTTP) {
+		
+		TurmaHTTP turmaHTTP = this.gson.fromJson(jsonTurmaHTTP, TurmaHTTP.class);
+		
+		this.rnHoraAula.removerPorIdTurma(turmaHTTP.getId());
+		
+		return "Removido com sucesso";
 
 	}
 }

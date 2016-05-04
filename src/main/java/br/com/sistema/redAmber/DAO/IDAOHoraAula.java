@@ -10,5 +10,6 @@ public interface IDAOHoraAula extends IDAOGeneric<HoraAula>{
 
 	public List<HoraAula> listaHoraAulaPorIdTurma(Long idTurma);
 	public HoraAula consultarPorPK(HoraAulaPK pk);
+	public void removerPorIdTurma(Long idTurma);
 	
 }

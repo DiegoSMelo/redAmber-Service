@@ -1,12 +1,11 @@
 package br.com.sistema.redAmber.basicas.http;
 
-import br.com.sistema.redAmber.basicas.HoraAulaPK;
 import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
 
 public class HoraAulaHTTP {
 
-	private HoraAulaPK id;
+	private HoraAulaPKHTTP id;
 	
 	private DiasSemana dia;
 	
@@ -24,11 +23,11 @@ public class HoraAulaHTTP {
 
 	
 	
-	public HoraAulaPK getId() {
+	public HoraAulaPKHTTP getId() {
 		return id;
 	}
 
-	public void setId(HoraAulaPK id) {
+	public void setId(HoraAulaPKHTTP id) {
 		this.id = id;
 	}
 
