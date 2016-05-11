@@ -155,25 +155,29 @@ public class AulaWS {
 		aula.setId(aulaPK);
 		
 		
-		//add Aula
-		this.rnAula.addAula(aula);
+		if (this.rnAula.buscarAulaPorPK(aulaPK) == null) {
+
+			//add Aula
+			this.rnAula.addAula(aula);
+			
+		}
+		
 		
 		
 		/*
 		 * TIMESTAMP DAS HORAS
 		 */
-		Date horaInicio = new Date(Long.parseLong(horaAulaHTTP.getHoraInicio()));
-		Date horaFim = new Date(Long.parseLong(horaAulaHTTP.getHoraFim()));
+		Date horaInicio = new Date(Long.parseLong(horaAulaHTTP.getId().getHoraInicio()));
+		Date horaFim = new Date(Long.parseLong(horaAulaHTTP.getId().getHoraFim()));
 		
-		horaAula.setDia(horaAulaHTTP.getDia());
-		horaAula.setHoraFim(horaFim);
-		horaAula.setHoraInicio(horaInicio);
 		
 		HoraAulaPK haPK = new HoraAulaPK();
 		haPK.setTurma(horaAulaHTTP.getId().getTurma());
 		haPK.setAula(aula);
 		
-		
+		haPK.setDia(horaAulaHTTP.getId().getDia());
+		haPK.setHoraFim(horaFim);
+		haPK.setHoraInicio(horaInicio);
 		
 		horaAula.setId(haPK);
 		horaAula.setStatus(horaAulaHTTP.getStatus());

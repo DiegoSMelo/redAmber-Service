@@ -1,15 +1,9 @@
 package br.com.sistema.redAmber.basicas;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.enums.StatusHoraAula;
 
 @Entity
@@ -18,14 +12,7 @@ public class HoraAula {
 	@EmbeddedId
 	private HoraAulaPK id;
 	
-	@Enumerated
-	private DiasSemana dia;
-	
-	@Temporal(TemporalType.TIME)
-	private Date horaInicio;
-	
-	@Temporal(TemporalType.TIME)
-	private Date horaFim;
+
 	
 	@Enumerated
 	private StatusHoraAula status;
@@ -42,21 +29,7 @@ public class HoraAula {
 		this.id = id;
 	}
 
-	public Date getHoraInicio() {
-		return horaInicio;
-	}
-
-	public void setHoraInicio(Date horaInicio) {
-		this.horaInicio = horaInicio;
-	}
-
-	public Date getHoraFim() {
-		return horaFim;
-	}
-
-	public void setHoraFim(Date horaFim) {
-		this.horaFim = horaFim;
-	}
+	
 
 	public StatusHoraAula getStatus() {
 		return status;
@@ -66,11 +39,5 @@ public class HoraAula {
 		this.status = status;
 	}
 
-	public DiasSemana getDia() {
-		return dia;
-	}
-
-	public void setDia(DiasSemana dia) {
-		this.dia = dia;
-	}
+	
 }

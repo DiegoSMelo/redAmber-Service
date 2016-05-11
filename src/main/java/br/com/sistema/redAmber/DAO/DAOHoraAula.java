@@ -50,12 +50,20 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		
 		List<HoraAula> lista = this.listaHoraAulaPorIdTurma(idTurma);
 		
+		lista.forEach(value -> this.remover(value));
+		lista.forEach(value -> this.daoAula.remover(value.getId().getAula()));
+		
+		/*for (HoraAula horaAula : lista) {
+			
+			this.remover(horaAula);
+			
+		}	*/
+		/*
 		for (HoraAula horaAula : lista) {
 			
 			this.daoAula.remover(horaAula.getId().getAula());
-			this.remover(horaAula);
 			
-		}		
+		}*/
 		
 	}
 }
