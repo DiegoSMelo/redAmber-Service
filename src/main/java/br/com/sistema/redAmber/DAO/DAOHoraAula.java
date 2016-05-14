@@ -22,7 +22,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 	
 	public List<HoraAula> listaHoraAulaPorIdTurma(Long idTurma){
 		
-		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma";
+		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma ORDER BY ha.id.horaInicio ASC";
 		
 		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 		result.setParameter("idTurma", idTurma);
