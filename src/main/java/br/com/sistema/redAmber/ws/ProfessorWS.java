@@ -111,6 +111,14 @@ public class ProfessorWS {
 		return this.gson.toJson(lista);
 	}
 	
+	@GET
+	@Path("buscar-por-id/{id}")
+	@Produces("application/json")
+	public String buscarProfessorPorID(@PathParam("id") String id){
+		
+		return this.gson.toJson(this.rnProfessor.buscarPorId(Long.parseLong(id)));
+		
+	}
 	
 	@GET
 	@Path("buscar-por-rg/{rg}")
@@ -124,4 +132,15 @@ public class ProfessorWS {
 		}
 		
 	}	
+	
+	@GET
+	@Path("listar-por-disciplina/{idDisciplina}")
+	@Produces("application/json")
+	public String listarProfessoresPorDisciplina(@PathParam("idDisciplina") Long idDisciplina){
+		
+		List<Professor> lista = this.rnProfessor.listarProfessoresPorDisciplina(idDisciplina);
+		
+		return this.gson.toJson(lista);
+		
+	}
 }

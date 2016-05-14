@@ -5,36 +5,37 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
-import br.com.sistema.redAmber.basicas.enums.StatusDisciplina;
+import br.com.sistema.redAmber.basicas.enums.StatusEquipamento;
 
 @Entity
-public class Disciplina {
-	
+public class Equipamento {
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@Column(nullable=false, unique=true)
-	private String titulo;
-	
-	
 	private String descricao;
-	
+	@Column(unique=true)
+	private String tombo;
+	@OneToOne
+	private Sala sala;
 	@Enumerated
-	private StatusDisciplina status;
+	private StatusEquipamento status;
 
+	/*
+	 * Construtor padrão
+	 */
+	public Equipamento() {}
 	
-	public Disciplina() {
-		
-	}
-	
-	
-	public Disciplina(Long id, String titulo, String descricao, StatusDisciplina status) {
-		super();
+	/*
+	 * Construtor com parâmetros
+	 */
+	public Equipamento(Long id, String descricao, String tombo, Sala sala, StatusEquipamento status) {
 		this.id = id;
-		this.titulo = titulo;
 		this.descricao = descricao;
+		this.tombo = tombo;
+		this.sala = sala;
 		this.status = status;
 	}
 
@@ -44,7 +45,6 @@ public class Disciplina {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		
 		if (this == obj) {
 			return true;
 		}
@@ -54,40 +54,25 @@ public class Disciplina {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		
-		try {
-			
-			Disciplina other = (Disciplina) obj;
-			if (other.getId() != null && other.getId().intValue() == this.getId().intValue()) {
-				return true;
-			}
-			if (other.getTitulo() != null && other.getTitulo().equalsIgnoreCase(this.getTitulo())) {
-				return true;
-			}
-			
-		} catch (NullPointerException e) {
-			return false;
+		Equipamento other = (Equipamento) obj;
+		if (other.getId().intValue() == this.getId().intValue()) {
+			return true;
 		}
-		
+		if (other.getTombo().equalsIgnoreCase(this.getTombo())) {
+			return true;
+		}
 		return false;
-		
 	}
-	
-	
+
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getDescricao() {
@@ -97,12 +82,28 @@ public class Disciplina {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
+	public String getTombo() {
+		return tombo;
+	}
+	
+	public void setTombo(String tombo) {
+		this.tombo = tombo;
+	}
+	
+	public Sala getSala() {
+		return sala;
+	}
+	
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
 
-	public StatusDisciplina getStatus() {
+	public StatusEquipamento getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusDisciplina status) {
+	public void setStatus(StatusEquipamento status) {
 		this.status = status;
-	}	
+	}
 }
