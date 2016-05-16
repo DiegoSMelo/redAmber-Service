@@ -7,15 +7,33 @@
 	 <persistence-unit name="DB_mysql" transaction-type="RESOURCE_LOCAL">
 	 	
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>br.com.sistema.redAmber.basicas.Aluno</class>
-        <class>br.com.sistema.redAmber.basicas.Funcionario</class>
-        <class>br.com.sistema.redAmber.basicas.Professor</class>
-        <class>br.com.sistema.redAmber.basicas.GeralUsuario</class>
-        <class>br.com.sistema.redAmber.basicas.Usuario</class>
-         <class>br.com.sistema.redAmber.basicas.Matricula</class>
+	<class>br.com.sistema.redAmber.basicas.Aluno</class>
+	<class>br.com.sistema.redAmber.basicas.Funcionario</class>
+	<class>br.com.sistema.redAmber.basicas.Professor</class>
+	<class>br.com.sistema.redAmber.basicas.GeralUsuario</class>
+	<class>br.com.sistema.redAmber.basicas.Usuario</class>
+	<class>br.com.sistema.redAmber.basicas.Matricula</class>
+	<class>br.com.sistema.redAmber.basicas.Disciplina</class>
+	<class>br.com.sistema.redAmber.basicas.Curso</class>
+	<class>br.com.sistema.redAmber.basicas.Turma</class>
+	<class>br.com.sistema.redAmber.basicas.Grade</class>
+	<class>br.com.sistema.redAmber.basicas.Grade_Disciplina</class>
+	<class>br.com.sistema.redAmber.basicas.Grade_Disciplina_PK</class>
+	<class>br.com.sistema.redAmber.basicas.HoraAula</class>
+	<class>br.com.sistema.redAmber.basicas.Aula</class>
+	<class>br.com.sistema.redAmber.basicas.Sala</class>
+	<class>br.com.sistema.redAmber.basicas.Equipamento</class>
+	<class>br.com.sistema.redAmber.basicas.AulaPK</class>
+	<class>br.com.sistema.redAmber.basicas.HoraAulaPK</class>
+	<class>br.com.sistema.redAmber.basicas.AvisoAluno</class>
+	<class>br.com.sistema.redAmber.basicas.AvisoProfessor</class>
+	<class>br.com.sistema.redAmber.basicas.DuracaoAula</class>
+	<class>br.com.sistema.redAmber.basicas.ReservaEquipamento</class>
+	<class>br.com.sistema.redAmber.basicas.ReservaSala</class>
+	<class>br.com.sistema.redAmber.basicas.integracao.MatriculaIntegracao</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db_integracao" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="" />
             <property name="dialect" value="org.hibernate.dialect.MySQLDialect" />
@@ -24,7 +42,11 @@
             <property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
-             
+          
+          
+      
+            
+            
         </properties>
  
     </persistence-unit>

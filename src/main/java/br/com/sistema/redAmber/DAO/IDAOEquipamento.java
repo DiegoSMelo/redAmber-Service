@@ -7,6 +7,5 @@ import br.com.sistema.redAmber.exceptions.DAOException;
 public interface IDAOEquipamento extends IDAOGeneric<Equipamento> {
 	
 	public Equipamento consultarPorDescricao(String descricao) throws DAOException;
-	
 	public Equipamento consultarPorTombo(String tombo) throws DAOException;
 }

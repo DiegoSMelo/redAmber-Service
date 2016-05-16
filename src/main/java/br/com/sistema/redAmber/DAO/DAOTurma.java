@@ -16,7 +16,6 @@ public class DAOTurma extends DAOGeneric<Turma> implements IDAOTurma{
 		super(em);
 	}
 	
-	
 	@Override
 	public List<Turma> consultarTurmasPorCursoTurno(Curso curso, TipoTurno turno) {
 		

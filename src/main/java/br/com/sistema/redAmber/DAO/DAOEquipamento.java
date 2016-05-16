@@ -26,7 +26,7 @@ public class DAOEquipamento extends DAOGeneric<Equipamento> implements IDAOEquip
 		} catch (NoResultException e2) {
 			return null;
 		} catch (Exception e) {
-			throw new DAOException(Mensagens.m4);
+			throw new DAOException(Mensagens.m9);
 		}
 	}
 	
@@ -41,7 +41,7 @@ public class DAOEquipamento extends DAOGeneric<Equipamento> implements IDAOEquip
 		} catch (NoResultException e2) {
 			return null;
 		} catch (Exception e) {
-			throw new DAOException(Mensagens.m4);
+			throw new DAOException(Mensagens.m9);
 		}
 	}
 }

@@ -30,13 +30,19 @@ public class DAOMatricula extends DAOGeneric<Matricula> implements IDAOMatricula
 
 
 	@Override
-	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula) {
-		String jpql = "SELECT m FROM Matricula m WHERE m.codigoMatricula = :codigoMatricula";
-		
-		TypedQuery<Matricula> result = this.entityManager.createQuery(jpql, Matricula.class);
-		result.setParameter("codigoMatricula", codigoMatricula);
-		
-		return result.getSingleResult();
+	public Matricula buscarMatriculaPorCodigoMatricula(String codigoMatricula) throws DAOException {
+		try {
+			String jpql = "SELECT m FROM Matricula m WHERE m.codigoMatricula = :codigoMatricula";
+			
+			TypedQuery<Matricula> result = this.entityManager.createQuery(jpql, Matricula.class);
+			result.setParameter("codigoMatricula", codigoMatricula);
+			
+			return result.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} catch (Exception e) {
+			throw new DAOException(Mensagens.m7);
+		}
 	}
 	
 	@Override
@@ -48,13 +54,13 @@ public class DAOMatricula extends DAOGeneric<Matricula> implements IDAOMatricula
 			TypedQuery<Matricula> result = this.entityManager.createQuery(jpql, Matricula.class);
 			result.setParameter("idAluno", idAluno);
 			result.setParameter("idCurso", idCurso);
-			result.setParameter("status", StatusMatricula.ATIVO);
+			result.setParameter("status", StatusMatricula.ATIVA);
 			
 			return result.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		} catch (Exception e) {
-			throw new DAOException(Mensagens.m4);
+			throw new DAOException(Mensagens.m7);
 		}
 	}
 }

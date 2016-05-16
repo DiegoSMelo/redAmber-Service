@@ -1,19 +1,16 @@
 package br.com.sistema.redAmber.basicas.enums;
 
 public enum StatusDisciplina {
-	ATIVO {
+	ATIVA {
 		@Override
 		public String toString() {
-
-			return "Ativo";
+			return "Ativa";
 		}
 	},
-	INATIVO {
+	INATIVA {
 		@Override
 		public String toString() {
-
-			return "Inativo";
+			return "Inativa";
 		}
 	}
-
 }
