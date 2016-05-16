@@ -149,4 +149,14 @@ public class ReservaEquipamentoWS {
 		}
 		return this.gson.toJson(resultado);
 	}
+	
+	@GET
+	@Path("quantidade-do-dia")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String consultarQuantidadeDeHoje() {
+		
+		Integer retorno;
+		retorno = this.rnReservaEquipamento.consultarQuantidadeDeHoje();
+		return this.gson.toJson(retorno);
+	}
 }

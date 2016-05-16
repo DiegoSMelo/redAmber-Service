@@ -29,7 +29,6 @@ public class TurmaWS {
 	private Gson gson;
 	
 	public TurmaWS() {
-		
 		this.rnTurma = new RNTurma();
 		this.rnCurso = new RNCurso();
 		this.gson = new Gson();
@@ -40,9 +39,7 @@ public class TurmaWS {
 	@Consumes("application/json")
 	@Produces("text/plain")
 	public String salvarTurma(String jsonTurmaHTTP){
-		
 		try {
-			
 			Turma turma = new Turma();
 			TurmaHTTP turmaHTTP = this.gson.fromJson(jsonTurmaHTTP, TurmaHTTP.class);
 			
@@ -57,28 +54,21 @@ public class TurmaWS {
 					turma.setTurno(TipoTurno.values()[i]);
 				}
 			}
-				
 			turma.setStatus(turmaHTTP.getStatus());
-			
-			
 			this.rnTurma.salvar(turma);
 			return "Turma salva com sucesso.";
-			
 		} catch (JsonSyntaxException e) {
 			return null;
 		} catch (DAOException e) {
 			return null;
 		}
-		
 	}
 	
 	@GET
 	@Path("listar")
 	@Produces("application/json")
 	public String listarTurmas(){
-		
-		List<Turma> lista = this.rnTurma.listarTurmas();
-				
+		List<Turma> lista = this.rnTurma.listarTurmas();		
 		return this.gson.toJson(lista);
 	}
 	
@@ -87,9 +77,7 @@ public class TurmaWS {
 	@Path("buscar-por-id/{id}")
 	@Produces("application/json")
 	public String buscarTurmaPorId(@PathParam("id") String id){
-		
 		return this.gson.toJson(this.rnTurma.buscarPorId(Long.parseLong(id)));
-				
 	}
 	
 	@GET
@@ -99,10 +87,8 @@ public class TurmaWS {
 			@PathParam("turno") String jsonTurno) {
 		System.out.println("JSON TURNO: " + jsonTurno);
 		Curso curso = new Curso();
-		
 		Long idCurso = gson.fromJson(jsonCurso, Long.class);
 		curso = rnCurso.buscarCursoPorID(idCurso);
-		
 		TipoTurno turno = null;
 		
 		if (jsonTurno.equalsIgnoreCase("MANHA") || jsonTurno.equalsIgnoreCase("Manhã")) {

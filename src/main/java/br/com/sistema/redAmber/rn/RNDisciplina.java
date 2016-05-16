@@ -25,7 +25,7 @@ public class RNDisciplina {
 		
 		
 		if (disciplinaExistente == null) {	
-			disciplina.setStatus(StatusDisciplina.ATIVO);
+			disciplina.setStatus(StatusDisciplina.ATIVA);
 			this.daoDisciplina.inserir(disciplina);
 			
 		}else{

@@ -7,7 +7,6 @@ public enum TipoFuncionario {
 			return "Coordenador";
 		}
 	},
-
 	S {
 		@Override
 		public String toString() {

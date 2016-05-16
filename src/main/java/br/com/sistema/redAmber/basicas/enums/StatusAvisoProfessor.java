@@ -1,16 +1,16 @@
 package br.com.sistema.redAmber.basicas.enums;
 
 public enum StatusAvisoProfessor {
-	ATIVO {
+	ENVIADO {
 		@Override
 		public String toString() {
-			return "Ativo";
+			return "Enviado";
 		}
 	},
-	INATIVO {
+	RECEBIDO {
 		@Override
 		public String toString(){
-			return "Inativo";
+			return "Recebido";
 		}
 	}
 }

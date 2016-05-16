@@ -29,12 +29,12 @@
 	<class>br.com.sistema.redAmber.basicas.ReservaEquipamento</class>
 	<class>br.com.sistema.redAmber.basicas.ReservaSala</class>
 	<class>br.com.sistema.redAmber.basicas.AvisoProfessor</class>
-	<class>br.com.sistema.redAmber.basicas.AvisoProfessor_Turma</class>
-	<class>br.com.sistema.redAmber.basicas.AvisoProfessor_TurmaPK</class>
+	<class>br.com.sistema.redAmber.basicas.AvisoAluno</class>
+	<class>br.com.sistema.redAmber.basicas.integracao.MatriculaIntegracao</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/redamber_db_vazio" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="" />
             <property name="dialect" value="org.hibernate.dialect.MySQLDialect" />

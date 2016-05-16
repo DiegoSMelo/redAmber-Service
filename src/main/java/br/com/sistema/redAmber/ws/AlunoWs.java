@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.ws;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
+import br.com.sistema.redAmber.basicas.BuscaAluno;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
@@ -151,6 +153,22 @@ public class AlunoWs {
 		List<Aluno> listaAlunos = this.rnAluno.listarTodosAlunos();
 
 		return this.gson.toJson(listaAlunos);
-
+	}
+	
+	@POST
+	@Path("buscar-por-nome-rg")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarAlunoPorNomeRG(String buscaAluno) {
+		
+		BuscaAluno consulta = new BuscaAluno();
+		consulta = this.gson.fromJson(buscaAluno, BuscaAluno.class);
+		List<Aluno> listaAlunos = new ArrayList<Aluno>();
+		try {
+			listaAlunos = this.rnAluno.buscarAlunosPorNomeRG(consulta);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return this.gson.toJson(listaAlunos);
 	}
 }

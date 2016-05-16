@@ -1,6 +1,8 @@
 package br.com.sistema.redAmber.DAO;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -47,6 +49,43 @@ implements IDAOReservaEquipamento {
 			result.setParameter("idHorario", idHorario);
 			return result.getSingleResult();
 		} catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public Integer consultarQuantidadeDeHoje() {
+		
+		List<ReservaEquipamento> lista = new ArrayList<ReservaEquipamento>();
+		Integer quantidade = 0;
+		Calendar dataReserva = Calendar.getInstance();
+		Date hoje = new Date();
+		dataReserva.setTime(hoje);
+		int paramDia = hoje.getDay();
+		int paramMes = hoje.getMonth();
+		int paramAno = hoje.getYear();
+		
+		try {
+			TypedQuery<ReservaEquipamento> result = entityManager
+					.createQuery("SELECT re FROM ReservaEquipamento re WHERE"
+							+ " re.status = :status", 
+							ReservaEquipamento.class);
+			result.setParameter("status", StatusReserva.PENDENTE);
+			lista = result.getResultList();
+			
+			for(ReservaEquipamento reserva : lista) {
+				if (reserva.getDataReserva().getTime().getDay() == paramDia && 
+						reserva.getDataReserva().getTime().getMonth() == paramMes && 
+						reserva.getDataReserva().getTime().getYear() == paramAno) {
+					quantidade++;
+				}
+			}
+			return quantidade;
+		} catch (NoResultException e2) {
+			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

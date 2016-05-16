@@ -36,7 +36,6 @@ public class MatriculaWS {
 	private RNCurso rnCurso;
 	
 	public MatriculaWS() {
-		
 		this.rnMatricula = new RNMatricula();
 		this.rnGrade = new RNGrade();
 		this.rnCurso = new RNCurso();
@@ -48,7 +47,6 @@ public class MatriculaWS {
 	@Consumes("application/json")
 	@Produces("text/plain")
 	public String salvarMatricula(String jsonMatricula){
-	
 		Matricula matricula = new Matricula();
 		Aluno aluno = new Aluno();
 		Turma turma = new Turma();
@@ -96,9 +94,7 @@ public class MatriculaWS {
 			Grade grade = rnGrade.buscarGradePorId(id);
 			matricula.setGrade(grade);
 		}
-		
 		this.rnMatricula.salvar(matricula);
-		
 		return "Matrícula salva com sucesso.";
 	}
 	
@@ -106,7 +102,6 @@ public class MatriculaWS {
 	@Path("aluno/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String listarMatriculasPorIdAluno(@PathParam("id") String id){
-		
 		List<Matricula> lista =  this.rnMatricula.listarMatriculasPorIdAluno(Long.parseLong(id));
 		return this.gson.toJson(lista);
 	}
@@ -115,7 +110,6 @@ public class MatriculaWS {
 	@Path("buscar-por-codigo/{codigo}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarMatriculaPorCodigoMatricula(@PathParam("codigo") String codigo) {
-		
 		String retorno = null;
 		try {
 			Matricula matricula = this.rnMatricula.buscarMatriculaPorCodigoMatricula(codigo);
@@ -130,7 +124,6 @@ public class MatriculaWS {
 	@Path("buscar-por-id/{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarMatriculaPorId(@PathParam("id") String id) {
-		
 		String retorno = null;
 		try {
 			Matricula matricula = this.rnMatricula.buscarMatriculaPorId(Long.parseLong(id));
@@ -146,7 +139,6 @@ public class MatriculaWS {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarMatriculaAtivaPorCurso(@PathParam("idAluno") String idAluno, 
 			@PathParam("idCurso") String idCurso) {
-		
 		String retorno = null;
 		try {
 			Matricula matricula = this.rnMatricula.buscarMatriculaAtivaPorCurso(Long.parseLong(idAluno), 

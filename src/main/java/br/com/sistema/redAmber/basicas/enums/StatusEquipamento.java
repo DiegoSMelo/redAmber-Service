@@ -4,15 +4,13 @@ public enum StatusEquipamento {
 	ATIVO {
 		@Override
 		public String toString() {
-
 			return "Ativo";
 		}
 	},
 	INATIVO {
 		@Override
 		public String toString() {
-
 			return "Inativo";
 		}
-	}	
+	}
 }

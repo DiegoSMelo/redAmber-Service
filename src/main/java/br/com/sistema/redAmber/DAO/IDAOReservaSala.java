@@ -9,7 +9,7 @@ import br.com.sistema.redAmber.basicas.ReservaSala;
 public interface IDAOReservaSala extends IDAOGeneric<ReservaSala> {
 	
 	public List<ReservaSala> buscarReservasPendentes();
-	
 	public ReservaSala verificarReservasPorDataReservaHorario(Long idSala, 
 			Calendar dataReserva, Long idHorario);
+	public Integer consultarQuantidadeDeHoje();
 }

@@ -44,12 +44,12 @@ public class RNReservaEquipamento {
 		return daoReservaEquipamento.buscarReservasPendentes();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public ReservaEquipamento verificarReservasPorDataReservaHorario(Long idEquipamento, 
 			Calendar dataReserva, Long idHorario) throws RNException {
 		
 		Date reserva = dataReserva.getTime();
 		Date hoje = new Date();
-		boolean teste = reserva.before(hoje);
 		if (reserva.getDate() == hoje.getDate() && reserva.getMonth() == hoje.getMonth() &&
 				reserva.getYear() == hoje.getYear()) {
 			return daoReservaEquipamento.verificarReservasPorDataReservaHorario(idEquipamento, 
@@ -61,5 +61,9 @@ public class RNReservaEquipamento {
 		
 		return daoReservaEquipamento.verificarReservasPorDataReservaHorario(idEquipamento, 
 				dataReserva, idHorario);
+	}
+	
+	public Integer consultarQuantidadeDeHoje() {
+		return daoReservaEquipamento.consultarQuantidadeDeHoje();
 	}
 }

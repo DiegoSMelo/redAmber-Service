@@ -43,12 +43,12 @@ public class RNReservaSala {
 		return daoReservaSala.buscarReservasPendentes();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public ReservaSala verificarReservasPorDataReservaHorario(Long idSala, 
 			Calendar dataReserva, Long idHorario) throws RNException {
 		
 		Date reserva = dataReserva.getTime();
 		Date hoje = new Date();
-		boolean teste = reserva.before(hoje);
 		if (reserva.getDate() == hoje.getDate() && reserva.getMonth() == hoje.getMonth() &&
 				reserva.getYear() == hoje.getYear()) {
 			return daoReservaSala.verificarReservasPorDataReservaHorario(idSala, dataReserva, idHorario);
@@ -58,5 +58,9 @@ public class RNReservaSala {
 		}
 		
 		return daoReservaSala.verificarReservasPorDataReservaHorario(idSala, dataReserva, idHorario);
+	}
+	
+	public Integer consultarQuantidadeDeHoje() {
+		return daoReservaSala.consultarQuantidadeDeHoje();
 	}
 }

@@ -54,7 +54,7 @@ public class DAOMatricula extends DAOGeneric<Matricula> implements IDAOMatricula
 			TypedQuery<Matricula> result = this.entityManager.createQuery(jpql, Matricula.class);
 			result.setParameter("idAluno", idAluno);
 			result.setParameter("idCurso", idCurso);
-			result.setParameter("status", StatusMatricula.ATIVO);
+			result.setParameter("status", StatusMatricula.ATIVA);
 			
 			return result.getSingleResult();
 		} catch (NoResultException e) {

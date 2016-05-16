@@ -1,11 +1,12 @@
 package br.com.sistema.redAmber.rn;
 
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOAvisoProfessor;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.AvisoProfessor;
-import br.com.sistema.redAmber.basicas.enums.StatusAvisoProfessor;
+import br.com.sistema.redAmber.exceptions.DAOException;
 
 public class RNAvisoProfessor {
 
@@ -23,7 +24,6 @@ public class RNAvisoProfessor {
 		}
 		
 		if(avisoProfessorExistente == null) {
-			avisoProfessor.setStatusAvisoProfessor(StatusAvisoProfessor.ATIVO);
 			this.daoAvisoProfessor.inserir(avisoProfessor);
 		} else {
 			avisoProfessor.setId(avisoProfessorExistente.getId());
@@ -37,5 +37,13 @@ public class RNAvisoProfessor {
 	
 	public List<AvisoProfessor> listarTodos() {
 		return daoAvisoProfessor.consultarTodos();
+	}
+	
+	public List<AvisoProfessor> consultarPorData(Calendar data) throws DAOException {
+		return daoAvisoProfessor.consultarPorData(data);
+	}
+	
+	public Integer consultarQuantidadeDeHoje() {
+		return daoAvisoProfessor.consultarQuantidadeDeHoje();
 	}
 }

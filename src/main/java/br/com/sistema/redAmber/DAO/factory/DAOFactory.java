@@ -5,8 +5,8 @@ import javax.persistence.Persistence;
 
 import br.com.sistema.redAmber.DAO.DAOAluno;
 import br.com.sistema.redAmber.DAO.DAOAula;
+import br.com.sistema.redAmber.DAO.DAOAvisoAluno;
 import br.com.sistema.redAmber.DAO.DAOAvisoProfessor;
-import br.com.sistema.redAmber.DAO.DAOAvisoProfessor_Turma;
 import br.com.sistema.redAmber.DAO.DAOCurso;
 import br.com.sistema.redAmber.DAO.DAODisciplina;
 import br.com.sistema.redAmber.DAO.DAODuracaoAula;
@@ -16,6 +16,7 @@ import br.com.sistema.redAmber.DAO.DAOGrade;
 import br.com.sistema.redAmber.DAO.DAOGrade_Disciplina;
 import br.com.sistema.redAmber.DAO.DAOHoraAula;
 import br.com.sistema.redAmber.DAO.DAOMatricula;
+import br.com.sistema.redAmber.DAO.DAOMatriculaIntegracao;
 import br.com.sistema.redAmber.DAO.DAOProfessor;
 import br.com.sistema.redAmber.DAO.DAOReservaEquipamento;
 import br.com.sistema.redAmber.DAO.DAOReservaSala;
@@ -23,8 +24,8 @@ import br.com.sistema.redAmber.DAO.DAOSala;
 import br.com.sistema.redAmber.DAO.DAOTurma;
 import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.IDAOAula;
+import br.com.sistema.redAmber.DAO.IDAOAvisoAluno;
 import br.com.sistema.redAmber.DAO.IDAOAvisoProfessor;
-import br.com.sistema.redAmber.DAO.IDAOAvisoProfessor_Turma;
 import br.com.sistema.redAmber.DAO.IDAOCurso;
 import br.com.sistema.redAmber.DAO.IDAODisciplina;
 import br.com.sistema.redAmber.DAO.IDAODuracaoAula;
@@ -34,6 +35,7 @@ import br.com.sistema.redAmber.DAO.IDAOGrade;
 import br.com.sistema.redAmber.DAO.IDAOGrade_Disciplina;
 import br.com.sistema.redAmber.DAO.IDAOHoraAula;
 import br.com.sistema.redAmber.DAO.IDAOMatricula;
+import br.com.sistema.redAmber.DAO.IDAOMatriculaIntegracao;
 import br.com.sistema.redAmber.DAO.IDAOProfessor;
 import br.com.sistema.redAmber.DAO.IDAOReservaEquipamento;
 import br.com.sistema.redAmber.DAO.IDAOReservaSala;
@@ -59,9 +61,10 @@ private static IDAOHoraAula daoHoraAula;
 private static IDAOReservaEquipamento daoReservaEquipamento;
 private static IDAOReservaSala daoReservaSala;
 private static IDAOAvisoProfessor daoAvisoProfessor;
-private static IDAOAvisoProfessor_Turma daoAvisoProfessor_Turma;
+private static IDAOAvisoAluno daoAvisoAluno;
 private static IDAOAula daoAula;
 private static IDAODuracaoAula daoDuracaoAula;
+private static IDAOMatriculaIntegracao daoMatriculaIntegracao;
 /////////////////////////ATRIBUTOS/////////////////////////////	
 
 
@@ -154,9 +157,9 @@ public static IDAOAvisoProfessor getDaoAvisoProfessor() {
 	return daoAvisoProfessor;
 }
 
-public static IDAOAvisoProfessor_Turma getDaoAvisoProfessor_Turma() {
-	daoAvisoProfessor_Turma = new DAOAvisoProfessor_Turma(factory.createEntityManager());
-	return daoAvisoProfessor_Turma;
+public static IDAOAvisoAluno getDaoAvisoAluno() {
+	daoAvisoAluno = new DAOAvisoAluno(factory.createEntityManager());
+	return daoAvisoAluno;
 }
 
 public static IDAOAula getDaoAula() {
@@ -167,6 +170,11 @@ public static IDAOAula getDaoAula() {
 public static IDAODuracaoAula getDaoDuracaoAula() {
 	daoDuracaoAula = new DAODuracaoAula(factory.createEntityManager());
 	return daoDuracaoAula;
+}
+
+public static IDAOMatriculaIntegracao getDaoMatriculaIntegracao() {
+	daoMatriculaIntegracao = new DAOMatriculaIntegracao(factory.createEntityManager());
+	return daoMatriculaIntegracao;
 }
 /////////////////////////MÉTODOS DE CHAMADA DO DAO/////////////////////////////			
 
