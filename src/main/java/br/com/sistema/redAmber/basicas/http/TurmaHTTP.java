@@ -15,7 +15,9 @@ public class TurmaHTTP {
 	
 	private StatusTurma status;
 
-	
+	/*
+	 * Getters and setters	
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -31,8 +33,6 @@ public class TurmaHTTP {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
 
 	public TipoTurno getTurno() {
 		return turno;
@@ -57,5 +57,4 @@ public class TurmaHTTP {
 	public void setIdCurso(Long idCurso) {
 		this.idCurso = idCurso;
 	}
-
 }

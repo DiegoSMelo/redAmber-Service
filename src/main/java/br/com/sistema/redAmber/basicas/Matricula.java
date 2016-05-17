@@ -25,14 +25,23 @@ public class Matricula {
 	@ManyToOne
 	private Aluno aluno;
 	
+	@ManyToOne
+	private Grade grade;
+	
 	@Temporal(TemporalType.DATE)
 	private Calendar dataMatricula;
+	
+	private Integer entrada;
+	
+	@ManyToOne
+	private Turma turma;
 	
 	@Enumerated
 	private StatusMatricula status;
 	
-	
-
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -64,8 +73,36 @@ public class Matricula {
 	public void setDataMatricula(Calendar dataMatricula) {
 		this.dataMatricula = dataMatricula;
 	}
+
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+
+	public StatusMatricula getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusMatricula status) {
+		this.status = status;
+	}
 	
-	
-	
-	
+	public Integer getEntrada() {
+		 return entrada;
+	}
+		 
+	public void setEntrada(Integer entrada) {
+		 this.entrada = entrada;
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
 }

@@ -1,8 +1,5 @@
 package br.com.sistema.redAmber.DAO;
 
-import java.util.Calendar;
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -54,23 +51,5 @@ public class DAOCurso extends DAOGeneric<Curso> implements IDAOCurso {
 		}
 	}
 	
-	public List<Curso> buscarCursosPorDatas(Calendar dataInicial, Calendar dataFinal) throws DAOException{
-		try {
-			TypedQuery<Curso> result = entityManager.createQuery("SELECT c FROM Curso c WHERE c.dataInicio between :dataInicial and :dataFinal", Curso.class);
-			result.setParameter("dataInicial", dataInicial);
-			result.setParameter("dataFinal", dataFinal);
 
-			return result.getResultList();
-
-			
-		}catch (NoResultException e2) {
-			return null;
-		} 
-		catch (Exception e) {
-			throw new DAOException(Mensagens.m3);
-		}
-	}
-	
-	
-	
 }

@@ -7,6 +7,4 @@ import br.com.sistema.redAmber.exceptions.DAOException;
 public interface IDAODisciplina extends IDAOGeneric<Disciplina> {
 	
 	public Disciplina buscarDisciplinaPorTitulo(String titulo) throws DAOException;
-	
-
 }
