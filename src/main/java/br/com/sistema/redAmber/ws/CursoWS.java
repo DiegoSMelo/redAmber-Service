@@ -127,10 +127,14 @@ public class CursoWS {
 		grade.setCurso(gradeHTTP.getCurso());
 		grade.setTitulo(gradeHTTP.getTitulo());
 		grade.setStatus(gradeHTTP.getStatus());
+		try {
+			grade.setVigente(gradeHTTP.isVigente());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		this.rnGrade.salvar(grade);
 		return "Grade salva com sucesso!";
-
 	}
 	
 	@GET

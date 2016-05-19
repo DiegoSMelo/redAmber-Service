@@ -70,7 +70,7 @@ public class MatriculaWS {
 		turma.setTurno(turmaHTTP.getTurno());
 		turma.setStatus(turmaHTTP.getStatus());
 		
-		Curso curso = rnCurso.buscarCursoPorID(turmaHTTP.getIdCurso());
+		Curso curso = rnCurso.buscarCursoPorID(turmaHTTP.getCurso().getId());
 		
 		turma.setCurso(curso);
 		

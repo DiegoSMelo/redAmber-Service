@@ -32,11 +32,62 @@ public class DAOAvisoProfessor extends DAOGeneric<AvisoProfessor> implements IDA
 		} catch (NoResultException e2) {
 			return null;
 		} catch (Exception e) {
-			throw new DAOException(Mensagens.m4);
+			throw new DAOException(Mensagens.m10);
 		}
 	}
 	
+	@Override
+	public List<AvisoProfessor> consultarPendentes() throws DAOException {
+		try {
+			TypedQuery<AvisoProfessor> result = entityManager
+					.createQuery("SELECT ap FROM AvisoProfessor ap "
+							+ "WHERE ap.statusAvisoProfessor = :statusAvisoProfessor", 
+							AvisoProfessor.class);
+			result.setParameter("statusAvisoProfessor", StatusAvisoProfessor.ENVIADO);
+			return result.getResultList();
+		} catch (NoResultException e2) {
+			return null;
+		} catch (Exception e) {
+			throw new DAOException(Mensagens.m10);
+		}
+	}
 
+	@Override
+	public List<AvisoProfessor> consultarPorProfessorData(Long idProfessor, 
+			Calendar dataAviso) throws DAOException {
+		try {
+			String sql = "SELECT ap FROM AvisoProfessor ap";
+			
+			if (idProfessor != null && dataAviso == null) {
+				sql += " WHERE ap.professor.id = :idProfessor";
+			}
+			if (idProfessor == null && dataAviso != null) {
+				sql += " WHERE ap.dataAviso = :dataAviso";
+			}
+			if (idProfessor != null && dataAviso != null) {
+				sql += " WHERE ap.professor.id = :idProfessor AND ap.dataAviso = :dataAviso";
+			}
+			
+			TypedQuery<AvisoProfessor> result = entityManager.createQuery(sql, AvisoProfessor.class);
+			
+			if (idProfessor != null && dataAviso == null) {
+				result.setParameter("idProfessor", idProfessor);
+			}
+			if (idProfessor == null && dataAviso != null) {
+				result.setParameter("dataAviso", dataAviso);
+			}
+			if (idProfessor != null && dataAviso != null) {
+				result.setParameter("idProfessor", idProfessor);
+				result.setParameter("dataAviso", dataAviso);
+			}
+			return result.getResultList();
+		} catch (NoResultException e2) {
+			return null;
+		} catch (Exception e) {
+			throw new DAOException(Mensagens.m10);
+		}
+	}
+	
 	@Override
 	@SuppressWarnings("deprecation")
 	public Integer consultarQuantidadeDeHoje() {

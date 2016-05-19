@@ -83,12 +83,30 @@ public class Curso {
 		this.cargaHorariaTotal = cargaHorariaTotal;
 	}
 
-	public Boolean equals(Curso curso){
-	 if(curso.getNome().equals(this.getNome()) || curso.getSigla().equals(this.getSigla())){
-		 return true;
-	 }
-	 return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Curso other = (Curso) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (sigla == null) {
+			if (other.sigla != null)
+				return false;
+		} else if (!sigla.equals(other.sigla))
+			return false;
+		return true;
 	}
-	
-
 }

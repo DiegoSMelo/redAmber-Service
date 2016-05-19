@@ -11,4 +11,5 @@ public class Mensagens {
 	public static String m7 = "Matrícula não encontrada";
 	public static String m8 = "A data da reserva é anterior à data atual.";
 	public static String m9 = "Equipamento não encontrado.";
+	public static String m10 = "Nenhum aviso encontrado.";
 }

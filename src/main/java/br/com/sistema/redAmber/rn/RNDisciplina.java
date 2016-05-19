@@ -44,4 +44,16 @@ public class RNDisciplina {
 	public Disciplina buscarDisciplinaPorTitulo(String titulo) throws DAOException {
 		return this.daoDisciplina.buscarDisciplinaPorTitulo(titulo);
 	}
+	
+	public Disciplina buscarDisciplinaPorTituloCurso(String titulo, Long idCurso) throws DAOException {
+		return this.daoDisciplina.buscarDisciplinaPorTituloCurso(titulo, idCurso);
+	}
+	
+	public List<Disciplina> buscarDisciplinasPorCurso(Long idCurso) throws DAOException {
+		return this.daoDisciplina.buscarDisciplinasPorCurso(idCurso);
+	}
+	
+	public List<Disciplina> buscarDisciplinasAtivas() throws DAOException {
+		return this.daoDisciplina.buscarDisciplinasAtivas();
+	}
 }

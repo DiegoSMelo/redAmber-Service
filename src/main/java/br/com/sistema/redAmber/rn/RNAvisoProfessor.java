@@ -43,6 +43,15 @@ public class RNAvisoProfessor {
 		return daoAvisoProfessor.consultarPorData(data);
 	}
 	
+	public List<AvisoProfessor> consultarPendentes() throws DAOException {
+		return daoAvisoProfessor.consultarPendentes();
+	}
+	
+	public List<AvisoProfessor> consultarPorProfessorData(Long idProfessor, 
+			Calendar dataAviso) throws DAOException {
+		return daoAvisoProfessor.consultarPorProfessorData(idProfessor, dataAviso);
+	}
+	
 	public Integer consultarQuantidadeDeHoje() {
 		return daoAvisoProfessor.consultarQuantidadeDeHoje();
 	}

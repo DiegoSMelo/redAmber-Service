@@ -16,6 +16,7 @@ import com.google.gson.JsonSyntaxException;
 import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.TipoTurno;
+import br.com.sistema.redAmber.basicas.http.CursoHTTP;
 import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNCurso;
@@ -41,20 +42,24 @@ public class TurmaWS {
 	public String salvarTurma(String jsonTurmaHTTP) {
 		try {
 			Turma turma = new Turma();
+			Curso curso = new Curso();
+			
 			TurmaHTTP turmaHTTP = this.gson.fromJson(jsonTurmaHTTP, TurmaHTTP.class);
-
+			CursoHTTP cursoHTTP = turmaHTTP.getCurso();
+			curso = this.rnCurso.buscarCursoPorID(cursoHTTP.getId());
+			
 			turma.setId(turmaHTTP.getId());
 			turma.setNome(turmaHTTP.getNome());
-
-			Curso curso = this.rnCurso.buscarCursoPorID(turmaHTTP.getIdCurso());
 			turma.setCurso(curso);
-
-			for (int i = 0; i < TipoTurno.values().length; i++) {
-				if (TipoTurno.values()[i].toString().equalsIgnoreCase(turmaHTTP.getTurno().toString())) {
-					turma.setTurno(TipoTurno.values()[i]);
-				}
-			}
+			turma.setTurno(turmaHTTP.getTurno());
 			turma.setStatus(turmaHTTP.getStatus());
+
+//			for (int i = 0; i < TipoTurno.values().length; i++) {
+//				if (TipoTurno.values()[i].toString().equalsIgnoreCase(turmaHTTP.getTurno().toString())) {
+//					turma.setTurno(TipoTurno.values()[i]);
+//				}
+//			}
+//			turma.setStatus(turmaHTTP.getStatus());
 			this.rnTurma.salvar(turma);
 			return "Turma salva com sucesso.";
 		} catch (JsonSyntaxException e) {

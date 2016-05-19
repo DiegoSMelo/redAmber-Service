@@ -8,6 +8,7 @@ import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.BuscaProfessor;
 import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
 
@@ -24,7 +25,7 @@ public class RNProfessor {
 	public void salvar(Professor professor) throws DAOException {
 
 		Professor professorExistente = null;
-		
+		Usuario usuario = new Usuario();
 		if (professor.getId() != null) {
 			professorExistente = this.daoProfessor.consultarPorId(professor.getId());
 		}
@@ -34,6 +35,13 @@ public class RNProfessor {
 			this.daoProfessor.inserir(professor);
 		} else {
 			professor.setId(professorExistente.getId());
+			if (professor.getUsuario() != null) {
+				usuario.setId(professor.getId());
+				usuario.setLogin(professor.getUsuario().getLogin());
+				//usuario.setSenha(Criptografia.criptografarSenhas(professor.getUsuario().getSenha()));
+				usuario.setSenha(professor.getUsuario().getSenha());
+				professor.setUsuario(usuario);
+			}
 			this.daoProfessor.alterar(professor);
 		}
 	}
