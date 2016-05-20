@@ -18,6 +18,7 @@ import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.BuscaAluno;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
@@ -82,6 +83,12 @@ public class AlunoWs {
 		try {
 			Aluno aluno = new Aluno();
 			AlunoHTTP alunoHTTP = this.gson.fromJson(jsonAluno, AlunoHTTP.class);
+			Usuario usuario = new Usuario();
+			usuario = alunoHTTP.getUsuario();
+			
+			if (usuario != null) {
+				aluno.setUsuario(usuario);
+			}
 			
 			Calendar dataNascimento = Datas
 					.converterDateToCalendar(new Date(Long.parseLong(alunoHTTP.getDataNascimento())));

@@ -18,6 +18,7 @@ import br.com.sistema.redAmber.basicas.Curso;
 import br.com.sistema.redAmber.basicas.Grade;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.enums.StatusMatricula;
+import br.com.sistema.redAmber.basicas.http.CursoHTTP;
 import br.com.sistema.redAmber.basicas.http.MatriculaIntegracaoHTTP;
 import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.basicas.integracao.MatriculaIntegracao;
@@ -80,16 +81,18 @@ public class MatriculaIntegracaoWS {
 	public String salvarMatricula(String jsonMatricula) {
 		MatriculaIntegracao matricula = new MatriculaIntegracao();
 		Turma turma = new Turma();
+		Curso curso = new Curso();
 		MatriculaIntegracaoHTTP matriculaHTTP = this.gson.fromJson(jsonMatricula, 
 				MatriculaIntegracaoHTTP.class);
 		TurmaHTTP turmaHTTP = matriculaHTTP.getTurma();
+		CursoHTTP cursoHTTP = turmaHTTP.getCurso();
 		
 		turma.setId(turmaHTTP.getId());
 		turma.setNome(turmaHTTP.getNome());
 		turma.setTurno(turmaHTTP.getTurno());
 		turma.setStatus(turmaHTTP.getStatus());
 		
-		Curso curso = rnCurso.buscarCursoPorID(turmaHTTP.getIdCurso());
+		curso = rnCurso.buscarCursoPorID(cursoHTTP.getId());
 		
 		turma.setCurso(curso);
 		

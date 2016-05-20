@@ -27,6 +27,7 @@ import com.google.gson.JsonSyntaxException;
 import br.com.sistema.redAmber.basicas.BuscaProfessor;
 import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNProfessor;
@@ -71,6 +72,13 @@ public class ProfessorWS {
 			 */
 			ProfessorHTTP professorHTTP = this.gson.fromJson(jsonProfessor, ProfessorHTTP.class);
 
+			Usuario usuario = new Usuario();
+			usuario = professorHTTP.getUsuario();
+			
+			if (usuario != null) {
+				professor.setUsuario(usuario);
+			}
+			
 			Calendar dataNascimento = Datas
 					.converterDateToCalendar(new Date(Long.parseLong(professorHTTP.getDataNascimento())));
 
@@ -147,5 +155,20 @@ public class ProfessorWS {
 			e.printStackTrace();
 		}
 		return this.gson.toJson(listaProfessores);
+	}
+	
+	@GET
+	@Path("login/{login}/{senha}")
+	@Produces("application/json")
+	public String buscarProfessorPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha) {
+		
+		Professor professor = new Professor();
+		try {
+			professor = this.rnProfessor.buscarProfessorPorLoginSenha(login, senha);
+		} catch (DAOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return this.gson.toJson(professor);
 	}
 }

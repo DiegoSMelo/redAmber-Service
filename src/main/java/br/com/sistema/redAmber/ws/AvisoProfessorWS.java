@@ -109,6 +109,39 @@ public class AvisoProfessorWS {
 	}
 	
 	@GET
+	@Path("listar-pendentes")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String consultarPendentes() {
+		List<AvisoProfessor> avisos = new ArrayList<AvisoProfessor>();
+		try {
+			avisos = this.rnAvisoProfessor.consultarPendentes();
+		} catch(DAOException e) {
+			e.printStackTrace();
+		}
+		return this.gson.toJson(avisos);
+	}
+	
+	@GET
+	@Path("buscar-por-professor-data/{idProfessor}/{dataAviso}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String consultarPorProfessorData(@PathParam("idProfessor") String idProfessor,
+			@PathParam("dataAviso") String dataAviso) {
+		List<AvisoProfessor> avisos = new ArrayList<AvisoProfessor>();
+		try {
+			Calendar data = Datas.converterDateToCalendar(new Date(Long.parseLong(dataAviso)));
+			Long id = Long.parseLong(idProfessor);
+			avisos = this.rnAvisoProfessor.consultarPorProfessorData(id, data);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return this.gson.toJson(avisos);
+	}
+	
+	@GET
 	@Path("quantidade-do-dia")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 	public String consultarQuantidadeDeHoje() {

@@ -23,6 +23,7 @@ public class RNAluno {
 	public void salvar(Aluno aluno) throws DAOException {
 		// Aluno alunoExistente = this.daoAluno.buscarAlunoPorRG(aluno.getRg());
 		Aluno alunoExistente = null;
+		Usuario usuario = new Usuario();
 		if (aluno.getId() != null) {
 			alunoExistente = this.daoAluno.consultarPorId(aluno.getId());
 		}
@@ -32,6 +33,13 @@ public class RNAluno {
 			this.daoAluno.inserir(aluno);
 		} else {
 			aluno.setId(alunoExistente.getId());
+			if (aluno.getUsuario() != null) {
+				usuario.setId(aluno.getId());
+				usuario.setLogin(aluno.getUsuario().getLogin());
+				//usuario.setSenha(Criptografia.criptografarSenhas(aluno.getUsuario().getSenha()));
+				usuario.setSenha(aluno.getUsuario().getSenha());
+				aluno.setUsuario(usuario);
+			}
 			this.daoAluno.alterar(aluno);
 		}
 	}

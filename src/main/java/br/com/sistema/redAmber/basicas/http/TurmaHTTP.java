@@ -1,20 +1,32 @@
 package br.com.sistema.redAmber.basicas.http;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import br.com.sistema.redAmber.basicas.enums.StatusTurma;
 import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 
+@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class TurmaHTTP {
 	
 	private Long id;
-	
 	private String nome;
-	
-	private Long idCurso;
-	
+	private CursoHTTP curso;
 	private TipoTurno turno;
-	
 	private StatusTurma status;
 
+	public TurmaHTTP() {}
+	
+	public TurmaHTTP(Long id, String nome, CursoHTTP curso, TipoTurno turno, StatusTurma status) {
+		this.id = id;
+		this.nome = nome;
+		this.curso = curso;
+		this.turno = turno;
+		this.status = status;
+	}
+	
 	/*
 	 * Getters and setters	
 	 */
@@ -50,11 +62,11 @@ public class TurmaHTTP {
 		this.status = status;
 	}
 
-	public Long getIdCurso() {
-		return idCurso;
+	public CursoHTTP getCurso() {
+		return curso;
 	}
 
-	public void setIdCurso(Long idCurso) {
-		this.idCurso = idCurso;
+	public void setCurso(CursoHTTP curso) {
+		this.curso = curso;
 	}
 }
