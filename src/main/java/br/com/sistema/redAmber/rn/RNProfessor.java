@@ -73,4 +73,8 @@ public class RNProfessor {
 	public List<Professor> buscarProfessoresPorNomeRG(BuscaProfessor bP) throws DAOException {
 		return this.daoProfessor.buscarProfessoresPorNomeRG(bP);
 	}
+	
+	public List<Disciplina> buscarDisciplinasPorProfessor(Long idProfessor) {
+		return this.daoProfessor.buscarDisciplinasPorProfessor(idProfessor);
+	}
 }

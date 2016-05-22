@@ -12,4 +12,6 @@ public interface IDAOReservaEquipamento extends IDAOGeneric<ReservaEquipamento> 
 	public ReservaEquipamento verificarReservasPorDataReservaHorario(Long idEquipamento, 
 			Calendar dataReserva, Long idHorario);
 	public Integer consultarQuantidadeDeHoje();
+	public List<ReservaEquipamento> buscarReservasPorProfessorDataReserva(Long idProfessor, 
+			Calendar dataReserva);
 }

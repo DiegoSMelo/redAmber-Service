@@ -9,6 +9,8 @@ import javax.persistence.TypedQuery;
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.BuscaAluno;
+import br.com.sistema.redAmber.basicas.Disciplina;
+import br.com.sistema.redAmber.basicas.GeralUsuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.util.Mensagens;
@@ -99,6 +101,46 @@ public class DAOAluno extends DAOGeneric<Aluno> implements IDAOAluno{
 		catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(Mensagens.m2);
+		}
+	}
+	
+	@Override
+	public GeralUsuario buscarGeralUsuarioPorLoginSenha(String login, String senha) throws DAOException {
+		try {
+			TypedQuery<GeralUsuario> result = entityManager
+					.createQuery("SELECT g FROM GeralUsuario g WHERE g.usuario.login = :login "
+							+ "AND g.usuario.senha = :senha", GeralUsuario.class);
+			result.setParameter("login", login);
+			result.setParameter("senha", senha);
+
+			GeralUsuario geralUsuario = result.getSingleResult();
+
+			return geralUsuario;
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(Mensagens.m1);
+		}
+	}
+	
+	@Override
+	public List<Disciplina> buscarDisciplinasPorAluno(Long idAluno) {
+		
+		try {
+			String jpql = "SELECT gd.id.disciplina FROM Grade_Disciplina gd WHERE gd.id.grade IN "
+					+ "(SELECT m.grade FROM Matricula m WHERE m.aluno.id = :idAluno)";
+			TypedQuery<Disciplina> result = entityManager
+					.createQuery(jpql, Disciplina.class);
+			result.setParameter("idAluno", idAluno);
+			return result.getResultList();
+		} catch (NoResultException e2) {
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

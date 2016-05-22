@@ -93,4 +93,21 @@ public class AvisoAlunoWS {
 		avisos = this.rnAvisoAluno.listarTodos();
 		return this.gson.toJson(avisos);
 	}
+	
+	@GET
+	@Path("buscar-por-aluno/{idAluno}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String listarAvisosAlunoPorAluno(@PathParam("idAluno") String idAluno) {
+		
+		try {
+			List<AvisoAluno> lista = this.rnAvisoAluno.listarAvisosAlunoPorAluno(Long.parseLong(idAluno));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

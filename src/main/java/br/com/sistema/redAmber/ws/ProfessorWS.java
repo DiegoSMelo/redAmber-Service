@@ -28,6 +28,7 @@ import br.com.sistema.redAmber.basicas.BuscaProfessor;
 import br.com.sistema.redAmber.basicas.Disciplina;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.Usuario;
+import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNProfessor;
@@ -91,6 +92,7 @@ public class ProfessorWS {
 			professor.setTelefone(professorHTTP.getTelefone());
 			professor.setUsuario(professorHTTP.getUsuario());
 			professor.setListDisciplinas(listaDisciplinas);
+			professor.setTipo(TipoUsuario.PROFESSOR);
 
 			this.rnProfessor.salvar(professor);
 			return "Professor salvo com sucesso";
@@ -170,5 +172,23 @@ public class ProfessorWS {
 			return null;
 		}
 		return this.gson.toJson(professor);
+	}
+	
+	@GET
+	@Path("buscar-disciplinas-por-professor/{idProfessor}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarDisciplinasPorProfessor(@PathParam("idProfessor") String idProfessor) {
+		
+		try {
+			List<Disciplina> lista = this.rnProfessor.
+					buscarDisciplinasPorProfessor(Long.parseLong(idProfessor));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

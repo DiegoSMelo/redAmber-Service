@@ -66,4 +66,9 @@ public class RNReservaEquipamento {
 	public Integer consultarQuantidadeDeHoje() {
 		return daoReservaEquipamento.consultarQuantidadeDeHoje();
 	}
+	
+	public List<ReservaEquipamento> buscarReservasPorProfessorDataReserva(Long idProfessor, 
+			Calendar dataReserva) {
+		return this.daoReservaEquipamento.buscarReservasPorProfessorDataReserva(idProfessor, dataReserva);
+	}
 }

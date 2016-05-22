@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 
 @XmlRootElement
@@ -11,32 +12,26 @@ import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 public class FuncionarioHTTP {
 
 	private Long id;
-	
 	private String nome;
-	
 	private String rg;
-	
 	private String email;
-	
 	private String telefone;
-	
 	private String dataNascimento;
-	
+	private Usuario usuario;
 	private StatusUsuario status;
-	
 	private String tipoFuncionario;
-
 	
 	public FuncionarioHTTP() {}
 	
-	public FuncionarioHTTP(Long id, String nome, String rg, String email, String telefone, String dataNascimento,
-			StatusUsuario status, String tipoFuncionario) {
+	public FuncionarioHTTP(Long id, String nome, String rg, String email, String telefone, 
+			String dataNascimento, Usuario usuario, StatusUsuario status, String tipoFuncionario) {
 		this.id = id;
 		this.nome = nome;
 		this.rg = rg;
 		this.email = email;
 		this.telefone = telefone;
 		this.dataNascimento = dataNascimento;
+		this.usuario = usuario;
 		this.status = status;
 		this.tipoFuncionario = tipoFuncionario;
 	}
@@ -87,6 +82,14 @@ public class FuncionarioHTTP {
 
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public StatusUsuario getStatus() {

@@ -87,4 +87,24 @@ public class DAOReservaSala extends DAOGeneric<ReservaSala> implements IDAOReser
 			return null;
 		}
 	}
+	
+	@Override
+	public List<ReservaSala> buscarReservasPorProfessorDataReserva(Long idProfessor, 
+			Calendar dataReserva) {
+		try {
+			String jpql = "SELECT rs FROM ReservaSala rs WHERE rs.professor.id = :idProfessor AND "
+					+ "rs.dataReserva = :dataReserva";
+			TypedQuery<ReservaSala> result = entityManager
+					.createQuery(jpql, ReservaSala.class);
+			result.setParameter("idProfessor", idProfessor);
+			result.setParameter("dataReserva", dataReserva);
+			return result.getResultList();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

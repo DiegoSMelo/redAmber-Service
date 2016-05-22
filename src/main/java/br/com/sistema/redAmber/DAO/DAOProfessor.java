@@ -113,4 +113,22 @@ public class DAOProfessor extends DAOGeneric<Professor> implements IDAOProfessor
 			throw new DAOException(Mensagens.m2);
 		}
 	}
+	
+	@Override
+	public List<Disciplina> buscarDisciplinasPorProfessor(Long idProfessor) {
+		
+		try {
+			String jpql = "SELECT p FROM Professor p WHERE p.id = :idProfessor";
+			TypedQuery<Professor> result = entityManager.createQuery(jpql, Professor.class);
+			result.setParameter("idProfessor", idProfessor);
+			Professor professor = result.getSingleResult();
+			return professor.getListDisciplinas();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null; 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

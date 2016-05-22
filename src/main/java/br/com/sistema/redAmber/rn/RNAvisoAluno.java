@@ -36,4 +36,8 @@ public class RNAvisoAluno {
 	public List<AvisoAluno> listarTodos() {
 		return daoAvisoAluno.consultarTodos();
 	}
+	
+	public List<AvisoAluno> listarAvisosAlunoPorAluno(Long idAluno) {
+		return daoAvisoAluno.listarAvisosAlunoPorAluno(idAluno);
+	}
 }

@@ -12,4 +12,6 @@ public interface IDAOReservaSala extends IDAOGeneric<ReservaSala> {
 	public ReservaSala verificarReservasPorDataReservaHorario(Long idSala, 
 			Calendar dataReserva, Long idHorario);
 	public Integer consultarQuantidadeDeHoje();
+	public List<ReservaSala> buscarReservasPorProfessorDataReserva(Long idProfessor, 
+			Calendar dataReserva);
 }

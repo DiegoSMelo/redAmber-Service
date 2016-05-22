@@ -3,6 +3,7 @@ package br.com.sistema.redAmber.DAO;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
@@ -23,7 +24,6 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 	public List<HoraAula> listaHoraAulaPorIdTurma(Long idTurma){
 		
 		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma ORDER BY ha.id.horaInicio ASC";
-		
 		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 		result.setParameter("idTurma", idTurma);
 		
@@ -41,7 +41,6 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		result.setParameter("idAula", pk.getAula().getId().getSala().getId());
 		result.setParameter("idDisciplina", pk.getAula().getId().getDisciplina().getId());
 		result.setParameter("idProfessor", pk.getAula().getId().getProfessor().getId());
-		
 		return result.getSingleResult();
 	}
 
@@ -49,7 +48,6 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 	public void removerPorIdTurma(Long idTurma) {
 		
 		List<HoraAula> lista = this.listaHoraAulaPorIdTurma(idTurma);
-		
 		lista.forEach(value -> this.remover(value));
 		lista.forEach(value -> this.daoAula.remover(value.getId().getAula()));
 		
@@ -57,13 +55,63 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 			
 			this.remover(horaAula);
 			
-		}	*/
+		}*/
 		/*
 		for (HoraAula horaAula : lista) {
 			
 			this.daoAula.remover(horaAula.getId().getAula());
 			
-		}*/
-		
+		}*/	
+	}
+	
+	@Override
+	public List<HoraAula> listarHoraAulaPorProfessor(Long idProfessor) {
+		try {
+			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.aula.id.professor.id = :idProfessor";
+			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
+			result.setParameter("idProfessor", idProfessor);
+			return result.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public List<HoraAula> listarHoraAulaPorProfessorTurma(Long idProfessor, Long idTurma) {
+		try {
+			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma AND "
+					+ "ha.id.aula.id.professor.id = :idProfessor";
+			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
+			result.setParameter("idProfessor", idProfessor);
+			result.setParameter("idTurma", idTurma);
+			return result.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public List<HoraAula> listarHoraAulaPorAluno(Long idAluno) {
+		try {
+			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma IN "
+					+ "(SELECT m.turma FROM Matricula m WHERE m.aluno.id = :idAluno)";
+			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
+			result.setParameter("idAluno", idAluno);
+			return result.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

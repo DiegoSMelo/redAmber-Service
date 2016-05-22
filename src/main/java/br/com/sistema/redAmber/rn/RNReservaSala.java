@@ -63,4 +63,9 @@ public class RNReservaSala {
 	public Integer consultarQuantidadeDeHoje() {
 		return daoReservaSala.consultarQuantidadeDeHoje();
 	}
+	
+	public List<ReservaSala> buscarReservasPorProfessorDataReserva(Long idProfessor, 
+			Calendar dataReserva) {
+		return this.daoReservaSala.buscarReservasPorProfessorDataReserva(idProfessor, dataReserva);
+	}
 }

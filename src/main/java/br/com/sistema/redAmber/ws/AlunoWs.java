@@ -18,7 +18,10 @@ import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.BuscaAluno;
+import br.com.sistema.redAmber.basicas.Disciplina;
+import br.com.sistema.redAmber.basicas.GeralUsuario;
 import br.com.sistema.redAmber.basicas.Usuario;
+import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
@@ -100,6 +103,7 @@ public class AlunoWs {
 			aluno.setRg(alunoHTTP.getRg());
 			aluno.setStatus(alunoHTTP.getStatus());
 			aluno.setTelefone(alunoHTTP.getTelefone());
+			aluno.setTipo(TipoUsuario.ALUNO);
 
 			this.rnAluno.salvar(aluno);
 			return "Aluno salvo com sucesso";
@@ -148,5 +152,38 @@ public class AlunoWs {
 			e.printStackTrace();
 		}
 		return this.gson.toJson(listaAlunos);
+	}
+	
+	@POST
+	@Path("logon")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public String buscarGeralUsuarioPorLoginSenha(String jsonLogin) {
+		try {
+			LoginHTTP loginHTTP = this.gson.fromJson(jsonLogin, LoginHTTP.class);
+			GeralUsuario gU = this.rnAluno.buscarGeralUsuarioPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			return this.gson.toJson(gU);
+		} catch (JsonSyntaxException e) {
+			return "Error";
+		} catch (DAOException e) {
+			return "Error";
+		}
+	}
+	
+	@GET
+	@Path("buscar-disciplinas-por-aluno/{idAluno}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarDisciplinasPorAluno(@PathParam("idAluno") String idAluno) {
+		
+		try {
+			List<Disciplina> lista = this.rnAluno.buscarDisciplinasPorAluno(Long.parseLong(idAluno));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

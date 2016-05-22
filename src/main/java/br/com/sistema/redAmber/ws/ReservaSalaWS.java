@@ -158,4 +158,24 @@ public class ReservaSalaWS {
 		retorno = this.rnReservaSala.consultarQuantidadeDeHoje();
 		return this.gson.toJson(retorno);
 	}
+	
+	@GET
+	@Path("buscar-por-professor-data-reserva/{idProfessor}/{dataReserva}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String buscarReservasPorProfessorDataReserva(@PathParam("idProfessor") String idProfessor, 
+			@PathParam("dataReserva") String dataReserva) {
+		
+		try {
+			Calendar data = Datas.converterDateToCalendar(new Date(Long.parseLong(dataReserva)));		
+			List<ReservaSala> lista = this.rnReservaSala.
+					buscarReservasPorProfessorDataReserva(Long.parseLong(idProfessor), data);
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

@@ -6,6 +6,8 @@ import br.com.sistema.redAmber.DAO.IDAOAluno;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.Aluno;
 import br.com.sistema.redAmber.basicas.BuscaAluno;
+import br.com.sistema.redAmber.basicas.Disciplina;
+import br.com.sistema.redAmber.basicas.GeralUsuario;
 import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
@@ -89,5 +91,13 @@ public class RNAluno {
 	
 	public List<Aluno> buscarAlunosPorNomeRG(BuscaAluno buscaAluno) throws DAOException {
 		return daoAluno.buscarAlunosPorNomeRG(buscaAluno);
+	}
+	
+	public GeralUsuario buscarGeralUsuarioPorLoginSenha(String login, String senha) throws DAOException {
+		return daoAluno.buscarGeralUsuarioPorLoginSenha(login, senha);
+	}
+	
+	public List<Disciplina> buscarDisciplinasPorAluno(Long idAluno) {
+		return this.daoAluno.buscarDisciplinasPorAluno(idAluno);
 	}
 }

@@ -18,7 +18,9 @@ import com.google.gson.JsonSyntaxException;
 
 import br.com.sistema.redAmber.basicas.BuscaFuncionario;
 import br.com.sistema.redAmber.basicas.Funcionario;
+import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
+import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 import br.com.sistema.redAmber.basicas.http.FuncionarioHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
@@ -49,7 +51,13 @@ public class FuncionarioWS {
 		try {
 			Funcionario funcionario = new Funcionario();
 			FuncionarioHTTP funcionarioHTTP = this.gson.fromJson(jsonFuncionario, FuncionarioHTTP.class);
-
+			Usuario usuario = new Usuario();
+			usuario = funcionarioHTTP.getUsuario();
+			
+			if (usuario != null) {
+				funcionario.setUsuario(usuario);
+			}
+			
 			Calendar dataNascimento = Datas
 					.converterDateToCalendar(new Date(Long.parseLong(funcionarioHTTP.getDataNascimento())));
 
@@ -60,6 +68,7 @@ public class FuncionarioWS {
 			funcionario.setRg(funcionarioHTTP.getRg());
 			funcionario.setStatus(funcionarioHTTP.getStatus());
 			funcionario.setTelefone(funcionarioHTTP.getTelefone());
+			funcionario.setTipo(TipoUsuario.FUNCIONARIO);
 
 			if (funcionarioHTTP.getTipoFuncionario().equals("C")) {
 				funcionario.setTipoFuncionario(TipoFuncionario.C);

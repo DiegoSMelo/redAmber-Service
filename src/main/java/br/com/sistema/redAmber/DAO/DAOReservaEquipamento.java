@@ -89,4 +89,25 @@ implements IDAOReservaEquipamento {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<ReservaEquipamento> buscarReservasPorProfessorDataReserva(Long idProfessor, 
+			Calendar dataReserva) {
+		
+		try {
+			String jpql = "SELECT re FROM ReservaEquipamento re WHERE re.professor.id = :idProfessor "
+					+ "AND re.dataReserva = :dataReserva";
+			TypedQuery<ReservaEquipamento> result = entityManager
+					.createQuery(jpql, ReservaEquipamento.class);
+			result.setParameter("idProfessor", idProfessor);
+			result.setParameter("dataReserva", dataReserva);
+			return result.getResultList();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

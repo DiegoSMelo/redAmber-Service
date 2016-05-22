@@ -38,4 +38,16 @@ public class RNHoraAula {
     public void removerPorIdTurma(Long idTurma){
     	this.daoHoraAula.removerPorIdTurma(idTurma);
     }
+    
+	public List<HoraAula> listarHoraAulaPorProfessor(Long idProfessor) {
+		return this.daoHoraAula.listarHoraAulaPorProfessor(idProfessor);
+	}
+	
+	public List<HoraAula> listarHoraAulaPorProfessorTurma(Long idProfessor, Long idTurma) {
+		return this.daoHoraAula.listarHoraAulaPorProfessorTurma(idProfessor, idTurma);
+	}
+	
+	public List<HoraAula> listarHoraAulaPorAluno(Long idAluno) {
+		return this.daoHoraAula.listarHoraAulaPorAluno(idAluno);
+	}
 }
