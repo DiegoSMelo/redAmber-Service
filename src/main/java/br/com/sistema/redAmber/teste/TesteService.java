@@ -9,7 +9,7 @@ public class TesteService {
 	public static void main(String[] args) {
 		
 		
-		String arg2 = "18/05/2016";
+		String arg2 = "01/06/2016";
 		
 		String[] dataSplit = arg2.split("/");
 		

@@ -16,9 +16,11 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import br.com.sistema.redAmber.basicas.AvisoAluno;
+import br.com.sistema.redAmber.basicas.BuscaAvisoAluno;
 import br.com.sistema.redAmber.basicas.Funcionario;
 import br.com.sistema.redAmber.basicas.Turma;
 import br.com.sistema.redAmber.basicas.http.AvisoAlunoHTTP;
+import br.com.sistema.redAmber.basicas.http.BuscaAvisoAlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.FuncionarioHTTP;
 import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.rn.RNAvisoAluno;
@@ -109,5 +111,33 @@ public class AvisoAlunoWS {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@POST
+	@Path("buscar-por-parametros")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarAvisosAlunoPorParametros(String pesquisa) {
+		BuscaAvisoAluno consulta = new BuscaAvisoAluno();
+		BuscaAvisoAlunoHTTP consultaHTTP = this.gson.fromJson(pesquisa, BuscaAvisoAlunoHTTP.class);
+		
+		if (consultaHTTP.getIdFuncionario() != null) {
+			consulta.setIdFuncionario(consultaHTTP.getIdFuncionario());
+		}
+		if (consultaHTTP.getIdTurma() != null) {
+			consulta.setIdTurma(consultaHTTP.getIdTurma());
+		}
+		if (consultaHTTP.getDataAviso() != null) {
+			Date data = new Date(consultaHTTP.getDataAviso());
+			consulta.setDataAviso(data);
+		}
+		
+		List<AvisoAluno> listaAvisos = new ArrayList<AvisoAluno>();
+		try {
+			listaAvisos = this.rnAvisoAluno.listarAvisosAlunoPorParametros(consulta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return this.gson.toJson(listaAvisos);
 	}
 }

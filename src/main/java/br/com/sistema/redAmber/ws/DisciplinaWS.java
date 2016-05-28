@@ -122,8 +122,18 @@ public class DisciplinaWS {
 	@Path("buscar-por-curso/{idCurso}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarDisciplinasPorCurso(@PathParam("idCurso") String idCurso) {
+		
 		try {
-			List<Disciplina> lista = this.rnDisciplina.buscarDisciplinasPorCurso(Long.parseLong(idCurso));
+			Long idCursoNum;
+			
+			if (idCurso == null || idCurso.isEmpty() || idCurso.trim().equals("") || 
+					idCurso.trim().equals("null")) {
+				idCursoNum = null;
+			} else {
+				idCursoNum = Long.parseLong(idCurso);
+			}
+			
+			List<Disciplina> lista = this.rnDisciplina.buscarDisciplinasPorCurso(idCursoNum);
 			return this.gson.toJson(lista);
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();

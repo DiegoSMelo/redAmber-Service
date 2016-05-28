@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOReservaEquipamento;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
+import br.com.sistema.redAmber.basicas.BuscaReserva;
 import br.com.sistema.redAmber.basicas.ReservaEquipamento;
 import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.util.Mensagens;
@@ -67,8 +68,16 @@ public class RNReservaEquipamento {
 		return daoReservaEquipamento.consultarQuantidadeDeHoje();
 	}
 	
+	public List<ReservaEquipamento> buscarReservasPorProfessor(Long idProfessor) {
+		return this.daoReservaEquipamento.buscarReservasPorProfessor(idProfessor);
+	}
+	
 	public List<ReservaEquipamento> buscarReservasPorProfessorDataReserva(Long idProfessor, 
 			Calendar dataReserva) {
 		return this.daoReservaEquipamento.buscarReservasPorProfessorDataReserva(idProfessor, dataReserva);
+	}
+	
+	public List<ReservaEquipamento> listarReservasPorParametros(BuscaReserva consulta) {
+		return this.daoReservaEquipamento.listarReservasPorParametros(consulta);
 	}
 }

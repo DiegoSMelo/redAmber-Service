@@ -154,6 +154,21 @@ public class AlunoWs {
 		return this.gson.toJson(listaAlunos);
 	}
 	
+	@GET
+	@Path("logon/{login}/{senha}")
+	@Produces("application/json")
+	public String buscarGeralUsuarioPorLoginSenha(@PathParam("login") String login, @PathParam("senha") String senha) {
+		try {
+			LoginHTTP loginHTTP = new LoginHTTP(login, senha);
+			GeralUsuario geralUsuario = this.rnAluno.buscarGeralUsuarioPorLoginSenha(loginHTTP.getLogin(), loginHTTP.getSenha());
+			return this.gson.toJson(geralUsuario);
+		} catch (JsonSyntaxException e) {
+			return "Error";
+		} catch (DAOException e) {
+			return "Error";
+		}
+	}
+	
 	@POST
 	@Path("logon")
 	@Consumes("application/json")

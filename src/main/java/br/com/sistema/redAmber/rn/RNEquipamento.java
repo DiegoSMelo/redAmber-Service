@@ -47,4 +47,8 @@ public class RNEquipamento {
 	public Equipamento buscarPorTombo(String tombo) throws DAOException {
 		return this.daoEquipamento.consultarPorTombo(tombo);
 	}
+	
+	public List<Equipamento> listarPorDescricao(String descricao) {
+		return this.daoEquipamento.listarPorDescricao(descricao);
+	}
 }

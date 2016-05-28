@@ -290,4 +290,107 @@ public class AulaWS {
 			return null;
 		}
 	}
+	
+	@GET
+	@Path("listar-hora-aula-de-hoje-por-aluno/{idAluno}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarHoraAulaPorAlunoHoje(@PathParam("idAluno") String idAluno) {
+		System.err.println("ENTROU!");
+		try {
+			List<HoraAula> lista = this.rnHoraAula.listarHoraAulaPorAlunoHoje(Long.parseLong(idAluno));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@GET
+	@Path("listar-hora-aula-de-hoje-por-turma/{idTurma}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarHoraAulaPorTurmaHoje(@PathParam("idTurma") String idTurma) {
+		
+		try {
+			List<HoraAula> lista = this.rnHoraAula.listarHoraAulaPorTurmaHoje(Long.parseLong(idTurma));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("listar-aulas-de-hoje-por-aluno/{idAluno}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarAulaPorAlunoHoje(@PathParam("idAluno") String idAluno) {
+		System.err.println("ENTROU!");
+		try {
+			List<Aula> lista = this.rnHoraAula.listarAulaPorAlunoHoje(Long.parseLong(idAluno));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@GET
+	@Path("listar-aulas-de-hoje-por-turma/{idTurma}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarAulaPorTurmaHoje(@PathParam("idTurma") String idTurma) {
+		
+		try {
+			List<Aula> lista = this.rnHoraAula.listarAulaPorTurmaHoje(Long.parseLong(idTurma));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("listar-hora-aula-de-hoje-por-professor/{idProfessor}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarHoraAulaPorProfessorHoje(@PathParam("idProfessor") String idProfessor) {
+
+		try {
+			List<HoraAula> lista = this.rnHoraAula.
+					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("listar-aulas-de-hoje-por-professor/{idProfessor}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarAulaPorProfessorHoje(@PathParam("idProfessor") String idProfessor) {
+		
+		try {
+			List<Aula> lista = this.rnHoraAula.listarAulaPorProfessorHoje(Long.parseLong(idProfessor));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

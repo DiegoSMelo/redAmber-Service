@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
 import br.com.sistema.redAmber.basicas.AvisoProfessor;
+import br.com.sistema.redAmber.basicas.BuscaAvisoProfessor;
 import br.com.sistema.redAmber.basicas.enums.StatusAvisoProfessor;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.util.Mensagens;
@@ -119,6 +120,65 @@ public class DAOAvisoProfessor extends DAOGeneric<AvisoProfessor> implements IDA
 			return quantidade;
 		} catch (NoResultException e2) {
 			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public List<AvisoProfessor> listarAvisosProfessorPorParametros(BuscaAvisoProfessor consulta) {
+		
+		try {
+			String sql = "SELECT av from AvisoProfessor av";
+			
+			List<AvisoProfessor> resultado = new ArrayList<AvisoProfessor>();
+			List<AvisoProfessor> resposta = new ArrayList<AvisoProfessor>();
+			
+			if (consulta.getIdProfessor() != null && consulta.getStatus() == null) {
+				sql += " WHERE av.professor.id = :idProfessor";
+			}
+			if (consulta.getIdProfessor() == null && consulta.getStatus() != null) {
+				sql += " WHERE av.statusAvisoProfessor = :status";
+			}
+			if (consulta.getIdProfessor() != null && consulta.getStatus() != null) {
+				sql += " WHERE av.professor.id = :idProfessor AND av.statusAvisoProfessor = :status";
+			}
+			
+			TypedQuery<AvisoProfessor> query = entityManager.createQuery(sql, AvisoProfessor.class);
+			
+			if (consulta.getIdProfessor() != null && consulta.getStatus() == null) {
+				query.setParameter("idProfessor", consulta.getIdProfessor());
+			}
+			if (consulta.getIdProfessor() == null && consulta.getStatus() != null) {
+				query.setParameter("status", consulta.getStatus());
+			}
+			if (consulta.getIdProfessor() != null && consulta.getStatus() != null) {
+				query.setParameter("idProfessor", consulta.getIdProfessor());
+				query.setParameter("status", consulta.getStatus());
+			}
+			
+			resultado = query.getResultList();
+			
+			if (consulta.getDataAviso() != null) {
+				int dia = consulta.getDataAviso().getDate();
+				int mes = consulta.getDataAviso().getMonth();
+				int ano = consulta.getDataAviso().getYear();
+				
+				for (AvisoProfessor aviso : resultado) {
+					if (aviso.getDataAviso().getTime().getDate() == dia && 
+							aviso.getDataAviso().getTime().getMonth() == mes && 
+							aviso.getDataAviso().getTime().getYear() == ano) {
+						resposta.add(aviso);
+					}
+				}
+				return resposta;
+			}
+			return resultado;
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

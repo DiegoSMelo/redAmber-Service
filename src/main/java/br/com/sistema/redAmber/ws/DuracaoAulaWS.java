@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import br.com.sistema.redAmber.basicas.DuracaoAula;
+import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 import br.com.sistema.redAmber.basicas.http.DuracaoAulaHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNDuracaoAula;
@@ -105,5 +106,32 @@ public class DuracaoAulaWS {
 		List<DuracaoAula> horasAula;
 		horasAula = rnDuracaoAula.buscarTodos();
 		return this.gson.toJson(horasAula);
+	}
+	
+	@GET
+	@Path("buscar-por-turno/{turno}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String consultarPorTurno(@PathParam("turno") String jsonTurno) {
+		
+		try {
+			List<DuracaoAula> horarios;
+			TipoTurno turno = null;
+			
+			if (jsonTurno.equalsIgnoreCase("MANHA") || jsonTurno.equalsIgnoreCase("Manhã")) {
+				turno = TipoTurno.MANHA;
+			}
+			if (jsonTurno.equalsIgnoreCase("TARDE") || jsonTurno.equalsIgnoreCase("Tarde")) {
+				turno = TipoTurno.TARDE;
+			}
+			if (jsonTurno.equalsIgnoreCase("NOITE") || jsonTurno.equalsIgnoreCase("Noite")) {
+				turno = TipoTurno.NOITE;
+			}
+			
+			horarios = this.rnDuracaoAula.consultarPorTurno(turno);
+			return this.gson.toJson(horarios);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

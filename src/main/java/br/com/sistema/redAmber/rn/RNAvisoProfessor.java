@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.sistema.redAmber.DAO.IDAOAvisoProfessor;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.AvisoProfessor;
+import br.com.sistema.redAmber.basicas.BuscaAvisoProfessor;
 import br.com.sistema.redAmber.exceptions.DAOException;
 
 public class RNAvisoProfessor {
@@ -54,5 +55,9 @@ public class RNAvisoProfessor {
 	
 	public Integer consultarQuantidadeDeHoje() {
 		return daoAvisoProfessor.consultarQuantidadeDeHoje();
+	}
+	
+	public List<AvisoProfessor> listarAvisosProfessorPorParametros(BuscaAvisoProfessor consulta) {
+		return daoAvisoProfessor.listarAvisosProfessorPorParametros(consulta);
 	}
 }

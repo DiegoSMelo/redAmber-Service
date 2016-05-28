@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
+import br.com.sistema.redAmber.basicas.BuscaReserva;
 import br.com.sistema.redAmber.basicas.ReservaEquipamento;
 import br.com.sistema.redAmber.basicas.enums.StatusReserva;
 
@@ -91,6 +92,24 @@ implements IDAOReservaEquipamento {
 	}
 	
 	@Override
+	public List<ReservaEquipamento> buscarReservasPorProfessor(Long idProfessor) {
+		
+		try {
+			String jpql = "SELECT re FROM ReservaEquipamento re WHERE re.professor.id = :idProfessor";
+			TypedQuery<ReservaEquipamento> result = entityManager
+					.createQuery(jpql, ReservaEquipamento.class);
+			result.setParameter("idProfessor", idProfessor);
+			return result.getResultList();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
 	public List<ReservaEquipamento> buscarReservasPorProfessorDataReserva(Long idProfessor, 
 			Calendar dataReserva) {
 		
@@ -102,6 +121,102 @@ implements IDAOReservaEquipamento {
 			result.setParameter("idProfessor", idProfessor);
 			result.setParameter("dataReserva", dataReserva);
 			return result.getResultList();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public List<ReservaEquipamento> listarReservasPorParametros(BuscaReserva consulta) {
+		
+		try {
+			String sql = "SELECT re FROM ReservaEquipamento re";
+			
+			List<ReservaEquipamento> resultado = new ArrayList<ReservaEquipamento>();
+			List<ReservaEquipamento> resposta = new ArrayList<ReservaEquipamento>();
+			
+			if (consulta.getIdProfessor() != null && consulta.getStatus() == null) {
+				sql += " WHERE re.professor.id = :idProfessor";
+			}
+			if (consulta.getIdProfessor() == null && consulta.getStatus() != null) {
+				sql += " WHERE re.status = :status";
+			}
+			if (consulta.getIdProfessor() != null && consulta.getStatus() != null) {
+				sql += " WHERE re.professor.id = :idProfessor AND re.status = :status";
+			}
+			
+			TypedQuery<ReservaEquipamento> query = entityManager.createQuery(sql, ReservaEquipamento.class);
+			
+			if (consulta.getIdProfessor() != null && consulta.getStatus() == null) {
+				query.setParameter("idProfessor", consulta.getIdProfessor());
+			}
+			if (consulta.getIdProfessor() == null && consulta.getStatus() != null) {
+				query.setParameter("status", consulta.getStatus());
+			}
+			if (consulta.getIdProfessor() != null && consulta.getStatus() != null) {
+				query.setParameter("idProfessor", consulta.getIdProfessor());
+				query.setParameter("status", consulta.getStatus());
+			}
+			
+			resultado = query.getResultList();
+			
+			if (consulta.getDataReserva() != null && consulta.getDataRequisicao() == null) {
+				int dia = consulta.getDataReserva().getDate();
+				int mes = consulta.getDataReserva().getMonth();
+				int ano = consulta.getDataReserva().getYear();
+				
+				for (ReservaEquipamento reserva : resultado) {
+					if (reserva.getDataReserva().getTime().getDate() == dia && 
+							reserva.getDataReserva().getTime().getMonth() == mes && 
+							reserva.getDataReserva().getTime().getYear() == ano) {
+						resposta.add(reserva);
+					}
+				}
+				return resposta;
+			}
+			
+			if (consulta.getDataReserva() == null && consulta.getDataRequisicao() != null) {
+				int dia = consulta.getDataRequisicao().getDate();
+				int mes = consulta.getDataRequisicao().getMonth();
+				int ano = consulta.getDataRequisicao().getYear();
+				
+				for (ReservaEquipamento reserva : resultado) {
+					if (reserva.getDataRequisicao().getTime().getDate() == dia && 
+							reserva.getDataRequisicao().getTime().getMonth() == mes && 
+							reserva.getDataRequisicao().getTime().getYear() == ano) {
+						resposta.add(reserva);
+					}
+				}
+				return resposta;
+			}
+			
+			if (consulta.getDataReserva() != null && consulta.getDataRequisicao() != null) {
+				int diaRes = consulta.getDataReserva().getDate();
+				int mesRes = consulta.getDataReserva().getMonth();
+				int anoRes = consulta.getDataReserva().getYear();
+				
+				int diaReq = consulta.getDataRequisicao().getDate();
+				int mesReq = consulta.getDataRequisicao().getMonth();
+				int anoReq = consulta.getDataRequisicao().getYear();
+				
+				for (ReservaEquipamento reserva : resultado) {
+					if (reserva.getDataReserva().getTime().getDate() == diaRes && 
+							reserva.getDataReserva().getTime().getMonth() == mesRes && 
+							reserva.getDataReserva().getTime().getYear() == anoRes && 
+							reserva.getDataRequisicao().getTime().getDate() == diaReq && 
+							reserva.getDataRequisicao().getTime().getMonth() == mesReq && 
+							reserva.getDataRequisicao().getTime().getYear() == anoReq) {
+						resposta.add(reserva);
+					}
+				}
+				return resposta;
+			}
+			return resultado;
 		} catch (NoResultException e2) {
 			e2.printStackTrace();
 			return null;

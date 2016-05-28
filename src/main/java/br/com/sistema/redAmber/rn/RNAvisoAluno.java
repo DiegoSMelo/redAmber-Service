@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.sistema.redAmber.DAO.IDAOAvisoAluno;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.AvisoAluno;
+import br.com.sistema.redAmber.basicas.BuscaAvisoAluno;
 
 public class RNAvisoAluno {
 
@@ -39,5 +40,9 @@ public class RNAvisoAluno {
 	
 	public List<AvisoAluno> listarAvisosAlunoPorAluno(Long idAluno) {
 		return daoAvisoAluno.listarAvisosAlunoPorAluno(idAluno);
+	}
+	
+	public List<AvisoAluno> listarAvisosAlunoPorParametros(BuscaAvisoAluno consulta) {
+		return daoAvisoAluno.listarAvisosAlunoPorParametros(consulta);
 	}
 }

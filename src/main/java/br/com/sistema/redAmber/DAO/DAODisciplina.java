@@ -55,10 +55,19 @@ public class DAODisciplina extends DAOGeneric<Disciplina> implements IDAODiscipl
 	@Override
 	public List<Disciplina> buscarDisciplinasPorCurso(Long idCurso) throws DAOException {
 		try {
-			String jpql = "SELECT d FROM Disciplina d WHERE d.status = :status AND d.curso.id =:idCurso";
+			String jpql = "SELECT d FROM Disciplina d WHERE d.status = :status";
+			
+			if (idCurso != null) {
+				jpql += " AND d.curso.id = :idCurso";
+			}
+			
 			TypedQuery<Disciplina> result = entityManager.createQuery(jpql, Disciplina.class);
 			result.setParameter("status", StatusDisciplina.ATIVA);
-			result.setParameter("idCurso", idCurso);
+			
+			if (idCurso != null) {
+				result.setParameter("idCurso", idCurso);
+			}
+
 			return result.getResultList();
 		} catch (NoResultException e2) {
 			e2.printStackTrace();

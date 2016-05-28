@@ -16,9 +16,12 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import br.com.sistema.redAmber.basicas.AvisoProfessor;
+import br.com.sistema.redAmber.basicas.BuscaAvisoProfessor;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.enums.StatusAvisoProfessor;
+import br.com.sistema.redAmber.basicas.enums.TipoAvisoProfessor;
 import br.com.sistema.redAmber.basicas.http.AvisoProfessorHTTP;
+import br.com.sistema.redAmber.basicas.http.BuscaAvisoProfessorHTTP;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.rn.RNAvisoProfessor;
@@ -149,5 +152,71 @@ public class AvisoProfessorWS {
 		Integer retorno;
 		retorno = this.rnAvisoProfessor.consultarQuantidadeDeHoje();
 		return this.gson.toJson(retorno);
+	}
+	
+	@GET
+	@Path("salvar-get/{idProfessor}/{tipoAviso}/{observacao}")
+	@Produces("text/plain")
+	public String salvarAvisoProfessorGet(@PathParam("idProfessor") String idProfessor,
+			@PathParam("tipoAviso") String tipoAviso, @PathParam("observacao") String observacao) {
+		
+		try {
+			AvisoProfessor aviso = new AvisoProfessor();
+			Professor professor = new Professor();
+			int tipo = Integer.parseInt(tipoAviso);
+			Calendar dataAviso = Calendar.getInstance();
+			dataAviso.setTime(new Date());
+			
+			professor = this.rnProfessor.buscarPorId(Long.parseLong(idProfessor));
+			
+			aviso.setProfessor(professor);
+			aviso.setDataAviso(dataAviso);
+			aviso.setStatusAvisoProfessor(StatusAvisoProfessor.ENVIADO);
+			aviso.setObservacao(observacao);
+			
+			if (tipo == 0) {
+				aviso.setTipoAvisoProfessor(TipoAvisoProfessor.ATRASO);
+			}
+			if (tipo == 1) {
+				aviso.setTipoAvisoProfessor(TipoAvisoProfessor.AUSENCIA);
+			}
+			
+			this.rnAvisoProfessor.salvar(aviso);
+			return "sucesso!";
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return "falha!";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "falha!";
+		}
+	}
+	
+	@POST
+	@Path("buscar-por-parametros")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarAvisosProfessorPorParametros(String pesquisa) {
+		BuscaAvisoProfessor consulta = new BuscaAvisoProfessor();
+		BuscaAvisoProfessorHTTP consultaHTTP = this.gson.fromJson(pesquisa, BuscaAvisoProfessorHTTP.class);
+		
+		if (consultaHTTP.getIdProfessor() != null) {
+			consulta.setIdProfessor(consultaHTTP.getIdProfessor());
+		}
+		if (consultaHTTP.getStatus() != null) {
+			consulta.setStatus(consultaHTTP.getStatus());
+		}
+		if (consultaHTTP.getDataAviso() != null) {
+			Date data = new Date(consultaHTTP.getDataAviso());
+			consulta.setDataAviso(data);
+		}
+		
+		List<AvisoProfessor> listaAvisos = new ArrayList<AvisoProfessor>();
+		try {
+			listaAvisos = this.rnAvisoProfessor.listarAvisosProfessorPorParametros(consulta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return this.gson.toJson(listaAvisos);
 	}
 }

@@ -23,45 +23,45 @@ public class SalaWS {
 
 	private RNSala rnSala;
 	private Gson gson;
-	
+
 	public SalaWS() {
 		this.rnSala = new RNSala();
 		this.gson = new Gson();
 	}
-	
+
 	@POST
 	@Path("salvar")
 	@Consumes("application/json")
 	@Produces("text/plain")
 	public String salvarSala(String jsonSala) {
-		
+
 		try {
 			Sala sala = new Sala();
 			SalaHTTP salaHTTP = gson.fromJson(jsonSala, SalaHTTP.class);
-			
+
 			sala.setId(salaHTTP.getId());
 			sala.setDescricao(salaHTTP.getDescricao());
 			sala.setCapacidadeAlunos(salaHTTP.getCapacidadeAlunos());
 			sala.setTipoSala(salaHTTP.getTipoSala());
 			sala.setStatus(salaHTTP.getStatus());
-			
+
 			this.rnSala.salvar(sala);
 			return "Sala salva com sucesso.";
 		} catch (JsonSyntaxException e) {
 			return "Error";
 		}
 	}
-	
+
 	@GET
 	@Path("buscar-por-id/{id}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarSalaPorId(@PathParam("id") String id) {
 		return this.gson.toJson(this.rnSala.buscarPorId(Long.parseLong(id)));
 	}
-	
+
 	@GET
 	@Path("buscar-por-descricao/{descricao}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarSalaPorDescricao(@PathParam("descricao") String descricao) {
 
 		String retorno = "";
@@ -74,14 +74,28 @@ public class SalaWS {
 		}
 		return retorno;
 	}
-	
+
 	@GET
 	@Path("listar")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String listarSalas() {
-		
+
 		List<Sala> salas;
 		salas = this.rnSala.buscarTodos();
 		return this.gson.toJson(salas);
+	}
+
+	@POST
+	@Path("listar-por-descricao")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarPorDescricao(String descricao) {
+		try {
+			String consulta = this.gson.fromJson(descricao, String.class);
+			return this.gson.toJson(this.rnSala.listarPorDescricao(consulta));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -89,11 +89,18 @@ public class TurmaWS {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarTurmasPorCurso(@PathParam("curso") String jsonCurso, 
 			@PathParam("turno") String jsonTurno) {
-		System.out.println("JSON TURNO: " + jsonTurno);
+		
 		Curso curso = new Curso();
-		Long idCurso = gson.fromJson(jsonCurso, Long.class);
-		curso = rnCurso.buscarCursoPorID(idCurso);
 		TipoTurno turno = null;
+		Long idCurso = null;
+		
+		if (jsonCurso == null || jsonCurso.trim().equalsIgnoreCase("null") || 
+				jsonCurso.trim().equalsIgnoreCase("") || jsonCurso.isEmpty()) {
+			idCurso = 0L;
+		} else {
+			idCurso = this.gson.fromJson(jsonCurso, Long.class);	
+		}
+		curso = rnCurso.buscarCursoPorID(idCurso);
 
 		if (jsonTurno.equalsIgnoreCase("MANHA") || jsonTurno.equalsIgnoreCase("Manhã")) {
 			turno = TipoTurno.MANHA;

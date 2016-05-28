@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
 import br.com.sistema.redAmber.basicas.AvisoAluno;
+import br.com.sistema.redAmber.basicas.BuscaAvisoAluno;
 
 public class DAOAvisoAluno extends DAOGeneric<AvisoAluno> implements IDAOAvisoAluno {
 
@@ -44,6 +45,64 @@ public class DAOAvisoAluno extends DAOGeneric<AvisoAluno> implements IDAOAvisoAl
 				}
 			}
 			return avisos;
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public List<AvisoAluno> listarAvisosAlunoPorParametros(BuscaAvisoAluno consulta) {
+		
+		try {
+			String jpql = "SELECT av FROM AvisoAluno av";
+			List<AvisoAluno> resultado = new ArrayList<AvisoAluno>();
+			List<AvisoAluno> resposta = new ArrayList<AvisoAluno>();
+			
+			if (consulta.getIdFuncionario() != null && consulta.getIdTurma() == null) {
+				jpql += " WHERE av.funcionario.id = :idFuncionario";
+			}
+			if (consulta.getIdFuncionario() == null && consulta.getIdTurma() != null) {
+				jpql += " WHERE av.turma.id = :idTurma";
+			}
+			if (consulta.getIdFuncionario() != null && consulta.getIdTurma() != null) {
+				jpql += " WHERE av.funcionario.id = :idFuncionario AND av.turma.id = :idTurma";
+			}
+			
+			TypedQuery<AvisoAluno> query = entityManager.createQuery(jpql, AvisoAluno.class);
+			
+			if (consulta.getIdFuncionario() != null && consulta.getIdTurma() == null) {
+				query.setParameter("idFuncionario", consulta.getIdFuncionario());
+			}
+			if (consulta.getIdFuncionario() == null && consulta.getIdTurma() != null) {
+				query.setParameter("idTurma", consulta.getIdTurma());
+			}
+			if (consulta.getIdFuncionario() != null && consulta.getIdTurma() != null) {
+				query.setParameter("idFuncionario", consulta.getIdFuncionario());
+				query.setParameter("idTurma", consulta.getIdTurma());
+			}
+			
+			resultado = query.getResultList();
+			
+			if (consulta.getDataAviso() != null) {
+				int dia = consulta.getDataAviso().getDate();
+				int mes = consulta.getDataAviso().getMonth();
+				int ano = consulta.getDataAviso().getYear();
+				
+				for (AvisoAluno aviso : resultado) {
+					if (aviso.getDataAviso().getTime().getDate() == dia && 
+							aviso.getDataAviso().getTime().getMonth() == mes && 
+							aviso.getDataAviso().getTime().getYear() == ano) {
+						resposta.add(aviso);
+					}
+				}
+				return resposta;
+			}
+			return resultado;
 		} catch (NoResultException e2) {
 			e2.printStackTrace();
 			return null;

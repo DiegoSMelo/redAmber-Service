@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.ws;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,11 +15,13 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import br.com.sistema.redAmber.basicas.BuscaReserva;
 import br.com.sistema.redAmber.basicas.DuracaoAula;
 import br.com.sistema.redAmber.basicas.Equipamento;
 import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.ReservaEquipamento;
 import br.com.sistema.redAmber.basicas.enums.StatusReserva;
+import br.com.sistema.redAmber.basicas.http.BuscaReservaHTTP;
 import br.com.sistema.redAmber.basicas.http.DuracaoAulaHTTP;
 import br.com.sistema.redAmber.basicas.http.EquipamentoHTTP;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
@@ -161,8 +164,25 @@ public class ReservaEquipamentoWS {
 	}
 	
 	@GET
-	@Path("buscar-por-professor-data-reserva/{idProfessor}/{dataReserva}")
+	@Path("buscar-por-professor/{idProfessor}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+	public String buscarReservasPorProfessor(@PathParam("idProfessor") String idProfessor) {
+		try {
+			List<ReservaEquipamento> lista = this.rnReservaEquipamento.
+					buscarReservasPorProfessor(Long.parseLong(idProfessor));
+			return this.gson.toJson(lista);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("buscar-por-professor-data-reserva/{idProfessor}/{dataReserva}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarReservasPorProfessorDataReserva(@PathParam("idProfessor") String idProfessor, 
 			@PathParam("dataReserva") String dataReserva) {
 		
@@ -178,5 +198,85 @@ public class ReservaEquipamentoWS {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@GET
+	@Path("salvar-get/{idProfessor}/{idEquipamento}/{idDuracao}/{dataReserva}/{observacao}")
+	@Produces("text/plain")
+	public String reservarEquipamentoGet(@PathParam("idProfessor") String idProfessor,
+			@PathParam("idEquipamento") String idEquipamento, @PathParam("idDuracao") String idDuracao,
+			@PathParam("dataReserva") String dataReserva, @PathParam("observacao") String observacao) {
+
+		ReservaEquipamento reservaJaExiste = null;
+		Long equipId = Long.parseLong(idEquipamento);
+		Calendar dataRes = Datas.converterDateToCalendar(new Date(Long.parseLong(dataReserva)));
+		Long horario = Long.parseLong(idDuracao);
+		
+		try {
+			reservaJaExiste = this.rnReservaEquipamento.verificarReservasPorDataReservaHorario(equipId, 
+					dataRes, horario);
+		} catch (RNException e) {
+			e.getMessage();
+			return "data anterior";
+		}
+		
+		if (reservaJaExiste == null) {
+			ReservaEquipamento reserva = new ReservaEquipamento();
+			Professor professor = new Professor();
+			Equipamento equipamento = new Equipamento();
+			DuracaoAula duracao = new DuracaoAula();
+			
+			professor = this.rnProfessor.buscarPorId(Long.parseLong(idProfessor));
+			equipamento = this.rnEquipamento.buscarPorId(Long.parseLong(idEquipamento));
+			duracao = this.rnDuracaoAula.buscarPorId(Long.parseLong(idDuracao));
+			Calendar data = Datas.converterDateToCalendar(new Date(Long.parseLong(dataReserva)));
+			Calendar requisicao = Datas.converterDateToCalendar(new Date());
+			
+			reserva.setProfessor(professor);
+			reserva.setEquip(equipamento);
+			reserva.setHorarioReserva(duracao);
+			reserva.setDataReserva(data);
+			reserva.setDataRequisicao(requisicao);
+			reserva.setObservacao(observacao);
+			reserva.setStatus(StatusReserva.PENDENTE);
+			
+			this.rnReservaEquipamento.salvar(reserva);
+			return "sucesso!";
+		} else {
+			return "ja reservado!";
+		}
+	}
+	
+	@POST
+	@Path("buscar-por-parametros")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarReservasPorParametros(String pesquisa) {
+				
+		BuscaReserva consulta = new BuscaReserva();
+		BuscaReservaHTTP consultaHTTP = this.gson.fromJson(pesquisa, BuscaReservaHTTP.class);
+		
+		if (consultaHTTP.getIdProfessor() != null) {
+			consulta.setIdProfessor(consultaHTTP.getIdProfessor());
+		}
+		if (consultaHTTP.getStatus() != null) {
+			consulta.setStatus(consultaHTTP.getStatus());
+		}
+		if (consultaHTTP.getDataReserva() != null) {
+			Date data = new Date(consultaHTTP.getDataReserva());
+			consulta.setDataReserva(data);
+		}
+		if (consultaHTTP.getDataRequisicao() != null) {
+			Date data = new Date(consultaHTTP.getDataRequisicao());
+			consulta.setDataRequisicao(data);
+		}
+		
+		List<ReservaEquipamento> listaReservas = new ArrayList<ReservaEquipamento>();
+		try {
+			listaReservas = this.rnReservaEquipamento.listarReservasPorParametros(consulta);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return this.gson.toJson(listaReservas);
 	}
 }

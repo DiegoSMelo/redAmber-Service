@@ -7,6 +7,7 @@ import br.com.sistema.redAmber.DAO.IDAODuracaoAula;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.DuracaoAula;
 import br.com.sistema.redAmber.basicas.enums.StatusDuracaoAula;
+import br.com.sistema.redAmber.basicas.enums.TipoTurno;
 import br.com.sistema.redAmber.exceptions.DAOException;
 
 public class RNDuracaoAula {
@@ -41,5 +42,9 @@ public class RNDuracaoAula {
 	
 	public List<DuracaoAula> buscarTodos() {
 		return this.daoDuracaoAula.consultarTodos();
+	}
+	
+	public List<DuracaoAula> consultarPorTurno(TipoTurno turno) {
+		return this.daoDuracaoAula.consultarPorTurno(turno);
 	}
 }
