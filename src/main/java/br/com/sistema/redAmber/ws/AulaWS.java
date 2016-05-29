@@ -37,7 +37,6 @@ public class AulaWS {
 		this.rnAula = new RNAula();
 		this.rnHoraAula = new RNHoraAula();
 		this.gson = new Gson();
-
 	}
 
 	@GET
@@ -90,8 +89,7 @@ public class AulaWS {
 
 	}
 
-	// -------------------------------Hora
-	// aula--------------------------------------------------
+	// ------------------------Hora aula-----------------------------//
 
 	@GET
 	@Path("hora-aula/por-turma/{idTurma}")
@@ -366,7 +364,7 @@ public class AulaWS {
 
 		try {
 			List<HoraAula> lista = this.rnHoraAula.
-					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));
+					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));			
 			return this.gson.toJson(lista);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
