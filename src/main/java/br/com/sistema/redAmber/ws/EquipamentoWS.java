@@ -116,4 +116,18 @@ public class EquipamentoWS {
 		equipamentos = rnEquipamento.buscarTodos();
 		return this.gson.toJson(equipamentos);
 	}
+	
+	@POST
+	@Path("listar-por-descricao")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String listarPorDescricao(String descricao) {
+		try {
+			String consulta = this.gson.fromJson(descricao, String.class);
+			return this.gson.toJson(this.rnEquipamento.listarPorDescricao(consulta));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

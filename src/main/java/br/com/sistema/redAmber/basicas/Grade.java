@@ -13,49 +13,44 @@ public class Grade {
 	
 	@Id @GeneratedValue
 	private Long id;
-	
 	@ManyToOne
 	private Curso curso;
-	
 	private String titulo;
-	
+	private boolean vigente;
 	@Enumerated
 	private StatusGrade status;
 	
-	
-
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public Curso getCurso() {
 		return curso;
 	}
-
 	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
-
-	public StatusGrade getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusGrade status) {
-		this.status = status;
-	}
-
 	public String getTitulo() {
 		return titulo;
 	}
-
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	
-	
-	
+	public boolean isVigente() {
+		return vigente;
+	}
+	public void setVigente(boolean vigente) {
+		this.vigente = vigente;
+	}
+	public StatusGrade getStatus() {
+		return status;
+	}
+	public void setStatus(StatusGrade status) {
+		this.status = status;
+	}
 }

@@ -7,7 +7,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.sistema.redAmber.DAO.generics.DAOGeneric;
+import br.com.sistema.redAmber.basicas.BuscaFuncionario;
 import br.com.sistema.redAmber.basicas.Funcionario;
+import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
 import br.com.sistema.redAmber.util.Mensagens;
 
@@ -72,78 +74,48 @@ public class DAOFuncionario extends DAOGeneric<Funcionario> implements IDAOFunci
 	
 	
 	@Override
-	public List<Funcionario> buscarFuncionariosPorParametros(Funcionario f) throws DAOException {
-
+	public List<Funcionario> buscarFuncionariosPorNomeRG(BuscaFuncionario bF) throws DAOException {
+		
 		String sql = "SELECT f FROM Funcionario f WHERE f.status = :status";
+
+		if ((bF.getNome() != null && !bF.getNome().trim().equals("") && !bF.getNome().isEmpty()) && 
+				(bF.getRg() == null || bF.getRg().trim().equals("") || bF.getRg().isEmpty())) {
+			sql += " AND f.nome LIKE :nome";
+		}
+		if ((bF.getNome() == null || bF.getNome().trim().equals("") || bF.getNome().isEmpty()) && 
+				(bF.getRg() != null && !bF.getRg().trim().equals("") && !bF.getRg().isEmpty())) {
+			sql += " AND f.rg = :rg";
+		}
+		if ((bF.getNome() != null && !bF.getNome().trim().equals("") && !bF.getNome().isEmpty()) && 
+				(bF.getRg() != null && !bF.getRg().trim().equals("") && !bF.getRg().isEmpty())) {
+			sql += " AND f.nome LIKE :nome AND f.rg = :rg";
+		}
+
+		TypedQuery<Funcionario> result = entityManager.createQuery(sql, Funcionario.class);
+		result.setParameter("status", StatusUsuario.ATIVO);
+
 		try {
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() == null
-					&& f.getTipoFuncionario() == null) {
-				sql += " AND f.nome LIKE :nome";
+			if ((bF.getNome() != null && !bF.getNome().trim().equals("") && !bF.getNome().isEmpty()) && 
+					(bF.getRg() == null || bF.getRg().trim().equals("") || bF.getRg().isEmpty())) {
+				result.setParameter("nome", "%" + bF.getNome() + "%");
 			}
-			if ((f.getNome() == null || f.getNome().equals("") || f.getNome().isEmpty()) && f.getStatus() != null
-					&& f.getTipoFuncionario() == null) {
-				sql += " AND f.status = :status";
+			if ((bF.getNome() == null || bF.getNome().trim().equals("") || bF.getNome().isEmpty()) && 
+					(bF.getRg() != null && !bF.getRg().trim().equals("") && !bF.getRg().isEmpty())) {
+				result.setParameter("rg", bF.getRg());
 			}
-			if ((f.getNome() == null || f.getNome().equals("") || f.getNome().isEmpty()) && f.getStatus() == null
-					&& f.getTipoFuncionario() != null) {
-				sql += " AND f.tipoFuncionario = :tipoFuncionario";
-			}
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() != null
-					&& f.getTipoFuncionario() == null) {
-				sql += " AND f.nome LIKE :nome AND f.status = :status";
-			}
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() == null
-					&& f.getTipoFuncionario() != null) {
-				sql += " AND f.nome LIKE :nome AND f.tipoFuncionario = :tipoFuncionario";
-			}
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() != null
-					&& f.getTipoFuncionario() != null) {
-				sql += " AND f.nome LIKE :nome AND f.status = :status AND f.tipoFuncionario = :tipoFuncionario";
-			}
-			if ((f.getNome() == null || f.getNome().equals("") || f.getNome().isEmpty()) && f.getStatus() != null
-					&& f.getTipoFuncionario() != null) {
-				sql += " AND f.status = :status AND f.tipoFuncionario = :tipoFuncionario";
-			}
-
-			TypedQuery<Funcionario> result = entityManager.createQuery(sql, Funcionario.class);
-
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() == null
-					&& f.getTipoFuncionario() == null) {
-				result.setParameter("nome", f.getNome());
-			}
-			if ((f.getNome() == null || f.getNome().equals("") || f.getNome().isEmpty()) && f.getStatus() != null
-					&& f.getTipoFuncionario() == null) {
-				result.setParameter("status", f.getStatus());
-			}
-			if ((f.getNome() == null || f.getNome().equals("") || f.getNome().isEmpty()) && f.getStatus() == null
-					&& f.getTipoFuncionario() != null) {
-				result.setParameter("tipoFuncionario", f.getTipoFuncionario());
-			}
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() != null
-					&& f.getTipoFuncionario() == null) {
-				result.setParameter("nome", f.getNome());
-				result.setParameter("status", f.getStatus());
-			}
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() == null
-					&& f.getTipoFuncionario() != null) {
-				result.setParameter("nome", f.getNome());
-				result.setParameter("tipoFuncionario", f.getTipoFuncionario());
-			}
-			if (f.getNome() != null && !f.getNome().equals("") && !f.getNome().isEmpty() && f.getStatus() != null
-					&& f.getTipoFuncionario() != null) {
-				result.setParameter("nome", f.getNome());
-				result.setParameter("status", f.getStatus());
-				result.setParameter("tipoFuncionario", f.getTipoFuncionario());
-			}
-			if ((f.getNome() == null || f.getNome().equals("") || f.getNome().isEmpty()) && f.getStatus() != null
-					&& f.getTipoFuncionario() != null) {
-				result.setParameter("status", f.getStatus());
-				result.setParameter("tipoFuncionario", f.getTipoFuncionario());
+			if ((bF.getNome() != null && !bF.getNome().trim().equals("") && !bF.getNome().isEmpty()) && 
+					(bF.getRg() != null && !bF.getRg().trim().equals("") && !bF.getRg().isEmpty())) {
+				result.setParameter("nome", "%" + bF.getNome() + "%");
+				result.setParameter("rg", bF.getRg());
 			}
 			return result.getResultList();
-		} catch (Exception e) {
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
 			throw new DAOException(Mensagens.m2);
 		}
 	}
-
 }

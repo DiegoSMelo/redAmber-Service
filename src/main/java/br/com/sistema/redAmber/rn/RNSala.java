@@ -43,4 +43,8 @@ public class RNSala {
 	public Sala buscarPorDescricao(String descricao) throws DAOException {
 		return this.daoSala.consultarPorDescricao(descricao);
 	}
+	
+	public List<Sala> listarPorDescricao(String descricao) {
+		return this.daoSala.listarPorDescricao(descricao);
+	}
 }

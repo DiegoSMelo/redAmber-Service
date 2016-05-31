@@ -18,13 +18,15 @@ public class MatriculaHTTP {
 	
 	private Grade grade;
 	
-	private StatusMatricula status;
-	
 	private Integer entrada;
 	
 	private TurmaHTTP turma;
 	
+	private StatusMatricula status;
 
+	/*
+	 * Getters and setters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -65,14 +67,6 @@ public class MatriculaHTTP {
 		this.grade = grade;
 	}
 
-	public StatusMatricula getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusMatricula status) {
-		this.status = status;
-	}
-
 	public Integer getEntrada() {
 		return entrada;
 	}
@@ -84,8 +78,16 @@ public class MatriculaHTTP {
 	public TurmaHTTP getTurma() {
 		return turma;
 	}
-
+	
 	public void setTurma(TurmaHTTP turma) {
 		this.turma = turma;
+	}
+	
+	public StatusMatricula getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusMatricula status) {
+		this.status = status;
 	}
 }
