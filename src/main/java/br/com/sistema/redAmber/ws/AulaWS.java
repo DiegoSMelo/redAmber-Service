@@ -1,5 +1,7 @@
 package br.com.sistema.redAmber.ws;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class AulaWS {
 		this.rnAula = new RNAula();
 		this.rnHoraAula = new RNHoraAula();
 		this.gson = new Gson();
+
 	}
 
 	@GET
@@ -89,7 +92,8 @@ public class AulaWS {
 
 	}
 
-	// ------------------------Hora aula-----------------------------//
+	// -------------------------------Hora
+	// aula--------------------------------------------------
 
 	@GET
 	@Path("hora-aula/por-turma/{idTurma}")
@@ -106,11 +110,25 @@ public class AulaWS {
 	@Path("hora-aula/{jsonHoraAulaPK}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarHoraAulaPorPK(@PathParam("jsonHoraAulaPK") String jsonHoraAulaPK) {
+		String strJson;
+		try {
+			
+			strJson = URLDecoder.decode(jsonHoraAulaPK, java.nio.charset.StandardCharsets.UTF_8.toString());
 
-		HoraAulaPK haPK = this.gson.fromJson(jsonHoraAulaPK, HoraAulaPK.class);
-
-		return this.gson.toJson(this.rnHoraAula.buscarHoraAulaPorId(haPK));
-
+			HoraAulaPK haPK = this.gson.fromJson(strJson, HoraAulaPK.class);
+			
+			HoraAula haRetorno = this.rnHoraAula.buscarHoraAulaPorId(haPK);
+			if(haRetorno != null){
+				return this.gson.toJson(haRetorno.getTurma().getId()); //está retornando apenas o id da turma
+			}else{
+				return this.gson.toJson(null);
+			}
+			
+			
+			
+		} catch (UnsupportedEncodingException e) {
+			return this.gson.toJson(null);
+		}
 	}
 
 	@POST
@@ -166,14 +184,14 @@ public class AulaWS {
 		Date horaFim = new Date(Long.parseLong(horaAulaHTTP.getId().getHoraFim()));
 
 		HoraAulaPK haPK = new HoraAulaPK();
-		haPK.setTurma(horaAulaHTTP.getId().getTurma());
+		
 		haPK.setAula(aula);
-
 		haPK.setDia(horaAulaHTTP.getId().getDia());
 		haPK.setHoraFim(horaFim);
 		haPK.setHoraInicio(horaInicio);
 
 		horaAula.setId(haPK);
+		horaAula.setTurma(horaAulaHTTP.getTurma());
 		horaAula.setStatus(horaAulaHTTP.getStatus());
 
 		// add HoraAula
@@ -192,7 +210,7 @@ public class AulaWS {
 		HoraAulaHTTP haHTTP = this.gson.fromJson(jsonHoraAula, HoraAulaHTTP.class);
 
 		HoraAulaPK haPK = new HoraAulaPK();
-		haPK.setTurma(haHTTP.getId().getTurma());
+		//haPK.setTurma(haHTTP.getId().getTurma());
 
 		AulaHTTP aulaHTTP = haHTTP.getId().getAula();
 
@@ -364,7 +382,7 @@ public class AulaWS {
 
 		try {
 			List<HoraAula> lista = this.rnHoraAula.
-					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));			
+					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));
 			return this.gson.toJson(lista);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

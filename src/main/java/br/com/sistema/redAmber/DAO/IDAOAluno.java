@@ -16,4 +16,5 @@ public interface IDAOAluno extends IDAOGeneric<Aluno>{
 	public List<Aluno> buscarAlunosPorNomeRG(BuscaAluno aluno) throws DAOException;
 	public GeralUsuario buscarGeralUsuarioPorLoginSenha(String login, String senha) throws DAOException;
 	public List<Disciplina> buscarDisciplinasPorAluno(Long idAluno);
+	public Aluno buscarAlunoPorEmail(String email);
 }

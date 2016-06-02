@@ -24,6 +24,8 @@ import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 import br.com.sistema.redAmber.basicas.http.FuncionarioHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.exceptions.EmailException;
+import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.rn.RNFuncionario;
 import br.com.sistema.redAmber.util.Datas;
 
@@ -38,6 +40,10 @@ public class FuncionarioWS {
 		this.rnFuncionario = new RNFuncionario();
 		try {
 			this.rnFuncionario.inserirAdmin();
+		} catch (RNException e) {
+			e.printStackTrace();
+		} catch (EmailException e) {
+			e.printStackTrace();
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -79,6 +85,12 @@ public class FuncionarioWS {
 			}
 			this.rnFuncionario.salvar(funcionario);
 			return "Funcionário salvo com sucesso";
+		} catch (RNException e) {
+			e.printStackTrace();
+			return "Data de nascimento futura";
+		} catch (EmailException e) {
+			e.printStackTrace();
+			return "Email duplicado";
 		} catch (DAOException e) {
 			return "Error";
 		}

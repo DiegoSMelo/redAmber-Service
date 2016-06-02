@@ -4,9 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.com.sistema.redAmber.DAO.IDAODuracaoAula;
 import br.com.sistema.redAmber.DAO.IDAOReservaEquipamento;
 import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.BuscaReserva;
+import br.com.sistema.redAmber.basicas.DuracaoAula;
 import br.com.sistema.redAmber.basicas.ReservaEquipamento;
 import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.util.Mensagens;
@@ -14,9 +16,11 @@ import br.com.sistema.redAmber.util.Mensagens;
 public class RNReservaEquipamento {
 
 	private IDAOReservaEquipamento daoReservaEquipamento;
+	private IDAODuracaoAula daoDuracaoAula;
 	
 	public RNReservaEquipamento() {
 		daoReservaEquipamento = DAOFactory.getDaoReservaEquipamento();
+		daoDuracaoAula = DAOFactory.getDaoDuracaoAula();
 	}
 	
 	public void salvar(ReservaEquipamento reservaEquipamento) {
@@ -51,8 +55,18 @@ public class RNReservaEquipamento {
 		
 		Date reserva = dataReserva.getTime();
 		Date hoje = new Date();
+		int horaHoje = hoje.getHours();
+		int minutoHoje = hoje.getMinutes();
+		
+		DuracaoAula duracao = this.daoDuracaoAula.consultarPorId(idHorario);
+		int horaInicio = duracao.getHoraInicio().getHours();
+		int minutoInicio = duracao.getHoraInicio().getMinutes();
+		
 		if (reserva.getDate() == hoje.getDate() && reserva.getMonth() == hoje.getMonth() &&
 				reserva.getYear() == hoje.getYear()) {
+			if ((horaInicio < horaHoje) || (horaInicio == horaHoje && minutoInicio < minutoHoje)) {
+				throw new RNException(Mensagens.m8);
+			}
 			return daoReservaEquipamento.verificarReservasPorDataReservaHorario(idEquipamento, 
 					dataReserva, idHorario);
 		}

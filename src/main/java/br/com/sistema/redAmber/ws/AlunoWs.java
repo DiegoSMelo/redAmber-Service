@@ -25,6 +25,8 @@ import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 import br.com.sistema.redAmber.basicas.http.AlunoHTTP;
 import br.com.sistema.redAmber.basicas.http.LoginHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.exceptions.EmailException;
+import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.rn.RNAluno;
 import br.com.sistema.redAmber.util.Datas;
 
@@ -107,7 +109,14 @@ public class AlunoWs {
 
 			this.rnAluno.salvar(aluno);
 			return "Aluno salvo com sucesso";
+		} catch (RNException e) {
+			e.printStackTrace();
+			return "Data de nascimento futura";
+		} catch (EmailException e) {
+			e.printStackTrace();
+			return "Email duplicado";
 		} catch (DAOException e) {
+			e.printStackTrace();
 			return "Error";
 		}
 	}

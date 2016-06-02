@@ -131,4 +131,21 @@ public class DAOProfessor extends DAOGeneric<Professor> implements IDAOProfessor
 			return null;
 		}
 	}
+	
+	@Override
+	public Professor buscarProfessorPorEmail(String email) {
+
+		try {
+			String jpql = "SELECT p FROM Professor p WHERE p.email = :email";
+			TypedQuery<Professor> result = entityManager.createQuery(jpql, Professor.class);
+			result.setParameter("email", email);
+			return result.getSingleResult();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

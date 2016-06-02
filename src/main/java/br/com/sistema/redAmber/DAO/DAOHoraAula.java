@@ -26,7 +26,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 
 	public List<HoraAula> listaHoraAulaPorIdTurma(Long idTurma) {
 
-		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma ORDER BY ha.id.horaInicio ASC";
+		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.turma.id = :idTurma ORDER BY ha.id.horaInicio ASC";
 		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 		result.setParameter("idTurma", idTurma);
 
@@ -37,14 +37,23 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 	@Override
 	public HoraAula consultarPorPK(HoraAulaPK pk) {
 
-		String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma AND ha.id.aula.id.sala.id = :idSala AND ha.id.aula.id.disciplina.id = :idDisciplina AND ha.id.aula.id.professor.id = :idProfessor";
+		try {
+			String jpql = "SELECT ha FROM HoraAula ha WHERE  ha.id.aula.id.sala.id = :idSala AND ha.id.aula.id.disciplina.id = :idDisciplina AND ha.id.aula.id.professor.id = :idProfessor "
+					+ "AND ha.id.dia = :dia AND ha.id.horaInicio = :horaInicio AND ha.id.horaFim = :horaFim";
 
-		TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
-		result.setParameter("idTurma", pk.getTurma().getId());
-		result.setParameter("idAula", pk.getAula().getId().getSala().getId());
-		result.setParameter("idDisciplina", pk.getAula().getId().getDisciplina().getId());
-		result.setParameter("idProfessor", pk.getAula().getId().getProfessor().getId());
-		return result.getSingleResult();
+			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
+			//result.setParameter("idTurma", pk.getTurma().getId());
+			result.setParameter("idSala", pk.getAula().getId().getSala().getId());
+			result.setParameter("idDisciplina", pk.getAula().getId().getDisciplina().getId());
+			result.setParameter("idProfessor", pk.getAula().getId().getProfessor().getId());
+			result.setParameter("dia", pk.getDia());
+			result.setParameter("horaInicio", pk.getHoraInicio());
+			result.setParameter("horaFim", pk.getHoraFim());
+			
+			return result.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -89,7 +98,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 	@Override
 	public List<HoraAula> listarHoraAulaPorProfessorTurma(Long idProfessor, Long idTurma) {
 		try {
-			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma.id = :idTurma AND "
+			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.turma.id = :idTurma AND "
 					+ "ha.id.aula.id.professor.id = :idProfessor";
 			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 			result.setParameter("idProfessor", idProfessor);
@@ -107,7 +116,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 	@Override
 	public List<HoraAula> listarHoraAulaPorAluno(Long idAluno) {
 		try {
-			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.turma IN "
+			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.turma IN "
 					+ "(SELECT m.turma FROM Matricula m WHERE m.aluno.id = :idAluno)";
 			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 			result.setParameter("idAluno", idAluno);
@@ -127,7 +136,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		try {
 			Date hoje = new Date();
 			String jpql = "SELECT ha.id.aula FROM HoraAula ha WHERE ha.id.dia = :dia "
-					+ "AND ha.id.turma IN (SELECT m.turma FROM Matricula m WHERE m.aluno.id = :idAluno)";
+					+ "AND ha.turma IN (SELECT m.turma FROM Matricula m WHERE m.aluno.id = :idAluno)";
 			TypedQuery<Aula> result = this.entityManager.createQuery(jpql, Aula.class);
 			result.setParameter("idAluno", idAluno);
 			
@@ -169,7 +178,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		try {
 			Date hoje = new Date();
 			String jpql = "SELECT ha.id.aula FROM HoraAula ha WHERE ha.id.dia = :dia "
-					+ "AND ha.id.turma.id = :idTurma";
+					+ "AND ha.turma.id = :idTurma";
 			TypedQuery<Aula> result = this.entityManager.createQuery(jpql, Aula.class);
 			result.setParameter("idTurma", idTurma);
 			
@@ -210,7 +219,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		try {
 			Date hoje = new Date();
 			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.dia = :dia "
-					+ "AND ha.id.turma IN (SELECT m.turma FROM Matricula m WHERE m.aluno.id = :idAluno)";
+					+ "AND ha.turma IN (SELECT m.turma FROM Matricula m WHERE m.aluno.id = :idAluno)";
 			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 			result.setParameter("idAluno", idAluno);
 			
@@ -252,7 +261,7 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 		try {
 			Date hoje = new Date();
 			String jpql = "SELECT ha FROM HoraAula ha WHERE ha.id.dia = :dia "
-					+ "AND ha.id.turma.id = :idTurma";
+					+ "AND ha.turma.id = :idTurma";
 			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class);
 			result.setParameter("idTurma", idTurma);
 			

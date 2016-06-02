@@ -13,4 +13,5 @@ public interface IDAOFuncionario extends IDAOGeneric<Funcionario>{
 	public Funcionario buscarFuncionarioPorLoginSenha(String login, String senha) throws DAOException;
 	public Funcionario buscarFuncionarioPorLogin(String login) throws DAOException;
 	public List<Funcionario> buscarFuncionariosPorNomeRG(BuscaFuncionario bF) throws DAOException;
+	public Funcionario buscarFuncionarioPorEmail(String email);
 }

@@ -31,6 +31,8 @@ import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.TipoUsuario;
 import br.com.sistema.redAmber.basicas.http.ProfessorHTTP;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.exceptions.EmailException;
+import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.rn.RNProfessor;
 import br.com.sistema.redAmber.util.Datas;
 
@@ -100,11 +102,17 @@ public class ProfessorWS {
 			return "Error";
 		} catch (NumberFormatException e) {
 			return "Error";
-		} catch (DAOException e) {
-			return "Error";
 		} catch (JsonParseException e) {
 			return "Error";
 		} catch (IOException e) {
+			return "Error";
+		} catch (RNException e) {
+			e.printStackTrace();
+			return "Data de nascimento futura";
+		} catch (EmailException e) {
+			e.printStackTrace();
+			return "Email duplicado";
+		} catch (DAOException e) {
 			return "Error";
 		}
 	}

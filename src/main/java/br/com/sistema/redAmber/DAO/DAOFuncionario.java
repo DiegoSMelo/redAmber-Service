@@ -118,4 +118,21 @@ public class DAOFuncionario extends DAOGeneric<Funcionario> implements IDAOFunci
 			throw new DAOException(Mensagens.m2);
 		}
 	}
+	
+	@Override
+	public Funcionario buscarFuncionarioPorEmail(String email) {
+		
+		try {
+			String jpql = "SELECT f FROM Funcionario f WHERE f.email = :email";
+			TypedQuery<Funcionario> result = entityManager.createQuery(jpql, Funcionario.class);
+			result.setParameter("email", email);
+			return result.getSingleResult();
+		} catch (NoResultException e2) {
+			e2.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

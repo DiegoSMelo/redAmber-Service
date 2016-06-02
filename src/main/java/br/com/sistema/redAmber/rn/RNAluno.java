@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.rn;
 
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOAluno;
@@ -11,8 +12,11 @@ import br.com.sistema.redAmber.basicas.GeralUsuario;
 import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.exceptions.EmailException;
+import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
+import br.com.sistema.redAmber.util.Mensagens;
 
 public class RNAluno {
 
@@ -22,15 +26,33 @@ public class RNAluno {
 		this.daoAluno = DAOFactory.getDaoAluno();
 	}
 
-	public void salvar(Aluno aluno) throws DAOException {
+	public void salvar(Aluno aluno) throws DAOException, RNException, EmailException {
 		// Aluno alunoExistente = this.daoAluno.buscarAlunoPorRG(aluno.getRg());
 		Aluno alunoExistente = null;
 		Usuario usuario = new Usuario();
+		Calendar hoje = Calendar.getInstance();
+		String emailVerificacao = aluno.getEmail();
+		
+		if (aluno.getDataNascimento().after(hoje)) {
+			throw new RNException(Mensagens.m11);
+		}
+		
+		if (aluno.getId() == null) {
+			if (this.daoAluno.buscarAlunoPorEmail(emailVerificacao) != null) {
+				throw new EmailException(Mensagens.m12);
+			}
+		} else {
+			if (this.daoAluno.buscarAlunoPorEmail(emailVerificacao) != null && 
+					this.daoAluno.buscarAlunoPorEmail(emailVerificacao).getId() != aluno.getId()) {
+				throw new EmailException(Mensagens.m12);
+			}
+		}
+		
 		if (aluno.getId() != null) {
 			alunoExistente = this.daoAluno.consultarPorId(aluno.getId());
 		}
 		
-		if (alunoExistente == null) {
+		if (alunoExistente == null) {		
 			aluno.setStatus(StatusUsuario.ATIVO);
 			this.daoAluno.inserir(aluno);
 		} else {
@@ -65,7 +87,7 @@ public class RNAluno {
 		return this.daoAluno.buscarAlunoPorRG(rg);
 	}
 
-	public void inserirAlunoAdmin() throws DAOException {
+	public void inserirAlunoAdmin() throws DAOException, RNException, EmailException {
 
 		if (this.buscarAlunoPorLoginSenha("aluno-admin", "aluno-admin") == null) {
 			Aluno a = new Aluno();
