@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.rn;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOHoraAula;
@@ -7,6 +8,7 @@ import br.com.sistema.redAmber.DAO.factory.DAOFactory;
 import br.com.sistema.redAmber.basicas.Aula;
 import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
+import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 
 public class RNHoraAula {
 	
@@ -73,5 +75,9 @@ public class RNHoraAula {
 	}
 	public List<Aula> listarAulaPorProfessorHoje(Long idProfessor) {
 		return this.daoHoraAula.listarAulaPorProfessorHoje(idProfessor);
+	}
+	
+	public void removerHoraAula(Date HoraInicio, Date HoraFim, DiasSemana diaSemana, Long idTurma){
+		this.daoHoraAula.removerHoraAula(HoraInicio, HoraFim, diaSemana, idTurma);
 	}
 }

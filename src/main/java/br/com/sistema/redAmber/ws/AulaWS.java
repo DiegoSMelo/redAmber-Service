@@ -20,8 +20,10 @@ import br.com.sistema.redAmber.basicas.AulaPK;
 import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
 import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.http.AulaHTTP;
 import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
+import br.com.sistema.redAmber.basicas.http.RemocaoHoraAula;
 import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.rn.RNAula;
 import br.com.sistema.redAmber.rn.RNHoraAula;
@@ -92,9 +94,31 @@ public class AulaWS {
 
 	}
 
-	// -------------------------------Hora
-	// aula--------------------------------------------------
-
+	// -------------------------------Hora aula--------------------------------------------------
+	
+	@POST
+	@Path("hora-aula/removerHoraAula")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String removerHoraAula(String jsonRemocaoHoraAula) {
+		
+		RemocaoHoraAula remocaoHoraAula = this.gson.fromJson(jsonRemocaoHoraAula, RemocaoHoraAula.class);
+		
+		String[] horariosSplit = remocaoHoraAula.horarios.split("/");
+		Date horaInicio = Datas.convertStringTimeToDate2(horariosSplit[0].trim()+":00");
+		Date horaFim = Datas.convertStringTimeToDate2(horariosSplit[1].trim()+":00");
+		DiasSemana diaSemana = null;
+		for (DiasSemana dia : DiasSemana.values()) {
+			if(remocaoHoraAula.diaSemana.equalsIgnoreCase(dia.toString())){
+				diaSemana = dia;
+			}
+		}
+		
+		this.rnHoraAula.removerHoraAula(horaInicio, horaFim, diaSemana, Long.parseLong(remocaoHoraAula.idTurma));
+		
+		return "Aula removida com sucesso.";
+	}
+	
 	@GET
 	@Path("hora-aula/por-turma/{idTurma}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })

@@ -55,6 +55,29 @@ public class DAOHoraAula extends DAOGeneric<HoraAula> implements IDAOHoraAula {
 			return null;
 		}
 	}
+	
+	@Override
+	public void removerHoraAula(Date HoraInicio, Date HoraFim, DiasSemana diaSemana, Long idTurma){
+		
+		try {
+			String jpql = "SELECT aula FROM HoraAula aula WHERE aula.turma.id = :idTurma AND aula.id.dia = :diaSemana AND "
+					+ "aula.id.horaInicio = :horaInicio AND aula.id.horaFim = :horaFim";
+			
+			TypedQuery<HoraAula> result = this.entityManager.createQuery(jpql, HoraAula.class).setMaxResults(1);
+			result.setParameter("idTurma", idTurma);
+			result.setParameter("diaSemana", diaSemana);
+			result.setParameter("horaInicio", HoraInicio);
+			result.setParameter("horaFim", HoraFim);
+			
+			HoraAula horaAulaResult = result.getSingleResult();
+			
+			this.remover(horaAulaResult);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Override
 	public void removerPorIdTurma(Long idTurma) {
