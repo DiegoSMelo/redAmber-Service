@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.rn;
 
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAODisciplina;
@@ -11,6 +12,9 @@ import br.com.sistema.redAmber.basicas.Professor;
 import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.exceptions.EmailException;
+import br.com.sistema.redAmber.exceptions.RNException;
+import br.com.sistema.redAmber.util.Mensagens;
 
 public class RNProfessor {
 
@@ -22,10 +26,30 @@ public class RNProfessor {
 		this.daoDisciplina = DAOFactory.getDaoDisciplina();
 	}
 
-	public void salvar(Professor professor) throws DAOException {
+	public void salvar(Professor professor) throws DAOException, RNException, EmailException {
 
 		Professor professorExistente = null;
 		Usuario usuario = new Usuario();
+		
+		Calendar hoje = Calendar.getInstance();
+		String emailVerificacao = professor.getEmail();
+		
+		if (professor.getDataNascimento().after(hoje)) {
+			throw new RNException(Mensagens.m11);
+		}
+		
+		if (professor.getId() == null) {
+			if (this.daoProfessor.buscarProfessorPorEmail(emailVerificacao) != null) {
+				throw new EmailException(Mensagens.m13);
+			}
+		} else {
+			if (this.daoProfessor.buscarProfessorPorEmail(emailVerificacao) != null && 
+					this.daoProfessor.buscarProfessorPorEmail(emailVerificacao).getId() != 
+					professor.getId()) {
+				throw new EmailException(Mensagens.m13);
+			}
+		}
+		
 		if (professor.getId() != null) {
 			professorExistente = this.daoProfessor.consultarPorId(professor.getId());
 		}

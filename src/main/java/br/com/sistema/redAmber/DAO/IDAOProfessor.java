@@ -15,4 +15,5 @@ public interface IDAOProfessor extends IDAOGeneric<Professor>{
 	public List<Professor> listarProfessoresPorDisciplina(Disciplina d);
 	public List<Professor> buscarProfessoresPorNomeRG(BuscaProfessor bP) throws DAOException;
 	public List<Disciplina> buscarDisciplinasPorProfessor(Long idProfessor);
+	public Professor buscarProfessorPorEmail(String email);
 }

@@ -6,6 +6,7 @@ package br.com.sistema.redAmber.util;
  
  
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -187,7 +188,45 @@ public class Datas {
     public static Timestamp obterTimestampAtual(){
         return new Timestamp(System.currentTimeMillis());  
     }
-         
+    
+    /*
+     * com am/pm
+     */
+    public static Date convertStringTimeToDate(String horaStr){
+		
+		try {
+			
+		 DateFormat df = new SimpleDateFormat("hh:mm:ss a");
+	     
+		 Date date = df.parse(horaStr);
+		 return date;
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+    
+    /*
+     * Sem am/pm
+     */
+    public static Date convertStringTimeToDate2(String horaStr){
+		
+		try {
+			
+		 DateFormat df = new SimpleDateFormat("hh:mm:ss");
+	     
+		 Date date = df.parse(horaStr);
+		 return date;
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+    
     public static void main(String[] args) {        
         Date data1 = Datas.criarData(01, 02, 2005);     
         System.out.println("Data1 formatada: " + Datas.formatarData(data1));

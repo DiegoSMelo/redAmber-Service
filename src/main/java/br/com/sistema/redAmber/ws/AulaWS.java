@@ -1,5 +1,7 @@
 package br.com.sistema.redAmber.ws;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +20,10 @@ import br.com.sistema.redAmber.basicas.AulaPK;
 import br.com.sistema.redAmber.basicas.HoraAula;
 import br.com.sistema.redAmber.basicas.HoraAulaPK;
 import br.com.sistema.redAmber.basicas.Professor;
+import br.com.sistema.redAmber.basicas.enums.DiasSemana;
 import br.com.sistema.redAmber.basicas.http.AulaHTTP;
 import br.com.sistema.redAmber.basicas.http.HoraAulaHTTP;
+import br.com.sistema.redAmber.basicas.http.RemocaoHoraAula;
 import br.com.sistema.redAmber.basicas.http.TurmaHTTP;
 import br.com.sistema.redAmber.rn.RNAula;
 import br.com.sistema.redAmber.rn.RNHoraAula;
@@ -37,6 +41,7 @@ public class AulaWS {
 		this.rnAula = new RNAula();
 		this.rnHoraAula = new RNHoraAula();
 		this.gson = new Gson();
+
 	}
 
 	@GET
@@ -89,8 +94,31 @@ public class AulaWS {
 
 	}
 
-	// ------------------------Hora aula-----------------------------//
-
+	// -------------------------------Hora aula--------------------------------------------------
+	
+	@POST
+	@Path("hora-aula/removerHoraAula")
+	@Consumes("application/json")
+	@Produces("text/plain")
+	public String removerHoraAula(String jsonRemocaoHoraAula) {
+		
+		RemocaoHoraAula remocaoHoraAula = this.gson.fromJson(jsonRemocaoHoraAula, RemocaoHoraAula.class);
+		
+		String[] horariosSplit = remocaoHoraAula.horarios.split("/");
+		Date horaInicio = Datas.convertStringTimeToDate2(horariosSplit[0].trim()+":00");
+		Date horaFim = Datas.convertStringTimeToDate2(horariosSplit[1].trim()+":00");
+		DiasSemana diaSemana = null;
+		for (DiasSemana dia : DiasSemana.values()) {
+			if(remocaoHoraAula.diaSemana.equalsIgnoreCase(dia.toString())){
+				diaSemana = dia;
+			}
+		}
+		
+		this.rnHoraAula.removerHoraAula(horaInicio, horaFim, diaSemana, Long.parseLong(remocaoHoraAula.idTurma));
+		
+		return "Aula removida com sucesso.";
+	}
+	
 	@GET
 	@Path("hora-aula/por-turma/{idTurma}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
@@ -106,11 +134,25 @@ public class AulaWS {
 	@Path("hora-aula/{jsonHoraAulaPK}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 	public String buscarHoraAulaPorPK(@PathParam("jsonHoraAulaPK") String jsonHoraAulaPK) {
+		String strJson;
+		try {
+			
+			strJson = URLDecoder.decode(jsonHoraAulaPK, java.nio.charset.StandardCharsets.UTF_8.toString());
 
-		HoraAulaPK haPK = this.gson.fromJson(jsonHoraAulaPK, HoraAulaPK.class);
-
-		return this.gson.toJson(this.rnHoraAula.buscarHoraAulaPorId(haPK));
-
+			HoraAulaPK haPK = this.gson.fromJson(strJson, HoraAulaPK.class);
+			
+			HoraAula haRetorno = this.rnHoraAula.buscarHoraAulaPorId(haPK);
+			if(haRetorno != null){
+				return this.gson.toJson(haRetorno.getTurma().getId()); //está retornando apenas o id da turma
+			}else{
+				return this.gson.toJson(null);
+			}
+			
+			
+			
+		} catch (UnsupportedEncodingException e) {
+			return this.gson.toJson(null);
+		}
 	}
 
 	@POST
@@ -166,14 +208,14 @@ public class AulaWS {
 		Date horaFim = new Date(Long.parseLong(horaAulaHTTP.getId().getHoraFim()));
 
 		HoraAulaPK haPK = new HoraAulaPK();
-		haPK.setTurma(horaAulaHTTP.getId().getTurma());
+		
 		haPK.setAula(aula);
-
 		haPK.setDia(horaAulaHTTP.getId().getDia());
 		haPK.setHoraFim(horaFim);
 		haPK.setHoraInicio(horaInicio);
 
 		horaAula.setId(haPK);
+		horaAula.setTurma(horaAulaHTTP.getTurma());
 		horaAula.setStatus(horaAulaHTTP.getStatus());
 
 		// add HoraAula
@@ -192,7 +234,7 @@ public class AulaWS {
 		HoraAulaHTTP haHTTP = this.gson.fromJson(jsonHoraAula, HoraAulaHTTP.class);
 
 		HoraAulaPK haPK = new HoraAulaPK();
-		haPK.setTurma(haHTTP.getId().getTurma());
+		//haPK.setTurma(haHTTP.getId().getTurma());
 
 		AulaHTTP aulaHTTP = haHTTP.getId().getAula();
 
@@ -364,7 +406,7 @@ public class AulaWS {
 
 		try {
 			List<HoraAula> lista = this.rnHoraAula.
-					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));			
+					listarHoraAulaPorProfessorHoje(Long.parseLong(idProfessor));
 			return this.gson.toJson(lista);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

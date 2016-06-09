@@ -1,5 +1,6 @@
 package br.com.sistema.redAmber.rn;
 
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.sistema.redAmber.DAO.IDAOFuncionario;
@@ -10,8 +11,11 @@ import br.com.sistema.redAmber.basicas.Usuario;
 import br.com.sistema.redAmber.basicas.enums.StatusUsuario;
 import br.com.sistema.redAmber.basicas.enums.TipoFuncionario;
 import br.com.sistema.redAmber.exceptions.DAOException;
+import br.com.sistema.redAmber.exceptions.EmailException;
+import br.com.sistema.redAmber.exceptions.RNException;
 import br.com.sistema.redAmber.util.Criptografia;
 import br.com.sistema.redAmber.util.Datas;
+import br.com.sistema.redAmber.util.Mensagens;
 
 public class RNFuncionario {
 
@@ -21,10 +25,28 @@ public class RNFuncionario {
 		this.daoFunc = DAOFactory.getDaoFuncionario();
 	}
 
-	public void salvar(Funcionario funcionario) throws DAOException {
-		// Funcionario funcionarioExistente =
-		// this.daoFunc.buscarFuncionarioPorRG(funcionario.getRg());
+	public void salvar(Funcionario funcionario) throws DAOException, RNException, EmailException {
 		Funcionario funcionarioExistente = null;
+		
+		Calendar hoje = Calendar.getInstance();
+		String emailVerificacao = funcionario.getEmail();
+		
+		if (funcionario.getDataNascimento().after(hoje)) {
+			throw new RNException(Mensagens.m11);
+		}
+		
+		if (funcionario.getId() == null) {
+			if (this.daoFunc.buscarFuncionarioPorEmail(emailVerificacao) != null) {
+				throw new EmailException(Mensagens.m14);
+			}
+		} else {
+			if (this.daoFunc.buscarFuncionarioPorEmail(emailVerificacao) != null && 
+					this.daoFunc.buscarFuncionarioPorEmail(emailVerificacao).getId() != 
+					funcionario.getId()) {
+				throw new EmailException(Mensagens.m14);
+			}
+		}
+		
 		if (funcionario.getId() != null) {
 			funcionarioExistente = this.daoFunc.consultarPorId(funcionario.getId());
 		}
@@ -61,7 +83,7 @@ public class RNFuncionario {
 		return this.daoFunc.consultarTodos();
 	}
 
-	public void inserirAdmin() throws DAOException {
+	public void inserirAdmin() throws DAOException, RNException, EmailException {
 
 		if (this.buscarFuncionarioPorLoginSenha("funcionario-admin", "funcionario-admin") == null) {
 			Funcionario f = new Funcionario();
