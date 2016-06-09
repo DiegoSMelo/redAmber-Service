@@ -130,6 +130,24 @@ public class AulaWS {
 		// return this.rnHoraAula.listaHoraAulaPorIdTurma(id_turma);
 	}
 
+	@POST
+	@Path("hora-aula-post")
+	@Consumes("application/json")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+	public String buscarHoraAulaPorPKPost(String jsonHoraAulaPK) {		
+		try {
+			HoraAulaPK haPK = this.gson.fromJson(jsonHoraAulaPK, HoraAulaPK.class);
+			HoraAula haRetorno = this.rnHoraAula.buscarHoraAulaPorId(haPK);
+			if(haRetorno != null){
+				return this.gson.toJson(haRetorno.getTurma().getId()); //está retornando apenas o id da turma
+			} else {
+				return this.gson.toJson(null);
+			}			
+		} catch (Exception e) {
+			return this.gson.toJson(null);
+		}
+	}
+	
 	@GET
 	@Path("hora-aula/{jsonHoraAulaPK}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
